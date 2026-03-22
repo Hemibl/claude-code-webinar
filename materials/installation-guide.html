@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך התקנה - Claude Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a2e;
+            line-height: 1.7;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 48px 20px 36px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #16213e 100%);
+            color: #fff;
+            border-radius: 0 0 24px 24px;
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 1.05rem;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* Intro message */
+        .intro {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            padding: 22px 26px;
+            margin-bottom: 24px;
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.8;
+            border-right: 4px solid #d4a843;
+        }
+
+        /* Section card */
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            padding: 28px 26px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            color: #1a1a2e;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            color: #555;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Steps */
+        .step {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 18px;
+            align-items: flex-start;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: #1a1a2e;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content p {
+            margin-bottom: 8px;
+        }
+
+        .step-content a {
+            color: #8B6914;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .step-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Code block */
+        .code-block {
+            position: relative;
+            background: #1a1a2e;
+            color: #e0d4b8;
+            border-radius: 8px;
+            padding: 32px 18px 14px;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.92rem;
+            direction: ltr;
+            text-align: left;
+            margin-top: 8px;
+            overflow-x: auto;
+        }
+
+        .code-lang {
+            position: absolute;
+            top: 8px;
+            left: 12px;
+            font-size: 0.72rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: rgba(224, 212, 184, 0.5);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e0d4b8;
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
+        .copy-btn.copied {
+            background: #d4a843;
+            color: #1a1a2e;
+        }
+
+        /* Tab switcher */
+        .tabs-wrapper {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+            border-radius: 14px 14px 0 0;
+            overflow: hidden;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 0;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s;
+            background: #e0e0e0;
+            color: #888;
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: #1a1a2e;
+        }
+
+        .tab-btn[data-tab="mac"].active {
+            box-shadow: 0 -3px 0 #555 inset;
+        }
+
+        .tab-btn[data-tab="win"].active {
+            box-shadow: 0 -3px 0 #0078d4 inset;
+        }
+
+        .tab-btn:not(.active):hover {
+            background: #d5d5d5;
+        }
+
+        .tab-card {
+            background: #fff;
+            border-radius: 0 0 14px 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            padding: 28px 26px;
+            margin-bottom: 24px;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .tab-label {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 5px;
+            padding: 3px 12px;
+            margin-bottom: 16px;
+        }
+
+        .tab-label.mac {
+            color: #333;
+            background: #e8e8e8;
+        }
+
+        .tab-label.win {
+            color: #0078d4;
+            background: #e8f0fb;
+        }
+
+        /* Windows step numbers */
+        #tab-win .step-num {
+            background: #0078d4;
+        }
+
+        /* Calendar button */
+        .cal-btn {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 10px 24px;
+            background: #d4a843;
+            color: #1a1a2e;
+            font-weight: 600;
+            font-size: 0.92rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .cal-btn:hover {
+            background: #c49933;
+        }
+
+        /* Verification */
+        .verify-box {
+            background: #f9f7f2;
+            border-radius: 10px;
+            padding: 20px 22px;
+            margin-top: 10px;
+        }
+
+        .verify-box p {
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px 20px;
+            color: #999;
+            font-size: 0.92rem;
+        }
+
+        .footer strong {
+            color: #1a1a2e;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 12px 40px;
+            }
+
+            .header {
+                padding: 36px 16px 28px;
+            }
+
+            .header h1 {
+                font-size: 1.55rem;
+            }
+
+            .card, .tab-card {
+                padding: 20px 18px;
+            }
+
+            .step {
+                gap: 10px;
+            }
+
+            .code-block {
+                font-size: 0.84rem;
+                padding: 12px 14px;
+            }
+
+            .tab-btn {
+                font-size: 0.92rem;
+                padding: 12px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>מדריך התקנה - Claude Code</h1>
+    <p class="subtitle">הכנה למפגש רביעי 26.3 | 21:00</p>
+</div>
+
+<div class="container">
+
+    <div class="intro">
+        היי,<br>
+        כדי שנוכל לנצל את הזמן שלנו במפגש ולצלול ישר לעבודה בלי לבזבז דקות יקרות על התקנה טכנית, אשמח אם תוכלו להתקין את Claude Code אצלכם במחשב לפני המפגש.<br><br>
+        המדריך קצר ופשוט - ההתקנה לוקחת כמה דקות.
+    </div>
+
+    <!-- Prerequisites -->
+    <div class="card">
+        <h2>אז מה צריך לעשות לקראת המפגש?</h2>
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <p><strong>מנוי Claude פעיל</strong></p>
+                <p>נרשמים באתר <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">claude.ai</a> ורוכשים מנוי Pro (עולה $20 לחודש). חובה לפני המפגש.</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <p><strong>התקנת Claude Code</strong></p>
+                <p>בחרו את מערכת ההפעלה שלכם למטה ועקבו אחרי ההוראות. ההתקנה לוקחת כמה דקות:</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platform Tabs -->
+    <div class="tabs-wrapper">
+        <button class="tab-btn active" data-tab="mac" onclick="switchTab('mac')">Mac</button>
+        <button class="tab-btn" data-tab="win" onclick="switchTab('win')">Windows</button>
+    </div>
+
+    <div class="tab-card">
+        <!-- Mac Panel -->
+        <div id="tab-mac" class="tab-panel active">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <p><strong>פתחו את Terminal</strong></p>
+                    <p>לחצו <strong>Cmd+Space</strong> (מקש הפקודה + רווח), כתבו Terminal ולחצו Enter</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <p><strong>התקינו את Claude Code</strong></p>
+                    <p>העתיקו והדביקו את הפקודה הבאה בטרמינל ולחצו Enter:</p>
+                    <div class="code-block">
+                        <span class="code-lang">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+                        curl -fsSL https://claude.ai/install.sh | bash
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <p><strong>סגרו ופתחו מחדש את Terminal</strong></p>
+                    <p>אחרי ההתקנה, סגרו את חלון הטרמינל ופתחו חלון חדש.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <p><strong>בדקו שזה עובד</strong></p>
+                    <p>בחלון החדש, כתבו ולחצו Enter:</p>
+                    <div class="code-block">
+                        <span class="code-lang">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+                        claude
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <p><strong>התחברו לחשבון</strong></p>
+                    <p>ייפתח דפדפן באופן אוטומטי - התחברו לחשבון Claude שלכם ועקבו אחרי ההוראות על המסך</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Windows Panel -->
+        <div id="tab-win" class="tab-panel">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <p><strong>התקינו Git for Windows</strong></p>
+                    <p>גשו לאתר <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener noreferrer">git-scm.com</a> והורידו את Git for Windows. התקינו עם הגדרות ברירת המחדל (פשוט לחצו Next עד הסוף).</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <p><strong>פתחו את PowerShell</strong></p>
+                    <p>לחצו על תפריט Start, חפשו <strong>PowerShell</strong> ופתחו אותו (לא צריך הרשאות Administrator)</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <p><strong>התקינו את Claude Code</strong></p>
+                    <p>העתיקו והדביקו את הפקודה הבאה ב-PowerShell ולחצו Enter:</p>
+                    <div class="code-block">
+                        <span class="code-lang">PowerShell</span>
+                        <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+                        irm https://claude.ai/install.ps1 | iex
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <p><strong>סגרו ופתחו מחדש את PowerShell</strong></p>
+                    <p>חשוב! אחרי ההתקנה צריך לסגור את חלון PowerShell ולפתוח חלון חדש.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <p><strong>בדקו שזה עובד</strong></p>
+                    <p>בחלון PowerShell החדש, כתבו ולחצו Enter:</p>
+                    <div class="code-block">
+                        <span class="code-lang">PowerShell</span>
+                        <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+                        claude
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-num">6</div>
+                <div class="step-content">
+                    <p><strong>התחברו לחשבון</strong></p>
+                    <p>ייפתח דפדפן באופן אוטומטי - התחברו לחשבון Claude שלכם ועקבו אחרי ההוראות על המסך</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification -->
+    <div class="card">
+        <h2>איך יודעים שזה עובד?</h2>
+        <div class="verify-box">
+            <p>אחרי שמריצים <code style="background:#eee;padding:2px 8px;border-radius:4px;font-size:0.9rem;">claude</code> בטרמינל, אמור להיפתח ממשק שנראה בערך ככה:</p>
+            <img src="../assets/claude-code-terminal.png" alt="Claude Code Terminal" style="width:100%;max-width:500px;border-radius:10px;margin-top:14px;display:block;">
+            <p style="margin-top: 14px; color: #666; font-size: 0.9rem;">אם אתם רואים משהו דומה - ההתקנה הצליחה. מוכנים למפגש!</p>
+        </div>
+    </div>
+
+    <div class="card" style="text-align:center; background: #1a1a2e; color: #fff; margin-top: 8px;">
+        <p style="font-size: 1.15rem; font-weight: 600; margin-bottom: 6px;">נתראה ביום רביעי 26.3 בשעה 21:00</p>
+        <p style="opacity: 0.7; font-size: 0.92rem;">לינק לפגישה ישלח בקבוצה בסמוך למפגש</p>
+        <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260326T210000/20260326T223000&ctz=Asia/Jerusalem&details=%D7%9E%D7%A4%D7%92%D7%A9+%D7%9C%D7%99%D7%99%D7%91+%D7%A2%D7%9C+Claude+Code+%D7%9C%D7%90%D7%A0%D7%A9%D7%99+Product+Ops.+%D7%9C%D7%99%D7%A0%D7%A7+%D7%9C%D7%A4%D7%92%D7%99%D7%A9%D7%94+%D7%99%D7%A9%D7%9C%D7%97+%D7%91%D7%A7%D7%91%D7%95%D7%A6%D7%94." target="_blank" rel="noopener noreferrer">הוסיפו ליומן שלי</a>
+    </div>
+
+    <div class="footer">
+        <strong>חמי בן לביא</strong><br>
+        <span style="font-size:0.85rem;">Head of Product Operations | AI for Product Ops</span>
+    </div>
+
+</div>
+
+<script>
+function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+
+    if (tab === 'mac') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('tab-mac').classList.add('active');
+    } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('tab-win').classList.add('active');
+    }
+}
+
+function copyCode(btn) {
+    const codeBlock = btn.parentElement;
+    const langEl = codeBlock.querySelector('.code-lang');
+    const langText = langEl ? langEl.textContent : '';
+    const text = codeBlock.textContent.replace('העתק', '').replace('הועתק', '').replace(langText, '').trim();
+
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'הועתק';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = 'העתק';
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+</script>
+
+</body>
+</html>
