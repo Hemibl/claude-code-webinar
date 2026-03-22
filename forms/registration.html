@@ -600,9 +600,8 @@
             <h2>נרשמת בהצלחה!</h2>
             <p style="margin-bottom: 8px;"><strong><span id="success-name"></span></strong> - תודה על ההרשמה!</p>
             <p style="margin-bottom: 4px;">שלחנו אישור ל-<span id="success-email" style="direction: ltr; unicode-bidi: embed;"></span></p>
-            <p style="margin-bottom: 12px;">נתראה ביום <strong>רביעי 25.3 בשעה 21:00</strong></p>
-            <a href="https://teams.microsoft.com/meet/29134819112132?p=wnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-bottom: 12px; padding: 10px 24px; background: #1a1a2e; color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem;">הצטרפו לפגישה ב-Teams</a>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260325T210000/20260325T223000&ctz=Asia/Jerusalem&details=Join+Teams%3A+https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F29134819112132%3Fp%3DwnyzY9JisPKnS4vBXG" target="_blank" style="display: inline-block; margin-top: 8px; padding: 10px 24px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem; transition: all var(--transition);">הוסיפו ליומן Google</a>
+            <p style="margin-bottom: 20px;">נתראה ביום <strong>רביעי 25.3 בשעה 21:00</strong></p>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260325T210000/20260325T223000&ctz=Asia/Jerusalem&details=Join+Teams%3A+https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F29134819112132%3Fp%3DwnyzY9JisPKnS4vBXG&location=Microsoft+Teams" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem;">הוסיפו ליומן (כולל לינק לפגישה)</a>
         </div>
     </div>
 
@@ -671,11 +670,12 @@
 
         fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
             body: JSON.stringify(formData)
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Saved to Google Sheets:', data);
+        .then(() => {
+            console.log('Sent to Google Sheets');
         })
         .catch(error => {
             console.error('Error saving to Sheets:', error);
