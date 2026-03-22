@@ -1,19 +1,22 @@
 /**
  * Google Apps Script - Form Submissions Backend
- * ================================================
- * This script receives POST requests from an HTML form
- * and saves each submission as a new row in the active Google Sheet.
- *
- * DEPLOYMENT INSTRUCTIONS: See setup-instructions.md
  */
 
-// Handle POST requests from the form
 function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
-    // Parse the incoming JSON data
-    var data = JSON.parse(e.postData.contents);
+    // Parse data - support both JSON and form data
+    var data;
+    if (e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch(parseErr) {
+        data = e.parameter;
+      }
+    } else {
+      data = e.parameter;
+    }
 
     // Add headers if sheet is empty
     if (sheet.getLastRow() === 0) {
@@ -25,7 +28,7 @@ function doPost(e) {
         'תפקיד',
         'לינקדאין',
         'Claude מותקן?',
-        'ניסיון עם AI',
+        'ניסיון',
         'מה גוזל זמן',
         'ציפיות'
       ]);
@@ -45,7 +48,6 @@ function doPost(e) {
       data.expectations || ''
     ]);
 
-    // Return success response
     return ContentService
       .createTextOutput(JSON.stringify({
         status: 'success',
@@ -54,7 +56,6 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
-    // Return error response
     return ContentService
       .createTextOutput(JSON.stringify({
         status: 'error',
@@ -64,7 +65,6 @@ function doPost(e) {
   }
 }
 
-// Handle GET requests (for testing)
 function doGet(e) {
   return ContentService
     .createTextOutput(JSON.stringify({
