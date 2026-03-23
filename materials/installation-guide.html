@@ -666,31 +666,11 @@
             <p style="margin-top: 14px; color: #4a5568; font-size: 0.9rem;">אם אתם רואים משהו דומה - ההתקנה הצליחה. מוכנים למפגש!</p>
         </div>
 
-        <!-- Interactive Checklist -->
-        <div class="checklist">
-            <h3>צ'קליסט - סמנו כל שלב שהשלמתם:</h3>
-            <div class="checklist-item" onclick="toggleCheck(this)">
-                <div class="check-box"></div>
-                <span class="check-label">יש לי מנוי Claude פעיל (Pro / Max)</span>
-            </div>
-            <div class="checklist-item" onclick="toggleCheck(this)">
-                <div class="check-box"></div>
-                <span class="check-label">Claude Code מותקן</span>
-            </div>
-            <div class="checklist-item" onclick="toggleCheck(this)">
-                <div class="check-box"></div>
-                <span class="check-label">הרצתי claude בטרמינל ונפתחה שיחה</span>
-            </div>
-            <div class="checklist-item" onclick="toggleCheck(this)">
-                <div class="check-box"></div>
-                <span class="check-label">התחברתי לחשבון Claude שלי</span>
-            </div>
-        </div>
     </div>
 
-    <!-- Troubleshooting -->
+    <!-- Troubleshooting Mac -->
     <div class="card troubleshooting">
-        <h2 class="troubleshooting-header"><span>&#9888;</span> פתרון בעיות נפוצות</h2>
+        <h2 class="troubleshooting-header"><span>&#9888;</span> בעיות נפוצות - Mac</h2>
 
         <div class="accordion-item" onclick="toggleAccordion(this)">
             <button class="accordion-trigger">
@@ -711,8 +691,8 @@
             </button>
             <div class="accordion-body">
                 <div class="accordion-content">
-                    <strong>Mac:</strong> הוסיפו <code>sudo</code> לפני הפקודה<br>
-                    <strong>Windows:</strong> פתחו PowerShell כ-Administrator (קליק ימני על PowerShell ובחרו "Run as Administrator")
+                    הוסיפו <code>sudo</code> לפני הפקודה:<br>
+                    <code>sudo curl -fsSL https://claude.ai/install.sh | bash</code>
                 </div>
             </div>
         </div>
@@ -728,16 +708,58 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Troubleshooting Windows -->
+    <div class="card troubleshooting">
+        <h2 class="troubleshooting-header"><span>&#9888;</span> בעיות נפוצות - Windows</h2>
 
         <div class="accordion-item" onclick="toggleAccordion(this)">
             <button class="accordion-trigger">
-                <span>PowerShell חוסם הרצת סקריפטים (Windows)</span>
+                <span>"claude" is not recognized (אחרי התקנה)</span>
+                <span class="accordion-arrow">&#9660;</span>
+            </button>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    סגרו את כל חלונות PowerShell ופתחו מחדש. אם לא עוזר - התקינו מחדש.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+            <button class="accordion-trigger">
+                <span>שגיאת הרשאות (Permission denied)</span>
+                <span class="accordion-arrow">&#9660;</span>
+            </button>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    פתחו PowerShell כ-Administrator (קליק ימני על PowerShell ובחרו "Run as Administrator") ונסו שוב.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+            <button class="accordion-trigger">
+                <span>PowerShell חוסם הרצת סקריפטים</span>
                 <span class="accordion-arrow">&#9660;</span>
             </button>
             <div class="accordion-body">
                 <div class="accordion-content">
                     הריצו את הפקודה הבאה ב-PowerShell:<br>
-                    <code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+                    <code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code><br>
+                    אשרו עם Y ונסו שוב.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+            <button class="accordion-trigger">
+                <span>הדפדפן לא נפתח לאימות</span>
+                <span class="accordion-arrow">&#9660;</span>
+            </button>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    חפשו בטרמינל קישור (URL) והעתיקו אותו ידנית לדפדפן.
                 </div>
             </div>
         </div>
@@ -745,8 +767,6 @@
 
     <div class="card" style="text-align:center; background: linear-gradient(135deg, #0d9373 0%, #0a7a60 100%); color: #fff; margin-top: 8px;">
         <p style="font-size: 1.15rem; font-weight: 600; margin-bottom: 6px;">נתראה ביום רביעי 25.3 בשעה 21:00</p>
-        <p style="opacity: 0.7; font-size: 0.92rem; margin-bottom: 10px;">לינק לפגישה:</p>
-        <a href="https://teams.microsoft.com/meet/29134819112132?p=wnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer" style="display:inline-block; padding:8px 20px; background:#fff; color:#0d9373; font-weight:600; border-radius:8px; text-decoration:none; font-size:0.9rem; margin-bottom:10px;">הצטרפו לפגישה ב-Teams</a>
         <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260325T210000/20260325T223000&ctz=Asia/Jerusalem&details=Join+Teams%3A+https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F29134819112132%3Fp%3DwnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer" style="background:#fff; color:#0d9373;">הוסיפו ליומן שלי</a>
     </div>
 
