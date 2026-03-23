@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מדריך התקנה - Claude Code</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -12,8 +14,8 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8fafb;
             color: #1a1a2e;
             line-height: 1.7;
             direction: rtl;
@@ -29,7 +31,7 @@
         .header {
             text-align: center;
             padding: 48px 20px 36px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #16213e 100%);
+            background: linear-gradient(135deg, #0d9373 0%, #0a7a60 50%, #0d9373 100%);
             color: #fff;
             border-radius: 0 0 24px 24px;
             margin-bottom: 28px;
@@ -49,7 +51,7 @@
 
         /* Intro message */
         .intro {
-            background: #fff;
+            background: #ffffff;
             border-radius: 14px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
             padding: 22px 26px;
@@ -57,12 +59,12 @@
             font-size: 1rem;
             color: #333;
             line-height: 1.8;
-            border-right: 4px solid #d4a843;
+            border-right: 4px solid #0d9373;
         }
 
         /* Section card */
         .card {
-            background: #fff;
+            background: #ffffff;
             border-radius: 14px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
             padding: 28px 26px;
@@ -74,12 +76,12 @@
             color: #1a1a2e;
             margin-bottom: 18px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         .section-title {
             font-size: 1.15rem;
-            color: #555;
+            color: #4a5568;
             margin-bottom: 20px;
             font-weight: 600;
         }
@@ -100,7 +102,7 @@
             flex-shrink: 0;
             width: 32px;
             height: 32px;
-            background: #1a1a2e;
+            background: #0d9373;
             color: #fff;
             border-radius: 50%;
             display: flex;
@@ -120,20 +122,21 @@
         }
 
         .step-content a {
-            color: #8B6914;
+            color: #0a7a60;
             font-weight: 600;
             text-decoration: underline;
         }
 
         .step-content a:hover {
             text-decoration: underline;
+            color: #0d9373;
         }
 
         /* Code block */
         .code-block {
             position: relative;
             background: #1a1a2e;
-            color: #e0d4b8;
+            color: #a8e6cf;
             border-radius: 8px;
             padding: 32px 18px 14px;
             font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
@@ -149,8 +152,8 @@
             top: 8px;
             left: 12px;
             font-size: 0.72rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: rgba(224, 212, 184, 0.5);
+            font-family: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: rgba(168, 230, 207, 0.5);
             letter-spacing: 0.03em;
             text-transform: uppercase;
             pointer-events: none;
@@ -162,7 +165,7 @@
             right: 8px;
             background: rgba(255,255,255,0.12);
             border: 1px solid rgba(255,255,255,0.2);
-            color: #e0d4b8;
+            color: #a8e6cf;
             border-radius: 6px;
             padding: 4px 12px;
             font-size: 0.78rem;
@@ -176,8 +179,8 @@
         }
 
         .copy-btn.copied {
-            background: #d4a843;
-            color: #1a1a2e;
+            background: #0d9373;
+            color: #fff;
         }
 
         /* Tab switcher */
@@ -200,6 +203,7 @@
             transition: all 0.25s;
             background: #e0e0e0;
             color: #888;
+            font-family: 'Heebo', sans-serif;
         }
 
         .tab-btn.active {
@@ -208,7 +212,7 @@
         }
 
         .tab-btn[data-tab="mac"].active {
-            box-shadow: 0 -3px 0 #555 inset;
+            box-shadow: 0 -3px 0 #0d9373 inset;
         }
 
         .tab-btn[data-tab="win"].active {
@@ -220,7 +224,7 @@
         }
 
         .tab-card {
-            background: #fff;
+            background: #ffffff;
             border-radius: 0 0 14px 14px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
             padding: 28px 26px;
@@ -256,7 +260,18 @@
 
         /* Windows step numbers */
         #tab-win .step-num {
-            background: #0078d4;
+            background: #0a7a60;
+        }
+
+        /* Step note */
+        .step-note {
+            background: #e6f7f2;
+            border-radius: 6px;
+            padding: 8px 14px;
+            margin-top: 8px;
+            font-size: 0.88rem;
+            color: #0a7a60;
+            border-right: 3px solid #0d9373;
         }
 
         /* Calendar button */
@@ -264,8 +279,8 @@
             display: inline-block;
             margin-top: 14px;
             padding: 10px 24px;
-            background: #d4a843;
-            color: #1a1a2e;
+            background: #0d9373;
+            color: #fff;
             font-weight: 600;
             font-size: 0.92rem;
             border-radius: 8px;
@@ -274,12 +289,12 @@
         }
 
         .cal-btn:hover {
-            background: #c49933;
+            background: #0a7a60;
         }
 
         /* Verification */
         .verify-box {
-            background: #f9f7f2;
+            background: #e6f7f2;
             border-radius: 10px;
             padding: 20px 22px;
             margin-top: 10px;
@@ -287,6 +302,155 @@
 
         .verify-box p {
             margin-bottom: 8px;
+        }
+
+        /* Checklist */
+        .checklist {
+            margin-top: 20px;
+            padding: 20px 22px;
+            background: #f8fafb;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .checklist h3 {
+            font-size: 1.05rem;
+            color: #1a1a2e;
+            margin-bottom: 14px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .checklist-item:hover {
+            background: #e6f7f2;
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .check-box {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .checklist-item.checked .check-box {
+            background: #0d9373;
+            border-color: #0d9373;
+            color: #fff;
+        }
+
+        .checklist-item.checked .check-label {
+            text-decoration: line-through;
+            color: #4a5568;
+        }
+
+        .check-label {
+            font-size: 0.95rem;
+            color: #1a1a2e;
+        }
+
+        /* Troubleshooting */
+        .troubleshooting {
+            margin-top: 0;
+        }
+
+        .troubleshooting-header {
+            font-size: 1.25rem;
+            color: #1a1a2e;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .troubleshooting-header span {
+            color: #e53e3e;
+        }
+
+        .accordion-item {
+            background: #1a1a2e;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .accordion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: right;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Heebo', sans-serif;
+            transition: background 0.2s;
+        }
+
+        .accordion-trigger:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .accordion-arrow {
+            transition: transform 0.3s;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .accordion-item.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 300px;
+        }
+
+        .accordion-content {
+            padding: 0 20px 16px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .accordion-content code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            direction: ltr;
+            display: inline-block;
         }
 
         /* Footer */
@@ -347,7 +511,7 @@
     <div class="intro">
         היי,<br>
         כדי שנוכל לנצל את הזמן שלנו במפגש ולצלול ישר לעבודה בלי לבזבז דקות יקרות על התקנה טכנית, אשמח אם תוכלו להתקין את Claude Code אצלכם במחשב לפני המפגש.<br><br>
-        המדריך קצר ופשוט - ההתקנה לוקחת כמה דקות.
+        המדריך קצר ופשוט.
     </div>
 
     <!-- Prerequisites -->
@@ -364,7 +528,7 @@
             <div class="step-num">2</div>
             <div class="step-content">
                 <p><strong>התקנת Claude Code</strong></p>
-                <p>בחרו את מערכת ההפעלה שלכם למטה ועקבו אחרי ההוראות. ההתקנה לוקחת כמה דקות:</p>
+                <p>בחרו את מערכת ההפעלה שלכם למטה ועקבו אחרי ההוראות:</p>
             </div>
         </div>
     </div>
@@ -394,8 +558,9 @@
                     <div class="code-block">
                         <span class="code-lang">Terminal</span>
                         <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                        curl -fsSL https://claude.ai/install.sh | bash
+                        <span class="code-text">curl -fsSL https://claude.ai/install.sh | bash</span>
                     </div>
+                    <div class="step-note">אחרי שההתקנה מסתיימת, סגרו את הטרמינל ופתחו חלון חדש.</div>
                 </div>
             </div>
 
@@ -415,7 +580,7 @@
                     <div class="code-block">
                         <span class="code-lang">Terminal</span>
                         <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                        claude
+                        <span class="code-text">claude</span>
                     </div>
                 </div>
             </div>
@@ -455,8 +620,9 @@
                     <div class="code-block">
                         <span class="code-lang">PowerShell</span>
                         <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                        irm https://claude.ai/install.ps1 | iex
+                        <span class="code-text">irm https://claude.ai/install.ps1 | iex</span>
                     </div>
+                    <div class="step-note">אחרי שההתקנה מסתיימת, סגרו את PowerShell ופתחו חלון חדש.</div>
                 </div>
             </div>
 
@@ -476,7 +642,7 @@
                     <div class="code-block">
                         <span class="code-lang">PowerShell</span>
                         <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                        claude
+                        <span class="code-text">claude</span>
                     </div>
                 </div>
             </div>
@@ -495,17 +661,93 @@
     <div class="card">
         <h2>איך יודעים שזה עובד?</h2>
         <div class="verify-box">
-            <p>אחרי שמריצים <code style="background:#eee;padding:2px 8px;border-radius:4px;font-size:0.9rem;">claude</code> בטרמינל, אמור להיפתח ממשק שנראה בערך ככה:</p>
+            <p>אחרי שמריצים <code style="background:#fff;padding:2px 8px;border-radius:4px;font-size:0.9rem;">claude</code> בטרמינל, אמור להיפתח ממשק שנראה בערך ככה:</p>
             <img src="../assets/claude-code-terminal.png" alt="Claude Code Terminal" style="width:100%;max-width:500px;border-radius:10px;margin-top:14px;display:block;">
-            <p style="margin-top: 14px; color: #666; font-size: 0.9rem;">אם אתם רואים משהו דומה - ההתקנה הצליחה. מוכנים למפגש!</p>
+            <p style="margin-top: 14px; color: #4a5568; font-size: 0.9rem;">אם אתם רואים משהו דומה - ההתקנה הצליחה. מוכנים למפגש!</p>
+        </div>
+
+        <!-- Interactive Checklist -->
+        <div class="checklist">
+            <h3>צ'קליסט - סמנו כל שלב שהשלמתם:</h3>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="check-box"></div>
+                <span class="check-label">יש לי מנוי Claude פעיל (Pro / Max)</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="check-box"></div>
+                <span class="check-label">Claude Code מותקן</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="check-box"></div>
+                <span class="check-label">הרצתי claude בטרמינל ונפתחה שיחה</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+                <div class="check-box"></div>
+                <span class="check-label">התחברתי לחשבון Claude שלי</span>
+            </div>
         </div>
     </div>
 
-    <div class="card" style="text-align:center; background: #1a1a2e; color: #fff; margin-top: 8px;">
+    <!-- Troubleshooting -->
+    <div class="card troubleshooting">
+        <h2 class="troubleshooting-header"><span>&#9888;</span> פתרון בעיות נפוצות</h2>
+
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+            <button class="accordion-trigger">
+                <span>"claude" is not recognized (אחרי התקנה)</span>
+                <span class="accordion-arrow">&#9660;</span>
+            </button>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    סגרו את כל חלונות הטרמינל ופתחו מחדש. אם לא עוזר - התקינו מחדש.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+            <button class="accordion-trigger">
+                <span>שגיאת הרשאות (Permission denied)</span>
+                <span class="accordion-arrow">&#9660;</span>
+            </button>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    <strong>Mac:</strong> הוסיפו <code>sudo</code> לפני הפקודה<br>
+                    <strong>Windows:</strong> פתחו PowerShell כ-Administrator (קליק ימני על PowerShell ובחרו "Run as Administrator")
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+            <button class="accordion-trigger">
+                <span>הדפדפן לא נפתח לאימות</span>
+                <span class="accordion-arrow">&#9660;</span>
+            </button>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    חפשו בטרמינל קישור (URL) והעתיקו אותו ידנית לדפדפן.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" onclick="toggleAccordion(this)">
+            <button class="accordion-trigger">
+                <span>PowerShell חוסם הרצת סקריפטים (Windows)</span>
+                <span class="accordion-arrow">&#9660;</span>
+            </button>
+            <div class="accordion-body">
+                <div class="accordion-content">
+                    הריצו את הפקודה הבאה ב-PowerShell:<br>
+                    <code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="text-align:center; background: linear-gradient(135deg, #0d9373 0%, #0a7a60 100%); color: #fff; margin-top: 8px;">
         <p style="font-size: 1.15rem; font-weight: 600; margin-bottom: 6px;">נתראה ביום רביעי 25.3 בשעה 21:00</p>
         <p style="opacity: 0.7; font-size: 0.92rem; margin-bottom: 10px;">לינק לפגישה:</p>
-        <a href="https://teams.microsoft.com/meet/29134819112132?p=wnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer" style="display:inline-block; padding:8px 20px; background:#d4a843; color:#1a1a2e; font-weight:600; border-radius:8px; text-decoration:none; font-size:0.9rem; margin-bottom:10px;">הצטרפו לפגישה ב-Teams</a>
-        <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260325T210000/20260325T223000&ctz=Asia/Jerusalem&details=Join+Teams%3A+https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F29134819112132%3Fp%3DwnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer">הוסיפו ליומן שלי</a>
+        <a href="https://teams.microsoft.com/meet/29134819112132?p=wnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer" style="display:inline-block; padding:8px 20px; background:#fff; color:#0d9373; font-weight:600; border-radius:8px; text-decoration:none; font-size:0.9rem; margin-bottom:10px;">הצטרפו לפגישה ב-Teams</a>
+        <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260325T210000/20260325T223000&ctz=Asia/Jerusalem&details=Join+Teams%3A+https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F29134819112132%3Fp%3DwnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer" style="background:#fff; color:#0d9373;">הוסיפו ליומן שלי</a>
     </div>
 
     <div class="footer">
@@ -531,9 +773,8 @@ function switchTab(tab) {
 
 function copyCode(btn) {
     const codeBlock = btn.parentElement;
-    const langEl = codeBlock.querySelector('.code-lang');
-    const langText = langEl ? langEl.textContent : '';
-    const text = codeBlock.textContent.replace('העתק', '').replace('הועתק', '').replace(langText, '').trim();
+    const codeText = codeBlock.querySelector('.code-text');
+    const text = codeText ? codeText.textContent.trim() : '';
 
     navigator.clipboard.writeText(text).then(() => {
         btn.textContent = 'הועתק';
@@ -543,6 +784,20 @@ function copyCode(btn) {
             btn.classList.remove('copied');
         }, 2000);
     });
+}
+
+function toggleCheck(item) {
+    item.classList.toggle('checked');
+    const box = item.querySelector('.check-box');
+    if (item.classList.contains('checked')) {
+        box.innerHTML = '&#10003;';
+    } else {
+        box.innerHTML = '';
+    }
+}
+
+function toggleAccordion(item) {
+    item.classList.toggle('open');
 }
 </script>
 
