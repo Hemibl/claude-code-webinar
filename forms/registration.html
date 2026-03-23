@@ -26,7 +26,8 @@
             --text-muted: #94a3b8;
             --border: #e2e8f0;
             --border-focus: #0d9373;
-            --error: #dc2626;
+            --error: #b91c1c;
+            --error-bg: #fef2f2;
             --success-bg: #ecfdf5;
             --success-border: #6ee7b7;
             --radius: 12px;
@@ -71,6 +72,25 @@
             z-index: 0;
         }
 
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            z-index: 100;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 8px;
+        }
+
         .container {
             position: relative;
             z-index: 1;
@@ -106,6 +126,7 @@
             margin-bottom: 8px;
             letter-spacing: -0.5px;
             direction: ltr;
+            white-space: nowrap;
         }
 
         .header .subtitle {
@@ -213,6 +234,7 @@
         .field.error input,
         .field.error textarea {
             border-color: var(--error);
+            background: var(--error-bg);
         }
 
         .field .error-msg {
@@ -220,10 +242,36 @@
             font-size: 0.8rem;
             color: var(--error);
             margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .field .error-msg::before {
+            content: '\26A0';
+            margin-inline-end: 4px;
         }
 
         .field.error .error-msg {
             display: block;
+        }
+
+        /* Fieldset reset for radio groups */
+        fieldset.field {
+            border: none;
+            padding: 0;
+        }
+
+        fieldset.field legend {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 6px;
+            width: 100%;
+        }
+
+        fieldset.field legend .required {
+            color: var(--error);
+            margin-inline-start: 2px;
         }
 
         /* Radio groups */
@@ -421,7 +469,7 @@
             }
 
             .header h1 {
-                font-size: 1.7rem;
+                font-size: 1.5rem;
             }
 
             .header .subtitle {
@@ -479,16 +527,19 @@
 </head>
 <body>
 
+<a href="#registration-form" class="skip-link">דלג לטופס הרשמה</a>
+
 <div class="container">
     <header class="header">
         <div class="header-badge">Webinar / 25.3.2026</div>
         <h1>Claude Code for Product Ops</h1>
         <p class="subtitle">וובינר לייב לאנשי פרודקט - רביעי 25.3 | 21:00</p>
         <p class="description">
-            90 דקות שישנו את הדרך שבה אתם עובדים. בלי קוד, בלי רקע טכני - רק תוצאות.
+            בלי קוד, בלי רקע טכני. אבל עם מלא ערך.
         </p>
     </header>
 
+    <main>
     <div class="card">
         <div id="form-section">
             <h2 class="card-title">הרשמה למפגש<br><span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">הרשמה ב-2 דקות</span></h2>
@@ -496,37 +547,37 @@
             <form id="registration-form" novalidate>
                 <!-- Full Name -->
                 <div class="field" data-required>
-                    <label for="fullname">שם מלא <span class="required">*</span></label>
-                    <input type="text" id="fullname" name="fullname" placeholder="השם המלא שלך" required autofocus>
-                    <div class="error-msg">נא למלא שם מלא</div>
+                    <label for="fullname">שם מלא <span class="required" aria-hidden="true">*</span></label>
+                    <input type="text" id="fullname" name="fullname" placeholder="השם המלא שלך" required autocomplete="name" aria-describedby="err-fullname" aria-required="true" autofocus>
+                    <div class="error-msg" id="err-fullname" role="alert">נא למלא שם מלא</div>
                 </div>
 
                 <!-- Email -->
                 <div class="field" data-required>
-                    <label for="email">אימייל <span class="required">*</span></label>
-                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
-                    <div class="error-msg">נא למלא אימייל תקין</div>
+                    <label for="email">אימייל <span class="required" aria-hidden="true">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email" aria-describedby="err-email" aria-required="true">
+                    <div class="error-msg" id="err-email" role="alert">נא למלא אימייל תקין</div>
                 </div>
 
                 <!-- Company -->
                 <div class="field" data-required>
-                    <label for="company">חברה <span class="required">*</span></label>
-                    <input type="text" id="company" name="company" placeholder="שם החברה" required>
-                    <div class="error-msg">נא למלא שם חברה</div>
+                    <label for="company">חברה <span class="required" aria-hidden="true">*</span></label>
+                    <input type="text" id="company" name="company" placeholder="שם החברה" required autocomplete="organization" aria-describedby="err-company" aria-required="true">
+                    <div class="error-msg" id="err-company" role="alert">נא למלא שם חברה</div>
                 </div>
 
                 <!-- Role -->
                 <div class="field" data-required>
-                    <label for="role">תפקיד <span class="required">*</span></label>
-                    <input type="text" id="role" name="role" placeholder="התפקיד שלך בחברה" required>
-                    <div class="error-msg">נא למלא תפקיד</div>
+                    <label for="role">תפקיד <span class="required" aria-hidden="true">*</span></label>
+                    <input type="text" id="role" name="role" placeholder="התפקיד שלך בחברה" required autocomplete="organization-title" aria-describedby="err-role" aria-required="true">
+                    <div class="error-msg" id="err-role" role="alert">נא למלא תפקיד</div>
                 </div>
 
                 <div class="section-divider"></div>
 
                 <!-- Claude Code Installed -->
-                <div class="field" data-required data-radio>
-                    <label>האם Claude Code מותקן אצלך? <span class="required">*</span></label>
+                <fieldset class="field" data-required data-radio role="radiogroup" aria-describedby="err-installed">
+                    <legend>האם Claude Code מותקן אצלך במחשב? <span class="required" aria-hidden="true">*</span></legend>
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" id="installed-yes" name="installed" value="yes" required>
@@ -541,12 +592,12 @@
                             <label for="installed-unsure">לא בטוח/ה</label>
                         </div>
                     </div>
-                    <div class="error-msg">נא לבחור תשובה</div>
-                </div>
+                    <div class="error-msg" id="err-installed" role="alert">נא לבחור תשובה</div>
+                </fieldset>
 
                 <!-- Prior Experience -->
-                <div class="field" data-required data-radio>
-                    <label>יש לך ניסיון קודם עם Claude Code? <span class="required">*</span></label>
+                <fieldset class="field" data-required data-radio role="radiogroup" aria-describedby="err-experience" style="margin-top: 32px;">
+                    <legend>יש לך ניסיון קודם עם Claude Code? <span class="required" aria-hidden="true">*</span></legend>
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" id="exp-none" name="experience" value="none" required>
@@ -561,37 +612,37 @@
                             <label for="exp-regular">משתמש/ת קבוע/ה</label>
                         </div>
                     </div>
-                    <div class="error-msg">נא לבחור תשובה</div>
-                </div>
+                    <div class="error-msg" id="err-experience" role="alert">נא לבחור תשובה</div>
+                </fieldset>
 
                 <div class="section-divider"></div>
 
                 <!-- Frustration -->
                 <div class="field" data-required>
-                    <label for="frustration">מה המשימה שהכי גוזלת לך זמן בעבודה? <span class="required">*</span></label>
-                    <textarea id="frustration" name="frustration" placeholder="למשל: דוחות שבועיים, סנכרון בין צוותים, מעקב ידני..." required></textarea>
-                    <div class="error-msg">נא למלא שדה זה</div>
+                    <label for="frustration">מה המשימה שהכי גוזלת לך זמן בעבודה? <span class="required" aria-hidden="true">*</span></label>
+                    <textarea id="frustration" name="frustration" placeholder="למשל: דוחות שבועיים, סנכרון בין צוותים, מעקב ידני..." required aria-describedby="err-frustration" aria-required="true"></textarea>
+                    <div class="error-msg" id="err-frustration" role="alert">נא למלא שדה זה</div>
                 </div>
 
                 <!-- Expectations -->
                 <div class="field">
-                    <label for="expectations">ציפיות מהמפגש <span class="optional">(לא חובה, משפט אחד)</span></label>
+                    <label for="expectations">ציפיות מהמפגש</label>
                     <textarea id="expectations" name="expectations" placeholder="מה תרצה/י לקחת מהמפגש?" style="min-height: 60px;"></textarea>
                 </div>
 
                 <!-- LinkedIn -->
                 <div class="field">
-                    <label for="linkedin">לינק ללינקדאין <span class="optional">(לא חובה)</span></label>
-                    <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/your-profile" dir="ltr" style="text-align: left;">
+                    <label for="linkedin">לינק ללינקדאין <span class="optional">(לא חובה, אבל עדיף :)</span></label>
+                    <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/your-profile" dir="ltr" style="text-align: left;" autocomplete="url">
                 </div>
 
                 <button type="submit" class="submit-btn">
-                    <span>שמרו לי מקום</span>
+                    <span>שמור לי מקום</span>
                 </button>
             </form>
         </div>
 
-        <div id="success-section" class="success-message">
+        <div id="success-section" class="success-message" role="status" aria-live="polite">
             <div class="success-icon">
                 <svg viewBox="0 0 24 24">
                     <polyline points="20 6 9 17 4 12"></polyline>
@@ -604,6 +655,7 @@
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260325T210000/20260325T223000&ctz=Asia/Jerusalem&details=Join+Teams%3A+https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F29134819112132%3Fp%3DwnyzY9JisPKnS4vBXG&location=Microsoft+Teams" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem;">הוסיפו ליומן (כולל לינק לפגישה)</a>
         </div>
     </div>
+    </main>
 
     <footer class="footer below-card">
         המפגש יתקיים ב-Microsoft Teams<br>
@@ -616,6 +668,35 @@
     const formSection = document.getElementById('form-section');
     const successSection = document.getElementById('success-section');
 
+    // Validate a single field (used for both blur and submit)
+    function validateField(field) {
+        const isRadio = field.hasAttribute('data-radio');
+        const isRequired = field.hasAttribute('data-required');
+        if (!isRequired) return true;
+
+        if (isRadio) {
+            const radios = field.querySelectorAll('input[type="radio"]');
+            const checked = Array.from(radios).some(r => r.checked);
+            if (!checked) {
+                field.classList.add('error');
+                return false;
+            }
+        } else {
+            const input = field.querySelector('input, textarea');
+            if (input && !input.value.trim()) {
+                field.classList.add('error');
+                return false;
+            }
+            if (input && input.type === 'email' && input.value.trim() && !input.validity.valid) {
+                field.classList.add('error');
+                return false;
+            }
+        }
+
+        field.classList.remove('error');
+        return true;
+    }
+
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -624,26 +705,9 @@
         // Reset errors
         form.querySelectorAll('.field.error').forEach(f => f.classList.remove('error'));
 
-        // Validate text/textarea required fields
-        form.querySelectorAll('.field[data-required]:not([data-radio])').forEach(field => {
-            const input = field.querySelector('input, textarea');
-            if (input && !input.value.trim()) {
-                field.classList.add('error');
-                isValid = false;
-            }
-            // Validate email format
-            if (input && input.type === 'email' && input.value.trim() && !input.validity.valid) {
-                field.classList.add('error');
-                isValid = false;
-            }
-        });
-
-        // Validate radio required fields
-        form.querySelectorAll('.field[data-required][data-radio]').forEach(field => {
-            const radios = field.querySelectorAll('input[type="radio"]');
-            const checked = Array.from(radios).some(r => r.checked);
-            if (!checked) {
-                field.classList.add('error');
+        // Validate all required fields
+        form.querySelectorAll('.field[data-required]').forEach(field => {
+            if (!validateField(field)) {
                 isValid = false;
             }
         });
@@ -685,6 +749,18 @@
         formSection.style.display = 'none';
         successSection.classList.add('show');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Inline validation on blur for required text/email fields
+    form.querySelectorAll('.field[data-required]:not([data-radio])').forEach(field => {
+        const input = field.querySelector('input, textarea');
+        if (input) {
+            input.addEventListener('blur', function() {
+                if (this.value.trim()) {
+                    validateField(field);
+                }
+            });
+        }
     });
 
     // Clear error on input
