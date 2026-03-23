@@ -668,28 +668,17 @@
         // Send to Google Sheets
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFYlmWGiu97O5J5K74fnDDGcQdtp5yVf2KfVelPAGmrYjTC_4OGs76NabyTkRpvoc7bw/exec';
 
-        // Use a hidden form to submit to Google Apps Script (handles redirects properly)
-        const hiddenForm = document.createElement('iframe');
-        hiddenForm.name = 'hidden-form-target';
-        hiddenForm.style.display = 'none';
-        document.body.appendChild(hiddenForm);
-
-        const postForm = document.createElement('form');
-        postForm.method = 'POST';
-        postForm.action = GOOGLE_SCRIPT_URL;
-        postForm.target = 'hidden-form-target';
-
+        // Send as form-urlencoded via fetch no-cors
+        const params = new URLSearchParams();
         Object.entries(formData).forEach(([key, value]) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value;
-            postForm.appendChild(input);
+            params.append(key, value);
         });
 
-        document.body.appendChild(postForm);
-        postForm.submit();
-        postForm.remove();
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: params
+        }).catch(err => console.error('Submit error:', err));
 
         // Show success (immediately, don't wait for network)
         document.getElementById('success-name').textContent = formData.fullName;
