@@ -631,6 +631,11 @@
                 field.classList.add('error');
                 isValid = false;
             }
+            // Validate email format
+            if (input && input.type === 'email' && input.value.trim() && !input.validity.valid) {
+                field.classList.add('error');
+                isValid = false;
+            }
         });
 
         // Validate radio required fields
