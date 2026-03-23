@@ -669,7 +669,7 @@
     </div>
 
     <!-- Troubleshooting Mac -->
-    <div class="card troubleshooting">
+    <div class="card troubleshooting trouble-mac">
         <h2 class="troubleshooting-header"><span>&#9888;</span> בעיות נפוצות - Mac</h2>
 
         <div class="accordion-item" onclick="toggleAccordion(this)">
@@ -711,7 +711,7 @@
     </div>
 
     <!-- Troubleshooting Windows -->
-    <div class="card troubleshooting">
+    <div class="card troubleshooting trouble-win" style="display:none;">
         <h2 class="troubleshooting-header"><span>&#9888;</span> בעיות נפוצות - Windows</h2>
 
         <div class="accordion-item" onclick="toggleAccordion(this)">
@@ -785,9 +785,13 @@ function switchTab(tab) {
     if (tab === 'mac') {
         document.querySelectorAll('.tab-btn')[0].classList.add('active');
         document.getElementById('tab-mac').classList.add('active');
+        document.querySelector('.trouble-mac').style.display = 'block';
+        document.querySelector('.trouble-win').style.display = 'none';
     } else {
         document.querySelectorAll('.tab-btn')[1].classList.add('active');
         document.getElementById('tab-win').classList.add('active');
+        document.querySelector('.trouble-mac').style.display = 'none';
+        document.querySelector('.trouble-win').style.display = 'block';
     }
 }
 
