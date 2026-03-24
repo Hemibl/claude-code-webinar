@@ -694,26 +694,25 @@
                 </a>
                 <a href="#step-4" class="progress-step" data-step="4">
                     <span class="num">4</span>
-                    <span>קיצור cc</span>
-                </a>
-                <a href="#step-5" class="progress-step" data-step="5">
-                    <span class="num">5</span>
                     <span>בדיקה</span>
                 </a>
             </div>
         </div>
 
         <!-- OS Toggle -->
-        <p style="text-align: center; color: var(--gray-300); margin-top: 32px; margin-bottom: 8px; font-size: 1.05rem;">בחרו את מערכת ההפעלה שלכם:</p>
-        <div class="os-toggle" style="margin-top: 8px;">
-            <button class="os-btn active" onclick="setOS('mac')">
-                <span class="os-icon" style="font-family: -apple-system, BlinkMacSystemFont, sans-serif;">&#xF8FF;</span>
-                <span>Mac</span>
-            </button>
-            <button class="os-btn" onclick="setOS('win')">
-                <span class="os-icon">&#9881;</span>
-                <span>Windows</span>
-            </button>
+        <div style="background: var(--dark-card); border: 2px solid rgba(34, 197, 94, 0.3); border-radius: 16px; padding: 28px 24px; margin: 32px 0; text-align: center;">
+            <p style="color: var(--white); font-size: 1.2rem; font-weight: 800; margin-bottom: 4px;">לפני שמתחילים</p>
+            <p style="color: var(--gray-300); font-size: 1rem; margin-bottom: 16px;">בחרו את מערכת ההפעלה שלכם - ההוראות יתאימו את עצמן:</p>
+            <div class="os-toggle" style="margin: 0;">
+                <button class="os-btn active" onclick="setOS('mac')">
+                    <span class="os-icon" style="font-family: -apple-system, BlinkMacSystemFont, sans-serif;">&#xF8FF;</span>
+                    <span>Mac</span>
+                </button>
+                <button class="os-btn" onclick="setOS('win')">
+                    <span class="os-icon">&#9881;</span>
+                    <span>Windows</span>
+                </button>
+            </div>
         </div>
 
         <!-- Step 1: Node.js -->
@@ -906,65 +905,10 @@
             </div>
         </section>
 
-        <!-- Separator: Installation done -->
-        <div class="section-separator">
-            <div class="separator-line">
-                <span class="separator-label">&#10003; סיימתם את ההתקנה!</span>
-            </div>
-            <div class="alert alert-success" style="justify-content: center;">
-                <p><strong>מכאן והלאה - בונוס שיקל לכם את החיים, אבל לא חובה.</strong></p>
-            </div>
-        </div>
-
-        <!-- Step 4: Alias cc -->
+        <!-- Step 4: Final Check -->
         <section class="step-section" id="step-4" data-step="4">
             <div class="step-header">
                 <div class="step-num">4</div>
-                <h2 class="step-title">קיצור cc <span style="font-size: 0.7em; color: var(--gray-400); font-weight: 600;">(בונוס)</span></h2>
-            </div>
-            <p class="step-desc">במקום לכתוב <code style="color: var(--green);">claude</code> כל פעם - נגדיר קיצור <code style="color: var(--green);">cc</code>. לא חובה, אבל נוח מאוד.</p>
-
-            <div class="mac-only">
-                <div class="instruction">
-                    <h4>הגדרת הקיצור</h4>
-                    <p>הריצו בטרמינל:</p>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                        <span class="cmd">echo 'alias cc="claude"' >> ~/.zshrc</span><br>
-                        <span class="cmd">source ~/.zshrc</span>
-                    </div>
-                    <p style="margin-top: 12px;">עכשיו אפשר לכתוב <code style="color: var(--green);">cc</code> במקום <code style="color: var(--green);">claude</code>.</p>
-                </div>
-            </div>
-
-            <div class="win-only">
-                <div class="instruction">
-                    <h4>הגדרת הקיצור ב-PowerShell</h4>
-                    <p>הריצו בטרמינל:</p>
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                        <span class="comment"># פתיחת קובץ הפרופיל</span><br>
-                        <span class="cmd">if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -Force }</span><br>
-                        <span class="cmd">Add-Content $PROFILE 'Set-Alias cc claude'</span><br>
-                        <span class="cmd">. $PROFILE</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="instruction">
-                <h4>בדיקה</h4>
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                    <span class="cmd">cc --version</span><br>
-                    <span class="comment"># צריך להופיע מספר גרסה</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Step 5: Final Check -->
-        <section class="step-section" id="step-5" data-step="5">
-            <div class="step-header">
-                <div class="step-num">5</div>
                 <h2 class="step-title">בדיקה סופית</h2>
             </div>
             <p class="step-desc">ודאו שהכל עובד לפני המפגש.</p>
@@ -987,10 +931,6 @@
                     <li>
                         <div class="check-box" onclick="toggleCheck(this)"></div>
                         <span>Claude Code מותקן (<code style="color: var(--green);">claude</code> עובד בטרמינל)</span>
-                    </li>
-                    <li>
-                        <div class="check-box" onclick="toggleCheck(this)"></div>
-                        <span>התחברתי לחשבון Claude דרך הדפדפן</span>
                     </li>
                 </ul>
             </div>
@@ -1101,29 +1041,6 @@
                 </div>
             </div>
 
-            <div class="trouble-item">
-                <div class="trouble-q" onclick="toggleTrouble(this)">
-                    <span>Mac: "Permission denied" בהגדרת cc alias</span>
-                    <span class="trouble-arrow">&#9660;</span>
-                </div>
-                <div class="trouble-a">
-                    <div class="trouble-a-inner">
-                        <p>אם אתם משתמשים ב-bash ולא ב-zsh:</p>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                            <span class="cmd">echo 'alias cc="claude"' >> ~/.bashrc</span><br>
-                            <span class="cmd">source ~/.bashrc</span>
-                        </div>
-                        <p style="margin-top: 12px;">לא בטוחים? בדקו:</p>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-                            <span class="cmd">echo $SHELL</span><br>
-                            <span class="comment"># /bin/zsh = השתמשו ב-.zshrc</span><br>
-                            <span class="comment"># /bin/bash = השתמשו ב-.bashrc</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </section>
 
