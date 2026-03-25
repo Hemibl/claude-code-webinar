@@ -184,14 +184,16 @@
 <div class="header">
   <h1>סקריפט מפגש - Claude Code For Product Ops</h1>
   <div class="meta">25.3.2026 | 21:00-22:30 | Microsoft Teams</div>
-  <div class="meta" style="font-size: 12px; opacity: 0.5;">עדכון אחרון: 25.03.2026 14:39</div>
+  <div class="meta" style="font-size: 12px; opacity: 0.5;">עדכון אחרון: 25.03.2026 15:17</div>
   <div class="nav">
     <a href="#part1">1. פתיחה</a>
     <a href="#part2">2. וואו ראשון</a>
     <a href="#part3">3. הבסיס</a>
     <a href="#part4">4. דמו מרכזי</a>
     <a href="#part5">5. דמו מוגמר</a>
+    <a href="#part5b">5ב. טיפים מתקדמים</a>
     <a href="#part6">6. סגירה</a>
+    <a href="#qa-prep">שו"ת</a>
     <a href="#backup">גיבוי</a>
     <a href="#checklist">צ'קליסט</a>
   </div>
@@ -284,7 +286,7 @@
 
 <!-- PART 3 -->
 <div class="section" id="part3">
-  <h2>חלק 3: הבסיס - טיפים פרקטיים (דקות 20-30)</h2>
+  <h2>חלק 3: הבסיס - טיפים פרקטיים (דקות 20-29)</h2>
 
   <h3>דקות 20-22: CLAUDE.md - המפתח</h3>
   <div class="stage-direction">מה על המסך: ה-CLAUDE.md האמיתי של חמי (חלקי) + דוגמה נקייה</div>
@@ -296,6 +298,75 @@
     הנה שלי. כתוב פה שאני Head of Product Ops, שאני עובד עם Jira ו-Confluence, שאני רוצה תשובות בעברית.<br>
     ברגע שהקובץ הזה קיים - Claude מכיר אתכם. כל פעם שתפתחו את הכלי, הוא כבר יודע מי אתם."
   </div>
+
+  <!-- ה-CLAUDE.md האמיתי של חמי - לצפייה בזמן הצגה -->
+  <details style="background: #0d1b2a; border: 1px solid #1b3a5c; border-radius: 8px; padding: 12px; margin: 12px 0;">
+    <summary style="cursor: pointer; color: #e94560; font-weight: bold; font-size: 16px;">ה-CLAUDE.md שלי (לצפייה)</summary>
+    <pre style="background: #0a1628; color: #a8b2d1; padding: 16px; border-radius: 8px; margin-top: 8px; font-size: 14px; line-height: 1.7; white-space: pre-wrap; direction: rtl; text-align: right; font-family: 'SF Mono', 'Fira Code', monospace;"># About Me
+קוראים לי חמי בן לביא.
+אני עובד בחברה בשם 200Apps בתפקיד Head of Product Operations.
+
+## Background
+- רקע בצילום, וידאו, UI/UX, ניהול פרויקטים ופרודקט
+- בעבר: הנחיית קבוצות, הובלת מיזם ארצי בתחום תרבות, חינוך וקהילה
+- רמת קוד נמוכה - אני לא מפתח, אני משתמש בכלי AI כדי לבנות דברים
+- התאם הסברים טכניים לרמה של מי שמבין קונספטים אבל לא כותב קוד בעצמו
+
+## Tools I Use Daily
+- עבודה: Jira, Confluence, Microsoft Teams
+- AI: Claude, Claude Code, ChatGPT, Perplexity, NotebookLM, Gemini
+
+## Side Project - AI Strategy Advisor
+- בונה עסק עצמאי בתחום AI Strategy
+- כיוון: ייעוץ אסטרטגי לארגונים בנושא אימוץ AI
+
+## Language
+- Respond in Hebrew (עברית) by default
+
+## Communication Style
+- Keep responses concise and to the point
+- Use tables for structured data
+- כשיש טבלאות בעברית - צור קובץ HTML עם עיצוב נאה
+
+## Writing Rules
+- ללא מקפים ארוכים - רק מקף רגיל
+- בבלוקי קוד - לא לשים הערות בתוך הבלוק
+
+## Custom Skills (נוצרו על ידינו)
+- extract-design-system - חילוץ Design System מ-HTML/CSS קיים
+- project-cleanup - ניקוי וארגון תיקיית פרויקט
+- content-pipeline - הפיכת דליברבלים לפוסטים ללינקדאין
+- linkedin-networker - אוטומציית נטוורקינג בלינקדאין</pre>
+  </details>
+
+  <!-- דוגמה נקייה למשתתפים -->
+  <details style="background: #0d1b2a; border: 1px solid #1b5c3a; border-radius: 8px; padding: 12px; margin: 12px 0;">
+    <summary style="cursor: pointer; color: #4ade80; font-weight: bold; font-size: 16px;">דוגמה נקייה למשתתפים (demos/claude-md-example.md)</summary>
+    <pre style="background: #0a1628; color: #a8b2d1; padding: 16px; border-radius: 8px; margin-top: 8px; font-size: 14px; line-height: 1.7; white-space: pre-wrap; direction: rtl; text-align: right; font-family: 'SF Mono', 'Fira Code', monospace;"># About Me
+קוראים לי [השם שלך].
+אני עובד/ת בתפקיד [התפקיד שלך].
+
+## Background
+- רקע ב-[תחומים רלוונטיים]
+- אני לא מפתח/ת - אני משתמש/ת ב-AI כדי לבנות דברים
+- התאם הסברים טכניים לרמה שלי
+
+## Tools I Use Daily
+- Jira, Confluence, Slack
+- Google Sheets, Notion
+- Claude Code
+
+## Language
+- Respond in Hebrew (עברית) by default
+
+## Communication Style
+- Keep responses concise and to the point
+- Use tables for structured data
+
+## Writing Rules
+- ללא מקפים ארוכים
+- כותרות בעברית</pre>
+  </details>
 
   <h3>דקות 22-24: איך יוצרים CLAUDE.md</h3>
   <div class="stage-direction">מה על המסך: טרמינל Claude Code פתוח - מקלידים חי</div>
@@ -334,33 +405,26 @@
     - Opus - החזק, לדברים מורכבים. יקר יותר, לוקח יותר זמן, אבל התוצאות מדהימות<br>
     - Sonnet - המאוזן, לרוב המשימות. מהיר, חכם, מספיק טוב ל-90% מהמקרים<br>
     - Haiku - הזול, לדברים קטנים וזריזים<br><br>
-    אתם לא צריכים לזכור את זה עכשיו. רק תדעו שאפשר לשנות מודל לפי הצורך."
+    אתם לא צריכים לזכור את זה עכשיו. רק תדעו שאפשר לשנות מודל לפי הצורך - ובניגוד ל-Claude רגיל, פה אפשר לעשות את זה באמצע שיחה בלי לאבד כלום. עוד שנייה אראה לכם."
   </div>
 
-  <h3>דקות 28-29: טרמינלים מקבילים</h3>
-  <div class="stage-direction">מה על המסך: 2 חלונות טרמינל אחד ליד השני</div>
+  <h3>דקות 28-29: מעבר בין מודלים באמצע שיחה</h3>
+  <div class="stage-direction">מה על המסך: טרמינל Claude Code פתוח (אפשר להראות את פקודת /model)</div>
   <div class="say">
-    "טיפ שלישי - ואחד מהחזקים:<br>
-    אפשר לפתוח כמה חלונות של Claude Code במקביל.<br>
-    בזמן ש-Claude בונה לי דשבורד בחלון אחד, אני יכול לבקש ממנו לכתוב מייל בחלון שני.<br>
-    זה כאילו יש לכם שני עוזרים שעובדים בו-זמנית."
+    "ועוד דבר חשוב שקשור למודלים - ב-Claude Code אפשר להחליף מודל באמצע שיחה.<br><br>
+    מי שמכיר את Claude הרגיל - שם אם אתם מחליפים מודל, זה מתחיל שיחה חדשה. מאבדים את כל הקונטקסט.<br><br>
+    ב-Claude Code זה שונה. אתם יכולים להתחיל עם Sonnet - המהיר - לקרוא קבצים, לנתח נתונים. ובאמצע אותו session, לעבור ל-Opus - החזק - למשימה מורכבת כמו בניית דשבורד. והוא ממשיך מאיפה שהפסיק. לא מאבדים כלום.<br><br>
+    הפקודה פשוטה: מקלידים /model ובוחרים. זה הכל.<br><br>
+    למה זה חשוב? כי זה חוסך כסף וזמן. לא צריך להשתמש במודל הכי חזק לכל דבר. שאלה פשוטה - Sonnet. בנייה מורכבת - Opus."
   </div>
 
-  <h3>דקות 29-30: סקילים ותוספים</h3>
-  <div class="stage-direction">מה על המסך: דוגמה של סקיל / תוסף Chrome</div>
-  <div class="say">
-    "וטיפ אחרון - יש עולם שלם של תוספות:<br>
-    סקילים - יכולות ארוזות שאפשר להוסיף. למשל סקיל ששולח מיילים, סקיל שעובד עם הלוח שנה, סקיל שמפרסם בלינקדאין.<br>
-    ויש תוסף Chrome שנותן ל-Claude לראות ולעבוד בדפדפן שלכם.<br>
-    לא ניכנס לזה היום לעומק, אבל חשוב שתדעו - הכלי הזה הרבה יותר מ'כתוב לי קוד'."
-  </div>
 </div>
 
 <!-- PART 4 -->
 <div class="section" id="part4">
-  <h2>חלק 4: דמו מרכזי חי - Portfolio Health Dashboard (דקות 30-57)</h2>
+  <h2>חלק 4: דמו מרכזי חי - Portfolio Health Dashboard (דקות 29-57)</h2>
 
-  <h3>דקות 30-31:30 - הסיפור</h3>
+  <h3>דקות 29-30:30 - הסיפור</h3>
   <div class="stage-direction">עדיין על מצלמה/שקפים</div>
   <div class="say">
     "לפני שאני מראה לכם את הדמו, בואו נדבר על הכאב.<br><br>
@@ -369,7 +433,7 @@
     היום אני אראה לכם איך עושים את זה ב-10 דקות. בלי לכתוב שורת קוד אחת."
   </div>
 
-  <h3>דקות 31:30-33:00 - מראים את הבלאגן</h3>
+  <h3>דקות 30:30-32:00 - מראים את הבלאגן</h3>
   <div class="stage-direction">שיתוף מסך: תיקיית webinar-demo עם 2 הקבצים</div>
   <div class="say">
     "הנה מה שיש לי. שני קבצים. בדיוק כמו שיש לכם.<br><br>
@@ -382,12 +446,12 @@
     עכשיו תראו מה קורה."
   </div>
 
-  <h3>דקות 33:00-33:30 - פותחים Claude Code</h3>
+  <h3>דקות 32:00-32:30 - פותחים Claude Code</h3>
   <div class="say">
     "אני פותח את Claude Code. זה טרמינל - זה נראה קצת טכני, אבל שימו לב: אני לא כותב קוד. אני כותב בשפה אנושית. באנגלית פשוטה."
   </div>
 
-  <h3>דקות 33:30-35:00 - פקודה #1 (הגדולה)</h3>
+  <h3>דקות 32:30-34:00 - פקודה #1 (הגדולה)</h3>
   <div class="type-prompt">Read the 2 files in this folder - a Jira CSV export and team meeting notes.
 Analyze story quality across all projects based on the 7 Perfect Story criteria:
 User Story format, Description, Business Objectives, Acceptance Criteria,
@@ -496,19 +560,9 @@ Include some example question buttons. Support both English and Hebrew questions
 
 <!-- PART 5 -->
 <div class="section" id="part5">
-  <h2>חלק 5: דמו מוגמר (דקות 57-70)</h2>
+  <h2>חלק 5: דמו מוגמר (דקות 57-65)</h2>
 
-  <h3>דקות 57-62: דשבורד Upstream Health Check</h3>
-  <div class="stage-direction">מה על המסך: הדשבורד האמיתי</div>
-  <div class="say">
-    "מה שהראיתי עכשיו זה בנייה מאפס. אבל אני רוצה להראות גם תוצאות אמיתיות מהעבודה שלי.<br>
-    [פותח את הדשבורד]<br>
-    זה דשבורד שבניתי עם Claude Code. הוא מושך נתונים חיים מ-Jira, מציג סטטוס של 8 פרויקטים, עם ציונים ואינדיקטורים.<br>
-    לפני Claude Code - הייתי צריך מפתח או לפחות מישהו שיודע JavaScript.<br>
-    עכשיו? אני מקליד בריף, Claude בונה, אני נותן פידבק, הוא משפר. הכל בשיחה."
-  </div>
-
-  <h3>דקות 62-67: דוח ניתוח הנרשמים (רגע מטא)</h3>
+  <h3>דקות 57-62: דוח ניתוח הנרשמים (רגע מטא)</h3>
   <div class="stage-direction">מה על המסך: דוח ניתוח הנרשמים</div>
   <div class="say">
     "ועכשיו - הדבר האהוב עליי.<br>
@@ -522,11 +576,34 @@ Include some example question buttons. Support both English and Hebrew questions
     ואגב - הסלייד עם '20 אנשים כתבו מעקב ידני' שהראיתי בפתיחה? גם הוא הגיע מהדוח הזה."
   </div>
 
-  <h3>דקות 67-70: מסקנה</h3>
+  <h3>דקות 62-65: מסקנה</h3>
   <div class="say">
-    "שני הדשבורדים האלה - Jira integration ו-CSV analysis - מראים את אותו דבר:<br>
+    "הדוח הזה מראה את אותו דבר כמו הדמו:<br>
     אתה לוקח נתונים גולמיים, נותן ל-Claude בריף, ומקבל כלי עבודה מוכן.<br>
     בלי מפתח. בלי Looker. בלי Power BI. בלי שבועיים של פיתוח."
+  </div>
+</div>
+
+<!-- PART 5.5 - ADVANCED TIPS -->
+<div class="section" id="part5b">
+  <h2>חלק 5ב: טיפים מתקדמים ומה עוד אפשר (דקות 65-70)</h2>
+
+  <h3>דקות 65-67: טרמינלים מקבילים</h3>
+  <div class="stage-direction">מה על המסך: 2 חלונות טרמינל אחד ליד השני (אם אפשר להדגים) או שקף</div>
+  <div class="say">
+    "טיפ חזק - אפשר לפתוח כמה חלונות של Claude Code במקביל.<br>
+    בזמן ש-Claude בונה לי דשבורד בחלון אחד, אני יכול לבקש ממנו לכתוב מייל בחלון שני.<br>
+    זה כאילו יש לכם שני עוזרים שעובדים בו-זמנית."
+  </div>
+
+  <h3>דקות 67-70: סקילים ותוספים</h3>
+  <div class="stage-direction">מה על המסך: שקף או דוגמה</div>
+  <div class="say">
+    "יש עולם שלם של תוספות:<br>
+    סקילים - יכולות ארוזות שאפשר להוסיף. למשל סקיל ששולח מיילים, סקיל שעובד עם הלוח שנה, סקיל שמפרסם בלינקדאין.<br>
+    ויש תוסף Chrome שנותן ל-Claude לראות ולעבוד בדפדפן שלכם.<br>
+    לא ניכנס לזה היום לעומק, אבל חשוב שתדעו - הכלי הזה הרבה יותר מ'כתוב לי קוד'.<br>
+    במפגש ההמשך נצלול לעומק לסקילים ול-Chrome Extension."
   </div>
 </div>
 
@@ -558,55 +635,8 @@ Include some example question buttons. Support both English and Hebrew questions
   </div>
 
   <h3>דקות 78-88: Q&A</h3>
-  <div class="stage-direction">טרמינל פתוח (למקרה שצריך להדגים תשובה)</div>
+  <div class="stage-direction">טרמינל פתוח (למקרה שצריך להדגים תשובה). תשובות מוכנות בסקשן "שו"ת" למטה.</div>
   <div class="say">"בואו נפתח לשאלות. מי שרוצה - כותב בצ'אט."</div>
-
-  <h3>שאלות צפויות:</h3>
-
-  <div class="say">
-    <strong>"מה ההבדל בין Claude Code ל-Cowork?"</strong><br>
-    "Cowork זה כמו לדבר עם Claude - שואלים שאלות, מקבלים תשובות טקסט. Claude Code זה סוכן שעובד על הקבצים שלכם בפועל. הוא קורא, מנתח, יוצר ובונה. תחשבו על Cowork כשותף לשיחה ועל Claude Code כעוזר שיושב מול מחשב ועושה את העבודה."
-  </div>
-
-  <div class="say">
-    <strong>"כמה זה עולה?"</strong><br>
-    "יש מנוי חודשי. אני אשתף פרטים בהודעת הפולואפ. ה-ROI מבחינתי ברור - מה שהיה לוקח שעות עכשיו לוקח דקות."
-  </div>
-
-  <div class="say">
-    <strong>"זה עובד על Windows?"</strong><br>
-    "כן, יש מדריך התקנה גם ל-Windows. שלחתי אתכם מדריך לפני המפגש - הוא כולל Mac ו-Windows."
-  </div>
-
-  <div class="say">
-    <strong>"אפשר לחבר את זה ישירות ל-Jira?"</strong><br>
-    "כן! מה שהראיתי היום השתמש באקספורט CSV בשביל הפשטות, אבל בעבודה היומיומית שלי אני מחבר את Claude Code ישירות ל-Jira דרך API. הוא מושך נתונים בזמן אמת."
-  </div>
-
-  <div class="say">
-    <strong>"זה עובד עם עברית?"</strong><br>
-    "חלקית. הממשק באנגלית, אבל כמו שראיתם ב-Ask Your Data, הוא מבין שאלות בעברית. הפלט יותר טוב באנגלית כרגע."
-  </div>
-
-  <div class="say">
-    <strong>"אפשר להשתמש בזה עם Monday / Asana / כלים אחרים?"</strong><br>
-    "בהחלט. ל-Claude Code לא אכפת מה המקור. CSV מ-Monday, אקספורט מ-Asana, אפילו גוגל שיטס - אותו תהליך בדיוק."
-  </div>
-
-  <div class="say">
-    <strong>"אני לא טכני/ת. זה באמת בשבילי?"</strong><br>
-    "אני לא מפתח. זאת כל הפואנטה. כל פקודה שהקלדתי היום הייתה באנגלית פשוטה. אם אתם יודעים לתאר מה אתם צריכים - אתם יכולים להשתמש בזה."
-  </div>
-
-  <div class="say">
-    <strong>"אפשר לקבל את הקבצים / הדשבורד?"</strong><br>
-    "אני אשלח בהודעת הפולואפ קישור למדריך התקנה ולטיפים. הדשבורד עצמו נבנה מנתונים ספציפיים, אבל אתם יכולים לבנות אחד בדיוק כזה מהנתונים שלכם."
-  </div>
-
-  <div class="say">
-    <strong>"מה לגבי CLAUDE.md / הכנה מראש?"</strong><br>
-    "שאלה מצוינת. יש לי קובץ קונפיגורציה שאומר ל-Claude Code מה העדפות העיצוב שלי - תמה כהה, סוגי גרפים, פלטת צבעים ספציפית. זה כמו להגדיר העדפות בכלי שאתם עובדים איתו. הניתוח ובניית הדשבורד קורים חי."
-  </div>
 
   <h3>דקות 88-90: סגירה</h3>
   <div class="say">
@@ -615,6 +645,140 @@ Include some example question buttons. Support both English and Hebrew questions
     הלינקים בצ'אט - קבוצת ווצאפ, מדריך, צ'יט שיט.<br>
     ואם הייתם רוצים להמשיך - מפגש ההמשך ושיחת ייעוץ.<br>
     לילה טוב!"
+  </div>
+</div>
+
+<!-- Q&A PREP -->
+<div class="section" id="qa-prep">
+  <h2>שאלות ותשובות מוכנות</h2>
+
+  <h3>שאלות כלליות</h3>
+
+  <div class="say">
+    <strong>"כמה Claude Code עולה?"</strong><br>
+    "יש מנוי חודשי. אני אשתף פרטים בקבוצת הווצאפ. מבחינת החזר השקעה - מה שהיה לוקח שעות עכשיו לוקח דקות."
+  </div>
+
+  <div class="say">
+    <strong>"מה ההבדל בין Claude Code ל-Cowork?"</strong><br>
+    "Cowork = שיחה. Code = עוזר שעושה. Cowork עונה על שאלות. Code קורא קבצים, בונה דשבורדים, מזיז קבצים, מייצר מסמכים."
+  </div>
+
+  <div class="say">
+    <strong>"אפשר לחבר ישירות ל-Jira?"</strong><br>
+    "כן! היום השתמשתי ב-CSV בשביל פשטות, אבל בעבודה אני מחבר ישירות ל-Jira דרך API. הוא מושך נתונים בזמן אמת."
+  </div>
+
+  <div class="say">
+    <strong>"זה עובד עם עברית?"</strong><br>
+    "חלקית. הוא מבין שאלות בעברית, כמו שראיתם. הפלט יותר טוב באנגלית כרגע."
+  </div>
+
+  <div class="say">
+    <strong>"אפשר עם Monday.com / Asana / כלים אחרים?"</strong><br>
+    "בהחלט. CSV מ-Monday, ייצוא מ-Asana, Google Sheet - אותו תהליך."
+  </div>
+
+  <div class="say">
+    <strong>"אני לא טכני/ת. זה באמת בשבילי?"</strong><br>
+    "אני לא מפתח. כל פקודה שהקלדתי הייתה בשפה פשוטה. אם אתם יודעים לתאר מה אתם רוצים - אתם יודעים להשתמש בזה."
+  </div>
+
+  <div class="say">
+    <strong>"זה עובד על Windows?"</strong><br>
+    "כן, יש מדריך התקנה גם ל-Windows. שלחתי אתכם מדריך לפני המפגש - הוא כולל Mac ו-Windows."
+  </div>
+
+  <div class="say">
+    <strong>"אפשר לקבל את הקבצים / הדשבורד?"</strong><br>
+    "אני אשלח בהודעת הפולואפ קישור למדריך התקנה ולטיפים. הדשבורד עצמו נבנה מנתונים ספציפיים, אבל אתם יכולים לבנות אחד בדיוק כזה מהנתונים שלכם."
+  </div>
+
+  <div class="say">
+    <strong>"כמה זמן לוקח ללמוד את זה?"</strong><br>
+    "את הבסיס - שעה. מה שראיתם היום זה בערך רמת השימוש שלי אחרי שבועיים. השבוע הראשון היה ניסוי וטעייה, השבוע השני כבר הייתי פרודקטיבי. המפתח הוא להתחיל - לא ללמוד, להתחיל."
+  </div>
+
+  <div class="say">
+    <strong>"האם אפשר לשתף דשבורדים / תוצרים עם אחרים?"</strong><br>
+    "בהחלט. הדשבורד הוא קובץ HTML - אפשר לשלוח במייל, לשים בדרייב, לפתוח מכל דפדפן. לא צריך שום התקנה כדי לצפות בו."
+  </div>
+
+  <div class="say">
+    <strong>"מה קורה אם Claude Code טועה?"</strong><br>
+    "זה קורה. הוא לא מושלם. לפעמים הוא מבין לא נכון, לפעמים הקוד לא עובד. וזה בסדר - כי אתם נותנים פידבק: 'לא ככה, תשנה את זה.' זו שיחה. כמו עם עובד חדש שצריך הכוונה."
+  </div>
+
+  <h3>שאלות בטיחות ואבטחה</h3>
+
+  <div class="say">
+    <strong>"האם Claude Code יכול למחוק לי קבצים?"</strong><br>
+    "טכנית כן, אבל בברירת מחדל הוא שואל אישור לפני כל פעולה שמשנה משהו. מחיקה, העברה, הרצת סקריפט - הכל באישור."
+  </div>
+
+  <div class="say">
+    <strong>"האם הנתונים שלי נשלחים לענן?"</strong><br>
+    "כן, הטקסט עובר לשרתים של Anthropic. תפעילו שיקול דעת כמו עם כל כלי ענן. ואפשר לכבות אימון על השיחות שלכם בהגדרות."
+  </div>
+
+  <div class="say">
+    <strong>"מה עם קוד זדוני בקובץ?"</strong><br>
+    "זו הזרקת פרומפט. לכן Claude Code שואל 'אתה בוטח בתיקייה?' אם לא ארזתם לבד - תבדקו לפני."
+  </div>
+
+  <div class="say">
+    <strong>"מותר לי להשתמש בזה בעבודה?"</strong><br>
+    "תלוי בחברה. תבדקו עם IT. ההמלצה - תתחילו עם נתונים לא רגישים."
+  </div>
+
+  <div class="say">
+    <strong>"יש לזה גרסת Enterprise / האם זה מאושר לשימוש ארגוני?"</strong><br>
+    "לאנתרופיק יש תוכנית Enterprise עם אבטחה ופרטיות ברמה ארגונית. אם החברה שלכם רוצה להטמיע - שווה לבדוק. ברמה האישית, יש מנוי Pro שמספיק להתחיל."
+  </div>
+
+  <div class="say">
+    <strong>"אני עובד/ת עם דאטה רגיש / HIPAA / SOC2 - אפשר?"</strong><br>
+    "שאלה חשובה. הדאטה עובר לשרתים של Anthropic. אם יש לכם דרישות compliance מחמירות - תבדקו עם ה-IT שלכם ועם תוכנית ה-Enterprise של Anthropic. לא הייתי מכניס PII או דאטה רגולטורי בלי אישור."
+  </div>
+
+  <div class="say">
+    <strong>"האם Claude Code שומר את מה שאני עושה? האם יש היסטוריה?"</strong><br>
+    "כן, יש היסטוריית שיחות. אתם יכולים לחזור לשיחות קודמות. אבל כל שיחה מתחילה מהקונטקסט של ה-CLAUDE.md והקבצים בתיקייה. הוא לא 'זוכר' שיחות קודמות אוטומטית."
+  </div>
+
+  <h3>שאלות טכניות</h3>
+
+  <div class="say">
+    <strong>"איך Claude Code שונה מ-Cursor / GitHub Copilot?"</strong><br>
+    "Cursor ו-Copilot מיועדים למפתחים - הם עוזרים לכתוב קוד בתוך IDE. Claude Code הוא סוכן כללי שעובד מהטרמינל. הוא לא רק כותב קוד - הוא קורא מסמכים, מנתח נתונים, מסדר קבצים, בונה דשבורדים. הוא מיועד גם לאנשים שלא כותבים קוד בכלל."
+  </div>
+
+  <div class="say">
+    <strong>"מה זה MCP? שמעתי על זה"</strong><br>
+    "MCP זה Model Context Protocol - דרך לחבר את Claude Code לכלים חיצוניים. ככה למשל אני מחבר אותו ישירות ל-Jira, ל-Confluence, ל-Google Calendar. במקום לייצא CSV ולהכניס לתיקייה - Claude Code פשוט נכנס ישירות למערכת ומושך נתונים בזמן אמת. זה כמו לתת לעוזר שלכם גישה למערכות של החברה. זה נושא מתקדם יותר - נדבר על זה במפגש ההמשך."
+  </div>
+
+  <div class="say">
+    <strong>"אילו חיבורים / MCPs יש?"</strong><br>
+    "יש חיבורים ל-Jira, Confluence, GitHub, Google Calendar, Gmail, Slack, ועוד הרבה. הרשימה גדלה כל הזמן. וגם אפשר לבנות חיבורים מותאמים אישית. אבל בשביל להתחיל - CSV ותיקיות מספיקים בהחלט. ככה התחלתי גם אני."
+  </div>
+
+  <div class="say">
+    <strong>"למה אנגלית ולא עברית בפקודות?"</strong><br>
+    "Claude Code עובד עם עברית, כמו שראיתם בדמו הקטן. אבל לפקודות מורכבות שבונות דשבורדים - התוצאות יותר טובות ויציבות באנגלית. זה לא חייב להיות אנגלית מושלמת - אנגלית פשוטה מספיקה."
+  </div>
+
+  <div class="say">
+    <strong>"מה ההבדל בין Claude Code עם Skills לבין אוטומציה רגילה כמו Zapier?"</strong><br>
+    "שאלה מעולה. אוטומציה רגילה - Zapier, Make, Power Automate - זה 'אם קורה X, תעשה Y'. קבוע. נוקשה. עובד מצוין כשהתהליך ברור ולא משתנה.<br>
+    סוכן עם Skills זה משהו אחר. הוא מבין כוונה, לא רק טריגר. אני אומר לו 'תכין לי סטטוס שבועי' - והוא מחליט לבד מה לקרוא, מה רלוונטי, איך לארגן. אם השבוע יש חסימה חריגה, הוא יבליט אותה. אוטומציה לא תעשה את זה.<br>
+    בקיצור: אוטומציה עושה את אותו הדבר כל פעם. סוכן חושב מה לעשות כל פעם מחדש.<br>
+    ודרך אגב - הם לא מתחרים. אוטומציה מצוינת לדברים קבועים. סוכן מצוין לדברים שדורשים שיקול דעת. אפשר גם לשלב."
+  </div>
+
+  <div class="say">
+    <strong>"מה לגבי CLAUDE.md / הכנה מראש?"</strong><br>
+    "שאלה מצוינת. יש לי קובץ קונפיגורציה שאומר ל-Claude Code מה העדפות העיצוב שלי - תמה כהה, סוגי גרפים, פלטת צבעים. זה כמו להגדיר העדפות בכלי עבודה. הניתוח ובניית הדשבורד - חי."
   </div>
 </div>
 
