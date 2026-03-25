@@ -184,7 +184,7 @@
 <div class="header">
   <h1>סקריפט מפגש - Claude Code For Product Ops</h1>
   <div class="meta">25.3.2026 | 21:00-22:30 | Microsoft Teams</div>
-  <div class="meta" style="font-size: 12px; opacity: 0.5;">עדכון אחרון: 25.03.2026 15:17</div>
+  <div class="meta" style="font-size: 12px; opacity: 0.5;">עדכון אחרון: 25.03.2026 16:45</div>
   <div class="nav">
     <a href="#part1">1. פתיחה</a>
     <a href="#part2">2. וואו ראשון</a>
@@ -196,6 +196,7 @@
     <a href="#qa-prep">שו"ת</a>
     <a href="#backup">גיבוי</a>
     <a href="#checklist">צ'קליסט</a>
+    <a href="#whatsapp-group">ווצאפ</a>
   </div>
 </div>
 
@@ -216,8 +217,10 @@
     "אז מי אני. נשוי + שלושה ילדים מתוקים, הרקע שלי זה ניהול, בעבר עסקתי בצילום, קולנוע, עם רקע UI/UX, ניהול פרויקטים. ואני עף מכל מה שקורה עם הבינה המלאכותית בשלושת השנים האחרונות. מי לא?!<br><br>
     לפני כ-חודשיים התחלתי להרגיש נקישות בעורף בכל מה שקשור ל-Claude Code. בהתחלה נקישות קלות, שעם הזמן הלכו והתגברו. אבל האמת? נרתעתי מזה. כי יש לו שם בעייתי - קוד. מה קשור אלי קוד? אני לא בקטע. אני אחלה בתור מנהל - נתונים, אנשים, אתגרים, חידושים, בכיף. אבל קוד? זה לא אני.<br><br>
     עד שהגיע הרגע שאמרתי לעצמי חלאס, אני חייב להבין את האירוע הזה. והשאר היסטוריה... התאהבתי, ואת יעובד עם קלוד קוד, בלי הפסקה.<br><br>
-    ואמרתי לעצמי ביום... שני, ממש בהסח הדעת - מעניין אם בקבוצה של Program Ops, שדנית מנהלת אותה ברגישות וביד רמה, החבר'ה מכירים Claude Code? באמת שאלה שעלתה לי בראש בלי מחשבה. וגם הרצון לכתוב את ההודעה בקבוצה היה בלי מחשבה. בחיי שיריתי מהמותן.<br><br>
-    וכמו שאנחנו רואים - יש ביקוש, יש עניין. הופתעתי. ושמחתי על ההזדמנות לתת מהידע והנסיון שלי עבורכם, אז בואו נתחיל."
+    ואז ביום שני, אמרתי לעצמי - רגע, אני לא יכול להשאיר את זה לעצמי. יש קהילה שלמה של אנשי Product Ops שמתמודדים עם אותם אתגרים כמוני. אם הכלי הזה שינה לי את העבודה, אולי הוא יכול לעזור גם לאחרים.<br><br>
+    אז כתבתי הודעה בקבוצה של Product Ops, שדנית מנהלת אותה ברגישות וביד רמה, ושאלתי - מכירים Claude Code? מעוניינים במפגש?<br><br>
+    וכמו שאנחנו רואים - יש ביקוש, יש עניין. ושמחתי על ההזדמנות לתת מהידע והניסיון שלי עבורכם.<br><br>
+    אז בואו נתחיל."
   </div>
 
   <h3>דקות 5-8: מה מחכה לנו הערב</h3>
@@ -230,6 +233,7 @@
     4. דמו מרכזי Live - נבנה ביחד משהו מאפס, לעיניכם, מבריף - לתוצאה<br>
     5. דמו מוגמר - מראה תוצאות אמיתיות שבניתי עם Claude Code<br>
     6. שאלות ותשובות<br><br>
+    דבר אחד חשוב - אנחנו פה 80+ אנשים, אז יהיה מורכב לענות על שאלות במהלך המפגש. בסוף יהיה זמן מוקדש לשאלות ותשובות, אז תצברו את השאלות, כתבו אותן בצ'אט, ואני אגיע לכולם.<br><br>
     שימו לב - אני לא מתכנת כאן. אני מקליד בשפה חופשית, בדיוק כמו שאני מדבר עם עובד חדש."
   </div>
 
@@ -254,7 +258,10 @@
   <h3>דקות 10-12: הצגת הבעיה</h3>
   <div class="stage-direction">מה על המסך: תיקיית Downloads מבולגנת</div>
   <div class="say">
-    "בואו נתחיל ממשהו שכולנו מכירים.<br>
+    "בואו נתחיל ממשהו שכולנו מכירים.<br><br>
+    אני פותח טרמינל - זה החלון השחור הזה. כדי להפעיל את Claude Code, מקלידים claude ולוחצים Enter. אצלי זה נפתח אוטומטית כי הגדרתי את זה ככה - אצלכם תצטרכו לכתוב claude.<br><br>
+    [Claude Code עולה]<br><br>
+    רואים את הנתיב פה למטה? Claude Code נמצא עכשיו בתיקיית ההורדות שלי. הוא רואה רק את מה שבתוך התיקייה הזו. זה הקונטקסט שלו. הוא לא מסתובב חופשי במחשב.<br><br>
     הנה תיקיית ההורדות שלי. [מראה את התיקייה]<br>
     מבולגן, נכון? PDFs, תמונות, CSVs, מסמכים - הכל מעורבב.<br>
     בואו נראה מה קורה כשאני מבקש מ-Claude לסדר."
@@ -262,10 +269,18 @@
 
   <h3>דקות 12-17: הדמו החי</h3>
   <div class="stage-direction">מה על המסך: טרמינל עם Claude Code פתוח בתיקיית Downloads</div>
-  <div class="type-prompt">תסתכל על התיקייה הזאת, תבין מה יש פה, ותסדר את הכל לתיקיות לפי נושא. תעשה את זה בלי לשאול אותי שאלות.</div>
   <div class="say">
-    "שימו לב מה קורה - Claude קודם כל סורק את כל הקבצים, מבין מה כל קובץ, ואז מחליט איך לארגן.<br>
-    הוא לא שואל אותי - הוא פשוט עושה.<br>
+    "עכשיו אני הולך לבקש ממנו לסרוק את כל הקבצים בתיקייה ולהגיד לי מה יש פה. תראו:"
+  </div>
+  <div class="type-prompt">תסתכל על התיקייה הזאת ותגיד לי מה יש פה.</div>
+  <div class="say">
+    "שימו לב מה קורה - Claude סורק את כל הקבצים, מבין מה כל קובץ.<br>
+    [כשמסיים] יפה, עכשיו בואו נבקש ממנו לעשות סדר.<br><br>
+    עכשיו אני הולך לבקש ממנו לקחת את כל הבלגן הזה ולסדר אותו בתיקיות לפי נושא. תראו:"
+  </div>
+  <div class="type-prompt">תסדר את כל הקבצים לתיקיות לפי נושא. תעשה את זה בלי לשאול אותי שאלות.</div>
+  <div class="say">
+    "הוא לא שואל אותי - הוא פשוט עושה.<br>
     [כשמסיים] בואו נראה מה יצא... [פותח את התיקייה]<br>
     תיקיות מסודרות, שמות הגיוניים. תוך כמה? דקה? שתיים?"
   </div>
@@ -446,12 +461,15 @@
     עכשיו תראו מה קורה."
   </div>
 
-  <h3>דקות 32:00-32:30 - פותחים Claude Code</h3>
+  <h3>דקות 32:00-33:00 - פותחים Claude Code</h3>
   <div class="say">
-    "אני פותח את Claude Code. זה טרמינל - זה נראה קצת טכני, אבל שימו לב: אני לא כותב קוד. אני כותב בשפה אנושית. באנגלית פשוטה."
+    "אני עובר לתיקיית הדמו. פותח טרמינל - ו-Claude Code עולה. רואים? הוא כבר בתיקייה הנכונה, רואה את שני הקבצים. עכשיו אני כותב לו מה לעשות - באנגלית פשוטה, לא קוד."
   </div>
 
-  <h3>דקות 32:30-34:00 - פקודה #1 (הגדולה)</h3>
+  <h3>דקות 33:00-34:00 - פקודה #1 (הגדולה)</h3>
+  <div class="say">
+    "עכשיו אני הולך לבקש מ-Claude Code לקרוא את שני הקבצים, לנתח את איכות הסטוריז, ולבנות לי דשבורד ויזואלי מלא. תראו מה קורה:"
+  </div>
   <div class="type-prompt">Read the 2 files in this folder - a Jira CSV export and team meeting notes.
 Analyze story quality across all projects based on the 7 Perfect Story criteria:
 User Story format, Description, Business Objectives, Acceptance Criteria,
@@ -494,6 +512,9 @@ Save as dashboard.html and open it in the browser.</div>
   </div>
 
   <h3>דקות 43:00-44:00 - פקודה #2</h3>
+  <div class="say">
+    "עכשיו אני הולך לבקש ממנו להוסיף שכבת ניתוח נוספת - velocity, באגים, scope. בואו נראה:"
+  </div>
   <div class="type-prompt">Great dashboard. Now add a "Portfolio Insights" section below the existing content.
 The CSV has sprint data, story points, and issue types.
 Analyze and show:
@@ -529,6 +550,9 @@ Use charts where it makes sense. Keep the same dark design style.</div>
   </div>
 
   <h3>דקות 51:00-52:00 - פקודה #3 (ה-Mic Drop)</h3>
+  <div class="say">
+    "ועכשיו הדבר הכי מגניב - אני הולך לבקש ממנו להוסיף תיבת חיפוש שבה אפשר לשאול שאלות על הנתונים בשפה טבעית:"
+  </div>
   <div class="type-prompt">Add an "Ask Your Data" section at the bottom. A search box where I can type
 questions in natural language about the project data, and get instant answers.
 Include some example question buttons. Support both English and Hebrew questions.</div>
@@ -829,6 +853,27 @@ Include some example question buttons. Support both English and Hebrew questions
   <label><input type="checkbox"> בדיקת פקודה פשוטה ("list files in this folder")</label>
   <label><input type="checkbox"> Teams פתוח + שיתוף מסך + תצוגה נקייה</label>
   <label><input type="checkbox"> לנשום</label>
+</div>
+
+<!-- WHATSAPP GROUP -->
+<div class="section" id="whatsapp-group">
+  <h2>קבוצת ווצאפ - להציג בסוף</h2>
+
+  <div class="say">
+    "לפני שנסיים - פתחתי קבוצת ווצאפ לדיונים. אם רוצים להמשיך לשתף טיפים, לשאול שאלות, ולעזור אחד לשני - סירקו את הקוד או לחצו על הלינק בצ'אט."
+  </div>
+
+  <div style="text-align:center; margin: 24px 0;">
+    <img src="../assets/qr-whatsapp-group.png" style="width: 280px; border-radius: 12px; border: 2px solid #e94560;">
+    <div style="margin-top: 12px; font-size: 16px; color: #8892b0;">
+      Claude Code IL - ProdOps דיונים
+    </div>
+  </div>
+
+  <div style="background: #16213e; border-radius: 8px; padding: 16px; margin-top: 12px; text-align: center;">
+    <div style="font-size: 14px; color: #8892b0; margin-bottom: 8px;">לינק להדביק בצ'אט של Teams:</div>
+    <code style="font-size: 16px; color: #e94560; user-select: all;">https://chat.whatsapp.com/DDjt5t3FQszAtYGj34y1Rc</code>
+  </div>
 </div>
 
 <div class="font-controls">
