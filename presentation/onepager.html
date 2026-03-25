@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code for Product Ops</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --card: #111;
+  --card-border: #222;
+  --text: #e5e5e5;
+  --muted: #999;
+  --dim: #555;
+  --green: #22C55E;
+  --blue: #3B82F6;
+  --purple: #A855F7;
+  --amber: #F59E0B;
+  --orange: #FB923C;
+  --red: #EF4444;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+}
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 32px;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid rgba(251,146,60,0.25);
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-meta { color: var(--muted); font-size: 1.1rem; }
+.hero-meta .g { color: var(--green); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+.hero-tagline { color: var(--muted); font-size: 1.1rem; font-weight: 300; margin-top: 14px; }
+.hero-author { color: var(--dim); font-size: 0.9rem; margin-top: 36px; }
+
+/* ── Container ── */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ── Section with numbered card ── */
+.section {
+  position: relative;
+  padding: 48px 0;
+}
+
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 40px 44px;
+  position: relative;
+}
+
+/* Number badge */
+.num-badge {
+  position: absolute;
+  left: -20px;
+  top: -14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  z-index: 2;
+}
+
+/* Section header */
+.s-header {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.s-header .emoji {
+  margin-left: 8px;
+}
+
+/* Section body text */
+.s-body {
+  font-size: 1.1rem;
+  color: #ccc;
+  line-height: 1.8;
+}
+
+.s-body strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* ── Agenda list ── */
+.agenda-list {
+  list-style: none;
+  padding: 0;
+}
+
+.agenda-list li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.agenda-list li:last-child { border-bottom: none; }
+
+.a-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.a-title { font-weight: 600; }
+.a-desc { color: var(--muted); font-weight: 300; }
+
+/* ── Compare ── */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 12px;
+}
+
+.cmp-side h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.cmp-side p {
+  color: #bbb;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.cmp-em {
+  color: var(--text);
+  font-weight: 700;
+  display: block;
+  margin-top: 12px;
+  font-size: 1.1rem;
+}
+
+.vs-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 20px;
+}
+
+.vs-line {
+  width: 1px;
+  height: 50px;
+  background: var(--card-border);
+}
+
+.vs-text {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--dim);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ── Tags / badges ── */
+.tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 8px;
+  margin-left: 6px;
+}
+
+/* ── Tips row ── */
+.tips {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 28px;
+  margin-top: 8px;
+}
+
+.tip-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.tip h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tip p {
+  color: #bbb;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ── CTA ── */
+.cta-line {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+.cta-line strong { color: var(--text); }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--dim);
+  font-size: 0.8rem;
+}
+
+/* ── Animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .hero h1 { font-size: 2.2rem; }
+  .section-card { padding: 28px 24px; }
+  .num-badge { left: -12px; top: -10px; width: 34px; height: 34px; font-size: 0.9rem; }
+  .compare { grid-template-columns: 1fr; }
+  .tips { grid-template-columns: 1fr; }
+  .container { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div>
+    <div class="hero-badge">CLAUDE CODE FOR PRODUCT OPS</div>
+    <h1>Claude Code<br>for Product Ops</h1>
+    <div class="hero-meta">רביעי 25.3.2026 &nbsp;|&nbsp; <span class="g">21:00</span> &nbsp;|&nbsp; Microsoft Teams</div>
+    <div class="hero-tagline">בלי קוד. בלי רקע טכני. אבל עם מלא ערך.</div>
+    <div class="hero-author">חמי בן לביא</div>
+  </div>
+</div>
+
+<!-- ═══ AGENDA ═══ -->
+<div class="section">
+  <div class="container">
+    <div class="section-card reveal">
+      <div class="num-badge" style="background: var(--green);">1</div>
+      <div class="s-header">&#x1F4CB; מה נעשה היום</div>
+      <ul class="agenda-list">
+        <li>
+          <div class="a-dot" style="background: var(--green);"></div>
+          <div><span class="a-title">פתיחה</span> <span class="a-desc">- למה אנחנו פה</span></div>
+        </li>
+        <li>
+          <div class="a-dot" style="background: var(--blue);"></div>
+          <div><span class="a-title">דמו פתיחה - "הכירו את הסוכן"</span> <span class="a-desc">- מסדרים ומנקים</span></div>
+        </li>
+        <li>
+          <div class="a-dot" style="background: var(--purple);"></div>
+          <div><span class="a-title">יסודות + בטיחות</span> <span class="a-desc">- מודלים, טרמינלים מקבילים, CLAUDE.md</span></div>
+        </li>
+        <li>
+          <div class="a-dot" style="background: var(--amber);"></div>
+          <div><span class="a-title">דמו מרכזי - Portfolio Dashboard</span> <span class="a-desc">- מ-2 קבצים מבולגנים, לדשבורד משוגע ב-3 פקודות</span></div>
+        </li>
+        <li>
+          <div class="a-dot" style="background: var(--orange);"></div>
+          <div><span class="a-title">Skills + Chrome Extension</span> <span class="a-desc">- כלים מתקדמים</span></div>
+        </li>
+        <li>
+          <div class="a-dot" style="background: var(--red);"></div>
+          <div><span class="a-title">דמו אפיון + פרוטוטייפ</span> <span class="a-desc">- מ-2 לינקים לפרוטוטייפ</span></div>
+        </li>
+        <li>
+          <div class="a-dot" style="background: var(--text);"></div>
+          <div><span class="a-title">סיכום + Q&A</span></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHAT vs AGENT ═══ -->
+<div class="section">
+  <div class="container">
+    <div class="section-card reveal">
+      <div class="num-badge" style="background: var(--blue);">2</div>
+      <div class="s-header">&#x1F916; מה זה Claude Code?</div>
+      <div class="compare">
+        <div class="cmp-side">
+          <h3 style="color: var(--amber);">&#x1F4AC; צ'אט</h3>
+          <p>Cowork, ChatGPT, Gemini, Perplexity<br>כותבים, עונים. טקסט פנימה, טקסט החוצה.</p>
+          <span class="cmp-em">שותף לשיחה.</span>
+        </div>
+        <div class="vs-col">
+          <div class="vs-line"></div>
+          <div class="vs-text">VS</div>
+          <div class="vs-line"></div>
+        </div>
+        <div class="cmp-side">
+          <h3 style="color: var(--green);">&#x1F6E0; סוכן</h3>
+          <p>Claude Code<br>קורא קבצים. מנתח נתונים. יוצר, בונה, מסדר, מריץ.</p>
+          <span class="cmp-em">עוזר שעושה את העבודה.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ THREE TIPS ═══ -->
+<div class="section">
+  <div class="container">
+    <div class="section-card reveal">
+      <div class="num-badge" style="background: var(--purple);">3</div>
+      <div class="s-header">&#x1F4A1; 3 טיפים לדרך</div>
+      <div class="tips">
+        <div class="tip">
+          <div class="tip-n" style="color: var(--green);">1</div>
+          <h4>תתחילו בקטן</h4>
+          <p>"תסדר לי קבצים"<br>"תסכם לי מסמך"<br><br>תרגישו את הכלי.</p>
+        </div>
+        <div class="tip">
+          <div class="tip-n" style="color: var(--blue);">2</div>
+          <h4>תהיו ספציפיים</h4>
+          <p>לא "תבנה משהו יפה"<br><br>כן <strong>"דשבורד עם ערכת נושא כהה וגרפים עגולים"</strong></p>
+        </div>
+        <div class="tip">
+          <div class="tip-n" style="color: var(--purple);">3</div>
+          <h4>תשמרו מה שעובד</h4>
+          <p>סגנון? <strong>CLAUDE.md</strong><br>תהליך? <strong>Skill</strong><br><br>לא מתחילים מאפס כל פעם.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  חמי בן לביא &nbsp;|&nbsp; Claude Code for Product Ops &nbsp;|&nbsp; 25.3.2026
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>טיפים ופקודות - Claude Code for Product Ops</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --green: #22C55E;
+            --green-dark: #16A34A;
+            --green-glow: rgba(34, 197, 94, 0.3);
+            --black: #0A0A0A;
+            --dark: #111111;
+            --dark-card: #141414;
+            --dark-border: #1e1e1e;
+            --gray-700: #2a2a2a;
+            --gray-600: #3a3a3a;
+            --gray-400: #888;
+            --gray-300: #aaa;
+            --white: #ffffff;
+            --off-white: #e5e5e5;
+            --red: #ef4444;
+            --yellow: #eab308;
+            --blue: #3b82f6;
+            --purple: #a78bfa;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: var(--black);
+            color: var(--off-white);
+            direction: rtl;
+            text-align: right;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .header {
+            padding: 48px 0 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--green);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 16px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .header h1 span {
+            color: var(--green);
+        }
+
+        .header p {
+            font-size: 1.05rem;
+            color: var(--gray-400);
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--dark);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 12px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--gray-700);
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green);
+        }
+
+        .nav-link .icon {
+            font-size: 0.9rem;
+        }
+
+        /* Sections */
+        .section {
+            padding: 48px 0;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(34, 197, 94, 0.12);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            color: var(--gray-400);
+            margin-bottom: 24px;
+        }
+
+        /* Command table */
+        .cmd-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 16px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--dark-border);
+        }
+
+        .cmd-table thead th {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--green);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 12px 16px;
+            text-align: right;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .cmd-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .cmd-table tbody tr:hover {
+            background: rgba(34, 197, 94, 0.04);
+        }
+
+        .cmd-table tbody td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.95rem;
+            color: var(--gray-300);
+            vertical-align: top;
+        }
+
+        .cmd-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .cmd-table .cmd-cell {
+            direction: ltr;
+            text-align: left;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            color: #79c0ff;
+            white-space: nowrap;
+        }
+
+        .cmd-table .example-cell {
+            direction: ltr;
+            text-align: left;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.82rem;
+            color: var(--gray-400);
+        }
+
+        /* Tip cards */
+        .tip-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .tip-card:hover {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .tip-card-header {
+            padding: 18px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .tip-card-header:hover {
+            color: var(--green);
+        }
+
+        .tip-card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--white);
+        }
+
+        .tip-num {
+            width: 28px;
+            height: 28px;
+            background: rgba(34, 197, 94, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--green);
+            flex-shrink: 0;
+        }
+
+        .tip-arrow {
+            color: var(--gray-600);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .tip-card.open .tip-arrow {
+            transform: rotate(180deg);
+            color: var(--green);
+        }
+
+        .tip-card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .tip-card.open .tip-card-body {
+            max-height: 600px;
+        }
+
+        .tip-card-content {
+            padding: 0 24px 20px;
+            color: var(--gray-300);
+            font-size: 0.95rem;
+            line-height: 1.9;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            direction: ltr;
+            text-align: left;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.88rem;
+            color: #c9d1d9;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-block .comment {
+            color: #8b949e;
+        }
+
+        .code-block .cmd {
+            color: #79c0ff;
+        }
+
+        .code-block .success {
+            color: #3fb950;
+        }
+
+        .code-block .str {
+            color: #a5d6ff;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gray-700);
+            border: 1px solid var(--gray-600);
+            color: var(--gray-300);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .copy-btn:hover {
+            background: var(--green);
+            color: var(--black);
+            border-color: var(--green);
+        }
+
+        /* Bad/Good comparison */
+        .compare-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .compare-bad, .compare-good {
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 0.9rem;
+        }
+
+        .compare-bad {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .compare-good {
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+
+        .compare-label {
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .compare-bad .compare-label { color: var(--red); }
+        .compare-good .compare-label { color: var(--green); }
+
+        /* Keyboard shortcuts */
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .shortcut-item {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.2s ease;
+        }
+
+        .shortcut-item:hover {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .kbd {
+            display: inline-block;
+            background: var(--gray-700);
+            border: 1px solid var(--gray-600);
+            border-radius: 5px;
+            padding: 3px 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--white);
+            direction: ltr;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .shortcut-desc {
+            color: var(--gray-300);
+            font-size: 0.9rem;
+        }
+
+        /* Alert boxes */
+        .alert {
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .alert-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .alert-info .alert-icon { color: var(--blue); }
+        .alert-info p { color: #60a5fa; }
+        .alert-info a { color: #93bbfc; }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .alert-success .alert-icon { color: var(--green); }
+        .alert-success p { color: var(--green); }
+
+        /* Separator */
+        .separator {
+            text-align: center;
+            padding: 40px 0 8px;
+        }
+
+        .separator-line {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .separator-line::before,
+        .separator-line::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to left, transparent, var(--green-dark), transparent);
+        }
+
+        .separator-label {
+            color: var(--green);
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            margin: 32px 0;
+        }
+
+        .cta-banner p {
+            color: var(--white);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .cta-banner .sub {
+            color: var(--gray-400);
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* Footer */
+        .guide-footer {
+            padding: 48px 0 32px;
+            text-align: center;
+        }
+
+        .guide-footer p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        .guide-footer .name {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--green);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .nav-links { gap: 4px; }
+            .nav-link {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+            .section-title { font-size: 1.2rem; }
+            .compare-box { grid-template-columns: 1fr; }
+            .shortcut-grid { grid-template-columns: 1fr; }
+            .cmd-table .example-cell { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-badge">CLAUDE CODE FOR PRODUCT OPS</div>
+            <h1>טיפים <span>ופקודות</span></h1>
+            <p>כל מה שצריך כדי להתחיל לעבוד עם Claude Code - בעמוד אחד.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-bar">
+            <div class="nav-links">
+                <a href="#commands" class="nav-link active">
+                    <span class="icon">&#9000;</span>
+                    <span>פקודות בסיסיות</span>
+                </a>
+                <a href="#shortcuts" class="nav-link">
+                    <span class="icon">&#9875;</span>
+                    <span>קיצורי מקלדת</span>
+                </a>
+                <a href="#tips" class="nav-link">
+                    <span class="icon">&#10024;</span>
+                    <span>טיפים למתחילים</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Essential Commands -->
+        <div id="commands" class="section">
+            <div class="section-header">
+                <div class="section-icon">&#62;</div>
+                <div class="section-title">פקודות בסיסיות</div>
+            </div>
+            <div class="section-desc">
+                הפקודות שתשתמשו בהן כל יום. אלה כל מה שצריך כדי לעבוד עם Claude Code.
+            </div>
+
+            <table class="cmd-table">
+                <thead>
+                    <tr>
+                        <th>פקודה</th>
+                        <th>מה זה עושה</th>
+                        <th>דוגמה</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="cmd-cell">claude</td>
+                        <td>הפעלת מצב אינטראקטיבי - שיחה פתוחה</td>
+                        <td class="example-cell">claude</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">claude "task"</td>
+                        <td>הרצת משימה חד-פעמית</td>
+                        <td class="example-cell">claude "fix the build error"</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">claude -p "query"</td>
+                        <td>שאלה מהירה - מקבלים תשובה ויוצאים</td>
+                        <td class="example-cell">claude -p "explain this function"</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">claude -c</td>
+                        <td>חזרה לשיחה האחרונה באותה תיקייה</td>
+                        <td class="example-cell">claude -c</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">claude -r</td>
+                        <td>המשך שיחה קודמת (בחירה מרשימה)</td>
+                        <td class="example-cell">claude -r</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">claude commit</td>
+                        <td>יצירת Git commit אוטומטית</td>
+                        <td class="example-cell">claude commit</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">/clear</td>
+                        <td>ניקוי היסטוריית השיחה</td>
+                        <td class="example-cell">/clear</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">/help</td>
+                        <td>הצגת כל הפקודות הזמינות</td>
+                        <td class="example-cell">/help</td>
+                    </tr>
+                    <tr>
+                        <td class="cmd-cell">exit / Ctrl+C</td>
+                        <td>יציאה מ-Claude Code</td>
+                        <td class="example-cell">exit</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-info">
+                <div class="alert-icon">&#128161;</div>
+                <p>כל פקודה שמתחילה ב-<strong>/</strong> (כמו /clear או /help) היא פקודת מערכת שמורצת בתוך Claude Code עצמו.</p>
+            </div>
+        </div>
+
+        <!-- Keyboard Shortcuts -->
+        <div id="shortcuts" class="section">
+            <div class="section-header">
+                <div class="section-icon">&#9000;</div>
+                <div class="section-title">קיצורי מקלדת</div>
+            </div>
+            <div class="section-desc">
+                קיצורים שחוסכים זמן ועוזרים לנווט מהר יותר.
+            </div>
+
+            <div class="shortcut-grid">
+                <div class="shortcut-item">
+                    <span class="kbd">?</span>
+                    <span class="shortcut-desc">הצגת כל קיצורי המקלדת</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="kbd">Tab</span>
+                    <span class="shortcut-desc">השלמה אוטומטית של פקודות</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="kbd">&#8593;</span>
+                    <span class="shortcut-desc">היסטוריית פקודות קודמות</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="kbd">/</span>
+                    <span class="shortcut-desc">הצגת כל הפקודות והסקילים</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="kbd">Ctrl+C</span>
+                    <span class="shortcut-desc">עצירת פעולה / יציאה</span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="kbd">Esc</span>
+                    <span class="shortcut-desc">ביטול ההודעה הנוכחית</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separator -->
+        <div class="separator">
+            <div class="separator-line">
+                <span class="separator-label">טיפים למתחילים</span>
+            </div>
+        </div>
+
+        <!-- Pro Tips -->
+        <div id="tips" class="section" style="padding-top: 16px;">
+            <div class="section-header">
+                <div class="section-icon">&#10024;</div>
+                <div class="section-title">טיפים שישדרגו את העבודה</div>
+            </div>
+            <div class="section-desc">
+                שבעה טיפים שיעזרו לכם לקבל תוצאות טובות יותר מ-Claude Code כבר מהיום הראשון.
+            </div>
+
+            <!-- Tip 1: Be specific -->
+            <div class="tip-card open">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">1</span>
+                        <span>היו ספציפיים בבקשות</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        ככל שהבקשה שלכם יותר מדויקת, התוצאה תהיה יותר טובה.
+                        <div class="compare-box">
+                            <div class="compare-bad">
+                                <span class="compare-label">&#10007; פחות טוב</span>
+                                "fix the bug"
+                            </div>
+                            <div class="compare-good">
+                                <span class="compare-label">&#10003; הרבה יותר טוב</span>
+                                "fix the login bug where users see a blank screen after entering wrong credentials"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 2: Step by step -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">2</span>
+                        <span>פרקו משימות מורכבות לשלבים</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        במקום לתת משימה גדולה אחת, פרקו אותה לצעדים ברורים. למשל, בניית פיצ'ר שלם בצעדים:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+1. create a new database table for user profiles
+2. create an API endpoint to get and update user profiles
+3. build a webpage that allows users to see and edit their information</div>
+                        Claude Code ידע לעבוד על כל שלב בנפרד ולוודא שהכל מתחבר.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 3: Let Claude explore first -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">3</span>
+                        <span>תנו ל-Claude לחקור קודם</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        לפני שמבקשים שינויים, תנו ל-Claude להבין את הקוד. קודם - הבנה:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+analyze the database schema</div>
+                        ואז - ביצוע:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+build a dashboard showing products that are most frequently returned by our UK customers</div>
+                        כשClaude מבין את המבנה קודם, הפתרונות שלו הרבה יותר מדויקים.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 4: Shortcuts -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">4</span>
+                        <span>דברו איתו כמו עם קולגה</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        אין צורך בפקודות מיוחדות או בשפה טכנית. פשוט תארו מה אתם רוצים בשפה טבעית. דוגמאות לבקשות טבעיות:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+what files have I changed?</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+commit my changes with a descriptive message</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+add input validation to the user registration form</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+review my changes and suggest improvements</div>
+                        Claude Code מבין הקשר, כוונה, ושפה טבעית - לא צריך לדבר איתו ב"שפת מכונה".
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 5: Skip permissions -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">5</span>
+                        <span>תנו לו יד חופשית - דילוג על אישורים</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        כברירת מחדל, Claude Code עוצר ומבקש אישור לפני כל פעולה (עריכת קובץ, הרצת פקודה וכו'). אפשר לשחרר אותו לרוץ קדימה - הפעלה במצב "ללא עצירות":
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+claude --dangerously-skip-permissions</div>
+                        <div class="alert alert-info" style="margin-top: 12px;">
+                            <div class="alert-icon">&#128161;</div>
+                            <p>הפלאג הזה מדלג על <strong>כל</strong> בקשות האישור. מומלץ להשתמש בו רק כשאתם עובדים על פרויקט אישי ולא על production.</p>
+                        </div>
+                        אם אתם באמצע שיחה וקיבלתם בקשת אישור, אפשר גם פשוט ללחוץ על <strong style="color: var(--white);">a</strong> (always allow) כדי לאשר את כל הפעולות מאותו סוג לכל הסשן.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 6: Terminal auto-launch -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">6</span>
+                        <span>הטרמינל נפתח ישר על Claude Code</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        נמאס לכם להקליד <code style="color: #79c0ff;">claude</code> בכל פעם שאתם פותחים טרמינל? אפשר להגדיר שהוא ייפתח אוטומטית.
+                        <br><br>
+                        <strong style="color: var(--white);">Mac - הוסיפו שורה אחת לסוף הקובץ ~/.zshrc:</strong>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+echo 'claude' >> ~/.zshrc</div>
+                        <strong style="color: var(--white);">או - פרופיל ייעודי ב-Terminal של Mac:</strong>
+                        <div style="margin: 8px 0; padding: 12px 16px; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 10px; color: var(--gray-300); font-size: 0.92rem; line-height: 1.8;">
+                            1. פתחו Terminal &#8594; Settings &#8594; Profiles<br>
+                            2. צרו פרופיל חדש בשם "Claude Code"<br>
+                            3. בלשונית Shell, בשדה "Run command" הכניסו: <code style="color: #79c0ff;">claude</code><br>
+                            4. הגדירו את הפרופיל הזה כברירת מחדל
+                        </div>
+                        <strong style="color: var(--white);">Windows - הוסיפו פרופיל ב-Windows Terminal:</strong>
+                        <div style="margin: 8px 0; padding: 12px 16px; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 10px; color: var(--gray-300); font-size: 0.92rem; line-height: 1.8;">
+                            1. פתחו Windows Terminal &#8594; Settings &#8594; Add new profile<br>
+                            2. בשדה Command line הכניסו: <code style="color: #79c0ff;">claude</code><br>
+                            3. הגדירו כ-Default profile
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 7: claude-code-guide for skills -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">7</span>
+                        <span>תתייעצו עם Claude לפני שבונים סקיל</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        סקילים (Skills) הם "מתכונים" שאתם מלמדים את Claude Code - הוראות ארוזות שהוא מפעיל עם פקודה אחת. לפני שבונים סקיל חדש, פשוט שאלו אותו ישירות:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+how do I create a custom skill?</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+what are skills and how do I use them?</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+can you help me build a skill that does X?</div>
+                        ל-Claude Code יש מדריך מובנה (claude-code-guide) שיודע להסביר בדיוק איך בונים סקילים, מה המבנה הנכון, ואיך מפעילים אותם. אתם פשוט שואלים - והוא מלמד אתכם.
+                        <div class="alert alert-success" style="margin-top: 12px;">
+                            <div class="alert-icon">&#9889;</div>
+                            <p>הכלל: כל פעם שאתם לא יודעים איך לעשות משהו ב-Claude Code - פשוט <strong>תשאלו אותו</strong>. הוא יודע להסביר על עצמו.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-banner">
+            <p>מוכנים להתחיל?</p>
+            <div class="sub">הפקודות והטיפים האלה הם כל מה שצריך כדי לעבוד עם Claude Code ביום-יום.</div>
+        </div>
+
+        <!-- Back to installation -->
+        <div class="alert alert-success" style="justify-content: center; text-align: center;">
+            <p>עוד לא התקנתם? <a href="installation-guide.html" style="color: var(--green); font-weight: 700; text-decoration: underline;">חזרו למדריך ההתקנה</a></p>
+        </div>
+
+        <!-- Footer -->
+        <div class="guide-footer">
+            <p class="name">Claude Code for Product Ops</p>
+            <p>הוכן על ידי חמי בן-לביא</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleTip(header) {
+            const card = header.closest('.tip-card');
+            card.classList.toggle('open');
+        }
+
+        function copyCode(btn) {
+            const block = btn.closest('.code-block');
+            const text = block.textContent.replace('העתק', '').trim();
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'הועתק!';
+                btn.style.background = 'var(--green)';
+                btn.style.color = 'var(--black)';
+                btn.style.borderColor = 'var(--green)';
+                setTimeout(() => {
+                    btn.textContent = 'העתק';
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.style.borderColor = '';
+                }, 2000);
+            });
+        }
+
+        // Active nav highlight on scroll
+        const sections = document.querySelectorAll('.section, .separator');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 80;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id') || 'tips';
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
