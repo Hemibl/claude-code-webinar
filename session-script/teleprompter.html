@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סקריפט מפגש</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.9;
+    padding: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    background: #16213e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    border: 1px solid #0f3460;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header h1 {
+    font-size: 22px;
+    color: #e94560;
+    margin-bottom: 8px;
+  }
+
+  .header .meta {
+    font-size: 14px;
+    color: #8892b0;
+  }
+
+  .nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .nav a {
+    background: #0f3460;
+    color: #64ffda;
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .nav a:active { background: #e94560; }
+
+  .section {
+    background: #16213e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border-right: 4px solid #0f3460;
+  }
+
+  .section h2 {
+    color: #64ffda;
+    font-size: 20px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #0f3460;
+  }
+
+  .section h3 {
+    color: #e94560;
+    font-size: 17px;
+    margin: 20px 0 10px 0;
+  }
+
+  .stage-direction {
+    color: #8892b0;
+    font-size: 15px;
+    font-style: italic;
+    margin: 8px 0;
+  }
+
+  .say {
+    background: #0a0a1a;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px 0;
+    border-right: 3px solid #64ffda;
+    font-size: 19px;
+    line-height: 2;
+    color: #fff;
+  }
+
+  .type-prompt {
+    background: #0d2137;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px 0;
+    border-right: 3px solid #e94560;
+    font-family: 'Menlo', 'Courier New', monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #ccd6f6;
+    direction: ltr;
+    text-align: left;
+    white-space: pre-wrap;
+  }
+
+  .backup {
+    background: #2d1a1a;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px 0;
+    border-right: 3px solid #ff6b6b;
+  }
+
+  .backup h3 { color: #ff6b6b; }
+
+  .checklist {
+    background: #1a2d1a;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px 0;
+  }
+
+  .checklist label {
+    display: block;
+    padding: 8px 0;
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #0f3460;
+  }
+
+  .checklist input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
+  .checklist label:has(input:checked) {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .font-controls {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .font-controls button {
+    background: #0f3460;
+    color: #64ffda;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .font-controls button:active { background: #e94560; }
+
+  hr { border: none; border-top: 1px solid #0f3460; margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>סקריפט מפגש - Claude Code For Product Ops</h1>
+  <div class="meta">25.3.2026 | 21:00-22:30 | Microsoft Teams</div>
+  <div class="nav">
+    <a href="#part1">1. פתיחה</a>
+    <a href="#part2">2. וואו ראשון</a>
+    <a href="#part3">3. הבסיס</a>
+    <a href="#part4">4. דמו מרכזי</a>
+    <a href="#part5">5. דמו מוגמר</a>
+    <a href="#part6">6. סגירה</a>
+    <a href="#backup">גיבוי</a>
+    <a href="#checklist">צ'קליסט</a>
+  </div>
+</div>
+
+<!-- PART 1 -->
+<div class="section" id="part1">
+  <h2>חלק 1: פתיחה (דקות 0-10)</h2>
+
+  <h3>דקות 0-2: פתיחה חמה</h3>
+  <div class="stage-direction">מה על המסך: סלייד פתיחה</div>
+  <div class="say">
+    "ערב טוב לכולם, תודה שהצטרפתם. אני חמי בן לביא, Head of Product Operations ב-200Apps.<br><br>
+    לפני שנתחיל - 82 אנשים נרשמו למפגש הזה. מ-54 חברות שונות. SolarEdge, Palo Alto, Monday, Orca Security, Armis, Fireblocks, EL AL... הרשימה מטורפת.<br><br>
+    ואני חייב להגיד - זה לא מובן מאליו. בהתראה כל כך קצרה, בתקופה כל כך משוגעת - אזעקות, טילים, מילואים, ילדים בלי מסגרות, וערב חג הפסח שמתקרב אלינו... אז באמת תודה. ואני מקווה שהערב הזה יהיה שקט, ובעיקר שיתן לכם ערך משמעותי, בעבודה בפרט ובחיים בכלל."
+  </div>
+
+  <h3>דקות 2-5: הסיפור שלי</h3>
+  <div class="stage-direction">מה על המסך: אופציונלי - תמונה/סלייד פשוט</div>
+  <div class="say">
+    "אז מי אני. נשוי + שלושה ילדים מתוקים, הרקע שלי זה ניהול, בעבר עסקתי בצילום, קולנוע, עם רקע UI/UX, ניהול פרויקטים. ואני עף מכל מה שקורה עם הבינה המלאכותית בשלושת השנים האחרונות. מי לא?!<br><br>
+    לפני כ-חודשיים התחלתי להרגיש נקישות בעורף בכל מה שקשור ל-Claude Code. בהתחלה נקישות קלות, שעם הזמן הלכו והתגברו. אבל האמת? נרתעתי מזה. כי יש לו שם בעייתי - קוד. מה קשור אלי קוד? אני לא בקטע. אני אחלה בתור מנהל - נתונים, אנשים, אתגרים, חידושים, בכיף. אבל קוד? זה לא אני.<br><br>
+    עד שהגיע הרגע שאמרתי לעצמי חלאס, אני חייב להבין את האירוע הזה. והשאר היסטוריה... התאהבתי, ואת יעובד עם קלוד קוד, בלי הפסקה.<br><br>
+    ואמרתי לעצמי ביום... שני, ממש בהסח הדעת - מעניין אם בקבוצה של Program Ops, שדנית מנהלת אותה ברגישות וביד רמה, החבר'ה מכירים Claude Code? באמת שאלה שעלתה לי בראש בלי מחשבה. וגם הרצון לכתוב את ההודעה בקבוצה היה בלי מחשבה. בחיי שיריתי מהמותן.<br><br>
+    וכמו שאנחנו רואים - יש ביקוש, יש עניין. הופתעתי. ושמחתי על ההזדמנות לתת מהידע והנסיון שלי עבורכם, אז בואו נתחיל."
+  </div>
+
+  <h3>דקות 5-8: מה מחכה לנו הערב</h3>
+  <div class="stage-direction">מה על המסך: אג'נדה</div>
+  <div class="say">
+    "מה מחכה לנו הערב:<br>
+    1. נתחיל בדמו קצר - רק להרגיש את היכולת של Claude Code<br>
+    2. הבנה בסיסית של קלוד קוד<br>
+    3. טיפים חשובים - הדברים שאני רוצה שתדעו לפני שמתחילים<br>
+    4. דמו מרכזי Live - נבנה ביחד משהו מאפס, לעיניכם, מבריף - לתוצאה<br>
+    5. דמו מוגמר - מראה תוצאות אמיתיות שבניתי עם Claude Code<br>
+    6. שאלות ותשובות<br><br>
+    שימו לב - אני לא מתכנת כאן. אני מקליד בשפה חופשית, בדיוק כמו שאני מדבר עם עובד חדש."
+  </div>
+
+  <h3>דקות 8-10: הכאב שלנו</h3>
+  <div class="stage-direction">מה על המסך: סלייד/שקף עם הנתונים מהטופס</div>
+  <div class="say">
+    "לפני שנצלול - קראתי את כל מה שכתבתם בטופס ההרשמה.<br>
+    שאלתי אתכם: מה גוזל לכם הכי הרבה זמן?<br>
+    הנה מה שעלה:<br>
+    - מעקב ידני ומשימות - 20 אנשים כתבו את זה<br>
+    - סנכרון בין צוותים - 18<br>
+    - דוחות ודשבורדים - 13<br>
+    - מצגות ומסמכים - 9<br><br>
+    מוכר? אני בטוח שכן. בואו נראה מה אפשר לעשות עם זה."
+  </div>
+</div>
+
+<!-- PART 2 -->
+<div class="section" id="part2">
+  <h2>חלק 2: וואו ראשון - סידור תיקייה (דקות 10-20)</h2>
+
+  <h3>דקות 10-12: הצגת הבעיה</h3>
+  <div class="stage-direction">מה על המסך: תיקיית Downloads מבולגנת</div>
+  <div class="say">
+    "בואו נתחיל ממשהו שכולנו מכירים.<br>
+    הנה תיקיית ההורדות שלי. [מראה את התיקייה]<br>
+    מבולגן, נכון? PDFs, תמונות, CSVs, מסמכים - הכל מעורבב.<br>
+    בואו נראה מה קורה כשאני מבקש מ-Claude לסדר."
+  </div>
+
+  <h3>דקות 12-17: הדמו החי</h3>
+  <div class="stage-direction">מה על המסך: טרמינל עם Claude Code פתוח בתיקיית Downloads</div>
+  <div class="type-prompt">תסתכל על התיקייה הזאת, תבין מה יש פה, ותסדר את הכל לתיקיות לפי נושא. תעשה את זה בלי לשאול אותי שאלות.</div>
+  <div class="say">
+    "שימו לב מה קורה - Claude קודם כל סורק את כל הקבצים, מבין מה כל קובץ, ואז מחליט איך לארגן.<br>
+    הוא לא שואל אותי - הוא פשוט עושה.<br>
+    [כשמסיים] בואו נראה מה יצא... [פותח את התיקייה]<br>
+    תיקיות מסודרות, שמות הגיוניים. תוך כמה? דקה? שתיים?"
+  </div>
+
+  <h3>דקות 17-20: הנקודה</h3>
+  <div class="stage-direction">מה על המסך: התיקייה המסודרת</div>
+  <div class="say">
+    "עכשיו, סידור תיקייה זה לא מה שהולך לשנות לכם את החיים.<br>
+    אבל שימו לב מה קרה פה:<br>
+    1. נתתי הוראה בעברית, בשפה חופשית<br>
+    2. Claude הבין מה אני רוצה<br>
+    3. הוא עבד על הקבצים האמיתיים שלי<br>
+    4. תוך דקה - תוצאה<br><br>
+    עכשיו דמיינו את זה על דוחות. על מעקב משימות. על מצגות.<br>
+    זה מה שנעשה עכשיו."
+  </div>
+</div>
+
+<!-- PART 3 -->
+<div class="section" id="part3">
+  <h2>חלק 3: הבסיס - טיפים פרקטיים (דקות 20-30)</h2>
+
+  <h3>דקות 20-24: CLAUDE.md - המפתח</h3>
+  <div class="stage-direction">מה על המסך: ה-CLAUDE.md האמיתי של חמי (חלקי) + דוגמה נקייה</div>
+  <div class="say">
+    "לפני שנצלול לדמו הגדול, יש כמה דברים שחשוב שתדעו.<br>
+    הדבר הכי חשוב ב-Claude Code הוא קובץ שנקרא CLAUDE.md.<br>
+    זה כמו מסמך הכשרה לעובד חדש. אתם כותבים בו: מי אתם, מה אתם עושים, איך אתם אוהבים לעבוד.<br><br>
+    [מראה את ה-CLAUDE.md שלו]<br>
+    הנה שלי. כתוב פה שאני Head of Product Ops, שאני עובד עם Jira ו-Confluence, שאני רוצה תשובות בעברית.<br>
+    ברגע שהקובץ הזה קיים - Claude מכיר אתכם. כל פעם שתפתחו את הכלי, הוא כבר יודע מי אתם.<br><br>
+    [מראה דוגמה נקייה]<br>
+    הנה דוגמה פשוטה למי שמתחיל - שם, תפקיד, כלים שאני עובד איתם, שפה מועדפת. זה הכל. מפה מתחילים."
+  </div>
+
+  <h3>דקות 24-26: מודלים שונים</h3>
+  <div class="stage-direction">מה על המסך: טבלה פשוטה של 3 מודלים</div>
+  <div class="say">
+    "טיפ שני - יש 3 מודלים:<br>
+    - Opus - החזק, לדברים מורכבים. יקר יותר, לוקח יותר זמן, אבל התוצאות מדהימות<br>
+    - Sonnet - המאוזן, לרוב המשימות. מהיר, חכם, מספיק טוב ל-90% מהמקרים<br>
+    - Haiku - הזול, לדברים קטנים וזריזים<br><br>
+    אתם לא צריכים לזכור את זה עכשיו. רק תדעו שאפשר לשנות מודל לפי הצורך."
+  </div>
+
+  <h3>דקות 26-28: טרמינלים מקבילים</h3>
+  <div class="stage-direction">מה על המסך: 2 חלונות טרמינל אחד ליד השני</div>
+  <div class="say">
+    "טיפ שלישי - ואחד מהחזקים:<br>
+    אפשר לפתוח כמה חלונות של Claude Code במקביל.<br>
+    בזמן ש-Claude בונה לי דשבורד בחלון אחד, אני יכול לבקש ממנו לכתוב מייל בחלון שני.<br>
+    זה כאילו יש לכם שני עוזרים שעובדים בו-זמנית."
+  </div>
+
+  <h3>דקות 28-30: סקילים ותוספים</h3>
+  <div class="stage-direction">מה על המסך: דוגמה של סקיל / תוסף Chrome</div>
+  <div class="say">
+    "וטיפ אחרון - יש עולם שלם של תוספות:<br>
+    סקילים - יכולות ארוזות שאפשר להוסיף. למשל סקיל ששולח מיילים, סקיל שעובד עם הלוח שנה, סקיל שמפרסם בלינקדאין.<br>
+    ויש תוסף Chrome שנותן ל-Claude לראות ולעבוד בדפדפן שלכם.<br>
+    לא ניכנס לזה היום לעומק, אבל חשוב שתדעו - הכלי הזה הרבה יותר מ'כתוב לי קוד'."
+  </div>
+</div>
+
+<!-- PART 4 -->
+<div class="section" id="part4">
+  <h2>חלק 4: דמו מרכזי חי - Portfolio Health Dashboard (דקות 30-57)</h2>
+
+  <h3>דקות 30-31:30 - הסיפור</h3>
+  <div class="stage-direction">עדיין על מצלמה/שקפים</div>
+  <div class="say">
+    "לפני שאני מראה לכם את הדמו, בואו נדבר על הכאב.<br><br>
+    כל מי שמנהל פרויקטים מכיר את הרגע הזה - יום ראשון בבוקר, יש ישיבת הנהלה, ואתם צריכים תמונת מצב של כל הפרויקטים.<br><br>
+    אז מה עושים? נכנסים ל-Jira, מייצאים CSV. פותחים את ההערות מהישיבה השבועית. ומתחילים לבנות את הסטטוס ידנית. אקסל, פאוורפוינט, גוגל שיטס - לא משנה. זה לוקח שעה. שעה וחצי. לפעמים שעתיים.<br><br>
+    היום אני אראה לכם איך עושים את זה ב-10 דקות. בלי לכתוב שורת קוד אחת."
+  </div>
+
+  <h3>דקות 31:30-33:00 - מראים את הבלאגן</h3>
+  <div class="stage-direction">שיתוף מסך: תיקיית webinar-demo עם 2 הקבצים</div>
+  <div class="say">
+    "הנה מה שיש לי. שני קבצים. בדיוק כמו שיש לכם.<br><br>
+    [פותחים את ה-CSV לרגע]<br>
+    אקספורט מ-Jira - 35 סטוריז מ-4 פרויקטים שונים. שדות בכל מקום. שמות פרויקטים, סטטוסים, אנשי צוות... תנסו להבין מזה מה המצב של הפרויקטים שלכם. בהצלחה.<br><br>
+    [פותחים את קובץ הטקסט]<br>
+    וזה סיכום ישיבה שבועית. הערות של מישהי מהצוות. 'אמית מתוסכל', 'הביקורת הביטחונית עדיין לא נקבעה עם שלושה סימני שאלה', 'רן רוצה דשבורד עד סוף החודש עם סימני קריאה'...<br><br>
+    אתם מכירים את זה. כולנו שם.<br>
+    עכשיו תראו מה קורה."
+  </div>
+
+  <h3>דקות 33:00-33:30 - פותחים Claude Code</h3>
+  <div class="say">
+    "אני פותח את Claude Code. זה טרמינל - זה נראה קצת טכני, אבל שימו לב: אני לא כותב קוד. אני כותב בשפה אנושית. באנגלית פשוטה."
+  </div>
+
+  <h3>דקות 33:30-35:00 - פקודה #1 (הגדולה)</h3>
+  <div class="type-prompt">Read the 2 files in this folder - a Jira CSV export and team meeting notes.
+Analyze story quality across all projects based on the 7 Perfect Story criteria:
+User Story format, Description, Business Objectives, Acceptance Criteria,
+Edge Cases, Design/Figma links, and Dependencies.
+
+Build an interactive HTML dashboard with:
+- Score cards per project with doughnut chart (0-10 scale)
+- Criteria heatmap showing strengths and weaknesses
+- Insights: What's Working Well + What Needs Improvement
+- Top 3 Recommended Actions
+- Dark theme, modern design, professional look
+
+Save as dashboard.html and open it in the browser.</div>
+
+  <div class="say">
+    "בזמן שהוא עובד, שימו לב למה שקורה פה.<br><br>
+    הוא קודם כל קורא את הקבצים - את ה-CSV ואת סיכום הישיבה. עכשיו הוא מנתח את כל 35 הסטוריז, בודק כל אחד מול 7 קריטריונים. ועכשיו הוא בונה דשבורד HTML מאפס.<br><br>
+    אני לא כתבתי שורת קוד אחת. אני תיארתי מה אני רוצה, והוא בונה.<br><br>
+    דרך אגב - אני לא מפתח. אני Head of Product Ops. אני לא יודע לכתוב פייתון או ג'אווהסקריפט. אני יודע לתאר מה אני צריך. וזה מספיק.<br><br>
+    אתם רואים שהוא כותב קוד - HTML, CSS, JavaScript. אני לא צריך להבין את מה שהוא כותב. אני צריך להבין את מה שהוא מייצר."
+  </div>
+
+  <h3>דקות 38:00-42:00 - רגע WOW #1: הדשבורד</h3>
+  <div class="stage-direction">הדשבורד נפתח בדפדפן - גוללים לאט</div>
+  <div class="say">
+    "בום. הנה הדשבורד.<br><br>
+    כרטיסי ציון לכל פרויקט - Payments V2 מקבל ציון כזה, Mobile App ציון כזה...<br><br>
+    [מצביעים על ה-heatmap]<br>
+    מפת חום שמראה בדיוק איפה החולשות. ירוק זה מצוין, אדום זה בעייתי. תסתכלו על CRM - רואים שה-Acceptance Criteria חלש? זה אומר שסטוריז נכנסים לספרינט בלי שברור מה ה-definition of done.<br><br>
+    [מצביעים על ה-insights]<br>
+    ותובנות אוטומטיות - הוא מזהה שצוות Payments עושה עבודה מצוינת בתיעוד, אבל ב-CRM יש בעיה. ושלוש המלצות ממוקדות - מה לעשות, איפה, ומה ההשפעה.<br><br>
+    את כל זה - בניתי עכשיו. מול העיניים שלכם. לא הכנתי מראש. מנתונים גולמיים לדשבורד מקצועי ב-7 דקות."
+  </div>
+  <div class="stage-direction">[עוצרים. שקט. נותנים לתגובה לקרות.]</div>
+
+  <h3>דקות 42:00-43:00 - מעבר לפקודה #2</h3>
+  <div class="say">
+    "טוב, אז יש לנו דשבורד איכות סטוריז. מרשים. אבל שמתם לב שב-CSV יש גם סטטוסים, סוגי טיקטים, ספרינטים, story points...<br><br>
+    מה אם נבקש עוד שכבה של ניתוח? בואו ננסה."
+  </div>
+
+  <h3>דקות 43:00-44:00 - פקודה #2</h3>
+  <div class="type-prompt">Great dashboard. Now add a "Portfolio Insights" section below the existing content.
+The CSV has sprint data, story points, and issue types.
+Analyze and show:
+- Sprint velocity per project (committed vs delivered)
+- Bug ratio (bugs vs features per project)
+- Scope stability (how many items were added mid-sprint)
+- Blockers summary from meeting notes
+
+Use charts where it makes sense. Keep the same dark design style.</div>
+
+  <div class="say">
+    "שימו לב - אני לא צריך לבנות דשבורד חדש. אני מוסיף על מה שיש. זה כמו לדבר עם עמית עבודה: 'יפה, עכשיו תוסיף לי גם את זה.'<br><br>
+    וזה מה שהופך את Claude Code למשהו אחר לגמרי מצ'אט רגיל. זה לא פרומפט חד פעמי. זו שיחה. בונים שכבה על שכבה. כל פקודה מוסיפה על מה שכבר קיים."
+  </div>
+
+  <h3>דקות 47:00-50:00 - רגע WOW #2: שכבת ה-Portfolio</h3>
+  <div class="stage-direction">גוללים לחלק החדש</div>
+  <div class="say">
+    "הנה - עכשיו יש לנו גם velocity, יחס באגים, יציבות scope.<br><br>
+    [מצביעים על תובנה ספציפית]<br>
+    תראו - ב-CRM, 3 מתוך 7 טיקטים הם באגים ותיקוני compliance, לא פיצ'רים. זה סיפור שלם. מנהל המוצר של CRM מתמודד עם חוב טכני שאוכל לו את ה-velocity.<br><br>
+    זה בדיוק הסוג של תובנה שלוקח שעה לחפור ב-Jira, ופה זה פשוט מוצג לך מול העיניים."
+  </div>
+
+  <h3>דקות 50:00-51:00 - מעבר לפינאלה</h3>
+  <div class="say">
+    "עד עכשיו הראיתי לכם דשבורד ויזואלי. יפה, מרשים. אבל מה קורה כשהמנהל שלכם שואל שאלה ספציפית שהדשבורד לא מראה?<br><br>
+    'כמה סטוריז בלי acceptance criteria יש ב-Payments?'<br>
+    'מי האיש צוות הכי עמוס?'<br>
+    'מה החסימות הכי דחופות?'<br><br>
+    בדרך כלל - חוזרים ל-Jira, מפלטרים, מייצאים, סופרים. אז בואו ננסה משהו אחר."
+  </div>
+
+  <h3>דקות 51:00-52:00 - פקודה #3 (ה-Mic Drop)</h3>
+  <div class="type-prompt">Add an "Ask Your Data" section at the bottom. A search box where I can type
+questions in natural language about the project data, and get instant answers.
+Include some example question buttons. Support both English and Hebrew questions.</div>
+
+  <h3>דקות 54:00-56:00 - רגע WOW #3: Ask Your Data (חי!)</h3>
+  <div class="stage-direction">החלק מופיע עם תיבת חיפוש</div>
+  <div class="say">"עכשיו - בואו ננסה בזמן אמת."</div>
+
+  <div class="type-prompt">Which projects are missing acceptance criteria?</div>
+  <div class="stage-direction">מראים את התשובה. אז מקלידים עוד:</div>
+  <div class="type-prompt">What are the biggest blockers across all projects?</div>
+
+  <div class="say">
+    "אתם רואים? שואלים שאלה בשפה טבעית - ומקבלים תשובה מיידית. בלי פילטרים ב-Jira. בלי SQL. בלי שום דבר טכני.<br><br>
+    וזה עובד גם בעברית, אגב."
+  </div>
+  <div class="type-prompt">סטוריז בלי עיצוב</div>
+  <div class="stage-direction">מראים את התשובה. נותנים לזה לשקוע.</div>
+
+  <h3>דקות 56:00-57:00 - נחיתה מהדמו</h3>
+  <div class="say">
+    "בואו נסכם מה עשינו פה.<br><br>
+    התחלנו עם שני קבצים - CSV מבולגן מ-Jira וסיכום ישיבה. שלוש פקודות. בשפה אנושית. בלי קוד.<br><br>
+    והתוצאה? כלי BI אינטראקטיבי עם ציוני פרויקטים, מפת חום, תובנות אוטומטיות, ניתוח velocity, ושאילתות בשפה טבעית.<br><br>
+    ומה שחשוב שתזכרו - את זה אני עושה כל שבוע. זה לא טריק לוובינר. זה הכלי שלי. ככה אני עובד.<br><br>
+    ואני לא מפתח. אני בדיוק כמוכם."
+  </div>
+</div>
+
+<!-- PART 5 -->
+<div class="section" id="part5">
+  <h2>חלק 5: דמו מוגמר (דקות 57-70)</h2>
+
+  <h3>דקות 57-62: דשבורד Upstream Health Check</h3>
+  <div class="stage-direction">מה על המסך: הדשבורד האמיתי</div>
+  <div class="say">
+    "מה שהראיתי עכשיו זה בנייה מאפס. אבל אני רוצה להראות גם תוצאות אמיתיות מהעבודה שלי.<br>
+    [פותח את הדשבורד]<br>
+    זה דשבורד שבניתי עם Claude Code. הוא מושך נתונים חיים מ-Jira, מציג סטטוס של 8 פרויקטים, עם ציונים ואינדיקטורים.<br>
+    לפני Claude Code - הייתי צריך מפתח או לפחות מישהו שיודע JavaScript.<br>
+    עכשיו? אני מקליד בריף, Claude בונה, אני נותן פידבק, הוא משפר. הכל בשיחה."
+  </div>
+
+  <h3>דקות 62-67: דוח ניתוח הנרשמים (רגע מטא)</h3>
+  <div class="stage-direction">מה על המסך: דוח ניתוח הנרשמים</div>
+  <div class="say">
+    "ועכשיו - הדבר האהוב עליי.<br>
+    [פותח את דוח הנרשמים]<br>
+    הדוח הזה? הוא נבנה עם Claude Code. מהנתונים שלכם.<br>
+    לקחתי את ה-CSV של ההרשמות, נתתי ל-Claude, וביקשתי ממנו לנתח.<br>
+    75 נרשמים, 49 חברות, פילוח לפי תפקידים, ניסיון, נקודות כאב...<br>
+    הגרפים, הצבעים, המיקרואינטרקציות - הכל Claude.<br>
+    זוכרים שבהתחלה הראיתי לכם את הנתונים מהטופס? פה הם.<br><br>
+    ואגב - הסלייד עם '20 אנשים כתבו מעקב ידני' שהראיתי בפתיחה? גם הוא הגיע מהדוח הזה."
+  </div>
+
+  <h3>דקות 67-70: מסקנה</h3>
+  <div class="say">
+    "שני הדשבורדים האלה - Jira integration ו-CSV analysis - מראים את אותו דבר:<br>
+    אתה לוקח נתונים גולמיים, נותן ל-Claude בריף, ומקבל כלי עבודה מוכן.<br>
+    בלי מפתח. בלי Looker. בלי Power BI. בלי שבועיים של פיתוח."
+  </div>
+</div>
+
+<!-- PART 6 -->
+<div class="section" id="part6">
+  <h2>חלק 6: סגירה + Q&A (דקות 70-90)</h2>
+
+  <h3>דקות 70-75: מה עוד אפשר</h3>
+  <div class="stage-direction">מה על המסך: סלייד סיכום</div>
+  <div class="say">
+    "מה שהראיתי היום זה רק קצה הקרחון:<br>
+    - אוטומציית דפדפן - Claude יכול ללחוץ על כפתורים, למלא טפסים, לגרד מידע<br>
+    - חיבור ל-Jira, Confluence, Google Calendar<br>
+    - שליחת מיילים ו-WhatsApp אוטומטית<br>
+    - בניית מצגות, דוחות, ניתוחי נתונים<br>
+    - סוכנים שרצים בלוח זמנים - כל בוקר בשמונה Claude מכין לכם סיכום<br><br>
+    הכל בלי קוד. בעברית. מהטרמינל."
+  </div>
+
+  <h3>דקות 75-78: CTA</h3>
+  <div class="stage-direction">מה על המסך: סלייד עם QR/לינקים</div>
+  <div class="say">
+    "לפני שפותח שאלות - כמה דברים:<br><br>
+    <strong>1. קבוצת ווצאפ</strong> - יש קבוצה להמשך. טיפים, שאלות, עזרה הדדית. הלינק בצ'אט.<br><br>
+    <strong>2. מפגש המשך</strong> - אם אתם רוצים ללכלך את הידיים - אני מתכנן מפגש hands-on, קטן יותר, שבו כל אחד מביא use case אמיתי מהעבודה ואנחנו בונים ביחד.<br><br>
+    <strong>3. ייעוץ אישי</strong> - אם אתם רוצים לחשוב איך להטמיע AI בצוות שלכם, אפשר לקבוע שיחה קצרה. לא מכירה - שיחת חשיבה.<br><br>
+    החומרים שלנו - מדריך ההתקנה, הצ'יט שיט, הלינקים - הכל בצ'אט."
+  </div>
+
+  <h3>דקות 78-88: Q&A</h3>
+  <div class="stage-direction">טרמינל פתוח (למקרה שצריך להדגים תשובה)</div>
+  <div class="say">"בואו נפתח לשאלות. מי שרוצה - כותב בצ'אט."</div>
+
+  <h3>שאלות צפויות:</h3>
+
+  <div class="say">
+    <strong>"מה ההבדל בין Claude Code ל-Cowork?"</strong><br>
+    "Cowork זה כמו לדבר עם Claude - שואלים שאלות, מקבלים תשובות טקסט. Claude Code זה סוכן שעובד על הקבצים שלכם בפועל. הוא קורא, מנתח, יוצר ובונה. תחשבו על Cowork כשותף לשיחה ועל Claude Code כעוזר שיושב מול מחשב ועושה את העבודה."
+  </div>
+
+  <div class="say">
+    <strong>"כמה זה עולה?"</strong><br>
+    "יש מנוי חודשי. אני אשתף פרטים בהודעת הפולואפ. ה-ROI מבחינתי ברור - מה שהיה לוקח שעות עכשיו לוקח דקות."
+  </div>
+
+  <div class="say">
+    <strong>"זה עובד על Windows?"</strong><br>
+    "כן, יש מדריך התקנה גם ל-Windows. שלחתי אתכם מדריך לפני המפגש - הוא כולל Mac ו-Windows."
+  </div>
+
+  <div class="say">
+    <strong>"אפשר לחבר את זה ישירות ל-Jira?"</strong><br>
+    "כן! מה שהראיתי היום השתמש באקספורט CSV בשביל הפשטות, אבל בעבודה היומיומית שלי אני מחבר את Claude Code ישירות ל-Jira דרך API. הוא מושך נתונים בזמן אמת."
+  </div>
+
+  <div class="say">
+    <strong>"זה עובד עם עברית?"</strong><br>
+    "חלקית. הממשק באנגלית, אבל כמו שראיתם ב-Ask Your Data, הוא מבין שאלות בעברית. הפלט יותר טוב באנגלית כרגע."
+  </div>
+
+  <div class="say">
+    <strong>"אפשר להשתמש בזה עם Monday / Asana / כלים אחרים?"</strong><br>
+    "בהחלט. ל-Claude Code לא אכפת מה המקור. CSV מ-Monday, אקספורט מ-Asana, אפילו גוגל שיטס - אותו תהליך בדיוק."
+  </div>
+
+  <div class="say">
+    <strong>"אני לא טכני/ת. זה באמת בשבילי?"</strong><br>
+    "אני לא מפתח. זאת כל הפואנטה. כל פקודה שהקלדתי היום הייתה באנגלית פשוטה. אם אתם יודעים לתאר מה אתם צריכים - אתם יכולים להשתמש בזה."
+  </div>
+
+  <div class="say">
+    <strong>"אפשר לקבל את הקבצים / הדשבורד?"</strong><br>
+    "אני אשלח בהודעת הפולואפ קישור למדריך התקנה ולטיפים. הדשבורד עצמו נבנה מנתונים ספציפיים, אבל אתם יכולים לבנות אחד בדיוק כזה מהנתונים שלכם."
+  </div>
+
+  <div class="say">
+    <strong>"מה לגבי CLAUDE.md / הכנה מראש?"</strong><br>
+    "שאלה מצוינת. יש לי קובץ קונפיגורציה שאומר ל-Claude Code מה העדפות העיצוב שלי - תמה כהה, סוגי גרפים, פלטת צבעים ספציפית. זה כמו להגדיר העדפות בכלי שאתם עובדים איתו. הניתוח ובניית הדשבורד קורים חי."
+  </div>
+
+  <h3>דקות 88-90: סגירה</h3>
+  <div class="say">
+    "תודה רבה לכולם. המפגש הזה היה מטורף - 82 אנשים, שאלות מעולות.<br>
+    זכרו: אתם לא צריכים לדעת קוד. אתם צריכים לדעת מה אתם רוצים.<br>
+    הלינקים בצ'אט - קבוצת ווצאפ, מדריך, צ'יט שיט.<br>
+    ואם הייתם רוצים להמשיך - מפגש ההמשך ושיחת ייעוץ.<br>
+    לילה טוב!"
+  </div>
+</div>
+
+<!-- BACKUP -->
+<div class="section backup" id="backup">
+  <h2>תוכנית גיבוי - אם דברים משתבשים</h2>
+
+  <h3>Claude Code איטי (יותר מ-5 דקות)</h3>
+  <div class="say">
+    "Claude Code מעבד - זה לוקח כמה דקות כי הוא בונה הכל מאפס. בעבודה הרגילה שלי זה רץ ברקע בזמן שאני הולך לקפה. בואו אראה לכם מה התוצאה..."<br>
+    [פותחים את ה-HTML הגיבוי]
+  </div>
+
+  <h3>דשבורד לא יפה / לא נכון</h3>
+  <div class="say">
+    "אוקיי, אז האיטרציה הראשונה לא מושלמת - וזה בעצם הפואנטה. תראו מה קורה כשאני נותן פידבק..."
+  </div>
+  <div class="type-prompt">Make the design more professional - dark theme, cleaner layout, add charts</div>
+
+  <h3>Ask Your Data לא עובד</h3>
+  <div class="say">
+    "הפיצ'ר הזה לפעמים צריך כיוונון - אבל אתם מבינים את הרעיון. הנקודה היא: משני קבצים גולמיים לדשבורד מלא, ב-15 דקות, בלי קוד."
+  </div>
+
+  <h3>הטרמינל / Claude Code קורס</h3>
+  <div class="say">
+    "דמו חי! בואו אני אריסטרט ואראה לכם את התוצאה מהתרגול שעשיתי."<br>
+    [פותחים את ה-HTML הגיבוי, ממשיכים כרגיל]
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="section checklist" id="checklist">
+  <h2>צ'קליסט הכנה</h2>
+
+  <h3>שעתיים לפני</h3>
+  <label><input type="checkbox"> סגירת אפליקציות מיותרות</label>
+  <label><input type="checkbox"> פונט גדול בטרמינל (Cmd + + +)</label>
+  <label><input type="checkbox"> טאב דפדפן מוכן (ריק)</label>
+  <label><input type="checkbox"> תיקייה פתוחה עם 2 הקבצים</label>
+  <label><input type="checkbox"> CLAUDE.md במקום (לא נראה לקהל)</label>
+  <label><input type="checkbox"> HTML גיבוי מוכן</label>
+  <label><input type="checkbox"> טלפון על שקט</label>
+  <label><input type="checkbox"> בקבוק מים</label>
+
+  <h3>15 דקות לפני</h3>
+  <label><input type="checkbox"> לפתוח Claude Code, לנווט לתיקייה</label>
+  <label><input type="checkbox"> בדיקת פקודה פשוטה ("list files in this folder")</label>
+  <label><input type="checkbox"> Teams פתוח + שיתוף מסך + תצוגה נקייה</label>
+  <label><input type="checkbox"> לנשום</label>
+</div>
+
+<div class="font-controls">
+  <button onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)-2)+'px'">-</button>
+  <button onclick="document.body.style.fontSize=(parseFloat(getComputedStyle(document.body).fontSize)+2)+'px'">+</button>
+</div>
+
+</body>
+</html>
