@@ -30,5 +30,37 @@
 ## Key Principle
 הדמו החי חייב להיראות ספונטני אבל מתוכנן היטב. לתרגל לפחות 3 פעמים לפני המפגש.
 
+## Email Rules
+- לפני כל שליחת מייל לתפוצה גדולה - תמיד לשלוח ניסוי מקדים ל-hemibenlavi@gmail.com ולחכות לאישור לפני שליחה לכולם
+- הרשמת הטסט של חמי (hemibenlavi@gmail.com) לא נכללת ברשימת התפוצה
+
+## Email Template - Pre-Webinar (Installation Reminder)
+נוסח מייל למשתתפים - שליחה עם שם פרטי מותאם לכל נרשם:
+
+```
+היי {שם פרטי},
+
+תודה שנרשמת לוובינר Claude Code For Product Ops!
+
+כדי שנוכל לצלול ישר לתוכן במפגש, חשוב להתקין את Claude Code מראש.
+
+הכנתי מדריך התקנה קצר ל-Mac ול-Windows:
+לחצו כאן למדריך ההתקנה
+
+תזכורת למפגש שלנו רביעי הזה 25.3 | 21:00-22:30
+לינק למפגש יישלח ביום המפגש
+
+נתראה!
+חמי בן-לביא
+```
+
+הערות:
+- כפילויות (אותו מייל) - לשלוח פעם אחת בלבד
+- שם פרטי - כפי שנכתב בטופס (עברית או אנגלית)
+- לינק למדריך ההתקנה: https://hemibl.github.io/claude-code-webinar/materials/installation-guide.html
+
+## Webinar Recording
+סרטון הוובינר: https://www.youtube.com/watch?v=2Lein1_Z5iQ
+
 ## Strategic Goal
 בניית שם ונטוורקינג בקהילת ProdOps. חיבור לפוזישנינג כ-AI Strategy Advisor.

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -345,18 +345,21 @@
 
         .copy-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 8px;
+            right: 8px;
             background: var(--gray-700);
             border: 1px solid var(--gray-600);
             color: var(--gray-300);
-            padding: 4px 10px;
+            padding: 8px 14px;
+            min-height: 36px;
             border-radius: 6px;
             font-size: 0.75rem;
             cursor: pointer;
             font-family: 'Heebo', sans-serif;
             transition: all 0.2s ease;
             z-index: 2;
+            display: flex;
+            align-items: center;
         }
 
         .copy-btn:hover {
@@ -562,17 +565,98 @@
             color: var(--green);
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            .nav-links { gap: 4px; }
-            .nav-link {
-                padding: 4px 8px;
-                font-size: 0.7rem;
+        /* Focus states — accessibility */
+        a:focus-visible,
+        button:focus-visible,
+        .tip-card-header:focus-visible {
+            outline: 2px solid var(--green);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* Sticky nav shadow on scroll */
+        .nav-bar.scrolled {
+            background: rgba(17, 17, 17, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Breakpoint: tablet 768px */
+        @media (max-width: 768px) {
+            .code-block {
+                word-break: break-all;
+                overflow-x: auto;
             }
+        }
+
+        /* Breakpoint: mobile 600px */
+        @media (max-width: 600px) {
+            /* Nav — horizontal scroll instead of wrap */
+            .nav-links {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 0 8px;
+                scrollbar-width: none;
+                gap: 4px;
+            }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-link {
+                flex-shrink: 0;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
             .section-title { font-size: 1.2rem; }
             .compare-box { grid-template-columns: 1fr; }
             .shortcut-grid { grid-template-columns: 1fr; }
-            .cmd-table .example-cell { display: none; }
+
+            /* Table → card layout on mobile */
+            .cmd-table thead { display: none; }
+            .cmd-table,
+            .cmd-table tbody,
+            .cmd-table tr,
+            .cmd-table td { display: block; width: 100%; }
+            .cmd-table tr {
+                background: var(--dark-card);
+                border: 1px solid var(--dark-border);
+                border-radius: 10px;
+                margin-bottom: 8px;
+                padding: 12px 16px;
+            }
+            .cmd-table td {
+                padding: 2px 0;
+                border: none;
+                font-size: 0.88rem;
+            }
+            .cmd-table .cmd-cell {
+                font-size: 1rem;
+                font-weight: 700;
+                margin-bottom: 4px;
+            }
+            .cmd-table .example-cell {
+                display: block;
+                color: var(--gray-400);
+                font-size: 0.78rem;
+                margin-top: 4px;
+            }
+        }
+
+        /* Print stylesheet */
+        @media print {
+            body { background: #fff; color: #000; }
+            .nav-bar, .copy-btn { display: none; }
+            .tip-card-body { max-height: none !important; }
+            .tip-card { border: 1px solid #ccc; break-inside: avoid; }
+            .code-block { background: #f4f4f4; color: #000; border: 1px solid #ccc; }
+            .header, .section { border-color: #ccc; }
+            a { color: #000; }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
         }
     </style>
 </head>
@@ -582,7 +666,8 @@
         <div class="header">
             <div class="header-badge">CLAUDE CODE FOR PRODUCT OPS</div>
             <h1>טיפים <span>ופקודות</span></h1>
-            <p>כל מה שצריך כדי להתחיל לעבוד עם Claude Code - בעמוד אחד.</p>
+            <p>תודה שהשתתפתם בוובינר! הנה הטיפים שדיברנו עליהם - ועוד כמה בונוסים.</p>
+            <p style="margin-top: 10px;"><a href="https://www.youtube.com/watch?v=2Lein1_Z5iQ" target="_blank" style="color: var(--green); font-size: 0.95rem; text-decoration: none; border-bottom: 1px dotted var(--green);">▶ צפייה בהקלטת הוובינר</a></p>
         </div>
 
         <!-- Navigation -->
@@ -595,6 +680,10 @@
                 <a href="#shortcuts" class="nav-link">
                     <span class="icon">&#9875;</span>
                     <span>קיצורי מקלדת</span>
+                </a>
+                <a href="#usecases" class="nav-link">
+                    <span class="icon">&#128161;</span>
+                    <span>Use Cases</span>
                 </a>
                 <a href="#tips" class="nav-link">
                     <span class="icon">&#10024;</span>
@@ -714,6 +803,55 @@
             </div>
         </div>
 
+        <!-- Use Cases for Product Ops -->
+        <div id="usecases" class="section">
+            <div class="section-header">
+                <div class="section-icon">&#128161;</div>
+                <div class="section-title">מה אני יכול לעשות עם זה?</div>
+            </div>
+            <div class="section-desc">
+                5 תרחישים קונקרטיים שאנשי Product Ops יכולים לנסות מחר בבוקר.
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 14px; padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start;">
+                    <div style="font-size: 1.6rem; flex-shrink: 0;">📊</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--white); margin-bottom: 4px;">ניתוח דאטה מהיר</div>
+                        <div style="color: var(--gray-300); font-size: 0.93rem;">יש לכם CSV עם אלפי שורות של נתוני שימוש? תנו ל-Claude Code לנתח, לסנן ולמצוא תובנות - בלי לפתוח Python, בלי לכתוב קוד.</div>
+                    </div>
+                </div>
+                <div style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 14px; padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start;">
+                    <div style="font-size: 1.6rem; flex-shrink: 0;">🔄</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--white); margin-bottom: 4px;">אוטומציה של דוחות</div>
+                        <div style="color: var(--gray-300); font-size: 0.93rem;">ליצור סקריפט שמושך נתונים ממקור (Jira, Google Sheets, API) ומייצר דוח שבועי אוטומטי - במקום לעשות את זה ידנית כל שבוע.</div>
+                    </div>
+                </div>
+                <div style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 14px; padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start;">
+                    <div style="font-size: 1.6rem; flex-shrink: 0;">🛠️</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--white); margin-bottom: 4px;">בניית כלים פנימיים</div>
+                        <div style="color: var(--gray-300); font-size: 0.93rem;">לבנות דשבורד פנימי פשוט, מחשבון ROI, או כלי השוואה - בלי לחכות לתור בפיתוח.</div>
+                    </div>
+                </div>
+                <div style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 14px; padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start;">
+                    <div style="font-size: 1.6rem; flex-shrink: 0;">🧹</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--white); margin-bottom: 4px;">ניקוי ועיבוד דאטה</div>
+                        <div style="color: var(--gray-300); font-size: 0.93rem;">לנקות, לאחד ולתקנן נתונים ממקורות שונים - הוצאות מ-Excel, אירועים מ-Mixpanel, tickets מ-Jira - לקובץ אחד מסודר.</div>
+                    </div>
+                </div>
+                <div style="background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 14px; padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start;">
+                    <div style="font-size: 1.6rem; flex-shrink: 0;">⚡</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--white); margin-bottom: 4px;">Prototyping מהיר</div>
+                        <div style="color: var(--gray-300); font-size: 0.93rem;">לבנות POC של פיצ'ר כדי להדגים אותו ל-stakeholders - ממסמך דרישות לדמו עובד, תוך שעות ולא שבועות.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Separator -->
         <div class="separator">
             <div class="separator-line">
@@ -731,11 +869,69 @@
                 שבעה טיפים שיעזרו לכם לקבל תוצאות טובות יותר מ-Claude Code כבר מהיום הראשון.
             </div>
 
-            <!-- Tip 1: Be specific -->
+            <!-- Tip 1: Natural language -->
             <div class="tip-card open">
                 <div class="tip-card-header" onclick="toggleTip(this)">
                     <div class="tip-card-title">
                         <span class="tip-num">1</span>
+                        <span>דברו איתו כמו עם קולגה</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        אין צורך בשפה טכנית. פשוט תארו מה אתם צריכים - בדיוק כמו שהייתם מסבירים לקולגה חכם. דוגמאות מהעולם של ProdOps:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+what's in this CSV file?</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+summarize the main trends in this data</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+review this PRD and flag potential issues</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+what should I prioritize first in this backlog?</div>
+                        Claude Code מבין הקשר, כוונה ושפה טבעית - לא צריך לדבר איתו ב"שפת מכונה".
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 2: Start simple -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">2</span>
+                        <span>תתחילו עם שאלה פשוטה</span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        הדרך הכי טובה להתחיל היא פשוט לפתוח תיקייה עם קובץ - ולשאול שאלה ישירה:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+what files are here and what's in them?</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+summarize what's in this CSV</div>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+what does this project do?</div>
+                        <div class="alert alert-success" style="margin-top: 12px;">
+                            <div class="alert-icon">&#9889;</div>
+                            <p>מה שעובד - לקחת משהו קטן מהעבודה ולתת ל-Claude Code לגעת בו. מסמך, טבלה, בעיה שחוזרת - לא משנה מה.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 3: Be specific -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">3</span>
                         <span>היו ספציפיים בבקשות</span>
                     </div>
                     <span class="tip-arrow">&#9660;</span>
@@ -746,155 +942,78 @@
                         <div class="compare-box">
                             <div class="compare-bad">
                                 <span class="compare-label">&#10007; פחות טוב</span>
-                                "fix the bug"
+                                "analyze this data"
                             </div>
                             <div class="compare-good">
                                 <span class="compare-label">&#10003; הרבה יותר טוב</span>
-                                "fix the login bug where users see a blank screen after entering wrong credentials"
+                                "look at user_events.csv, find which step in the onboarding flow has the highest drop-off rate, and show me the top 3 issues"
+                            </div>
+                        </div>
+                        <div class="compare-box">
+                            <div class="compare-bad">
+                                <span class="compare-label">&#10007; פחות טוב</span>
+                                "create a report"
+                            </div>
+                            <div class="compare-good">
+                                <span class="compare-label">&#10003; הרבה יותר טוב</span>
+                                "create a weekly sprint summary from the Jira export - group by assignee, show completed vs open, highlight anything overdue"
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tip 2: Step by step -->
+            <!-- Tip 4: Let Claude explore first -->
             <div class="tip-card">
                 <div class="tip-card-header" onclick="toggleTip(this)">
                     <div class="tip-card-title">
-                        <span class="tip-num">2</span>
-                        <span>פרקו משימות מורכבות לשלבים</span>
-                    </div>
-                    <span class="tip-arrow">&#9660;</span>
-                </div>
-                <div class="tip-card-body">
-                    <div class="tip-card-content">
-                        במקום לתת משימה גדולה אחת, פרקו אותה לצעדים ברורים. למשל, בניית פיצ'ר שלם בצעדים:
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-1. create a new database table for user profiles
-2. create an API endpoint to get and update user profiles
-3. build a webpage that allows users to see and edit their information</div>
-                        Claude Code ידע לעבוד על כל שלב בנפרד ולוודא שהכל מתחבר.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tip 3: Let Claude explore first -->
-            <div class="tip-card">
-                <div class="tip-card-header" onclick="toggleTip(this)">
-                    <div class="tip-card-title">
-                        <span class="tip-num">3</span>
+                        <span class="tip-num">4</span>
                         <span>תנו ל-Claude לחקור קודם</span>
                     </div>
                     <span class="tip-arrow">&#9660;</span>
                 </div>
                 <div class="tip-card-body">
                     <div class="tip-card-content">
-                        לפני שמבקשים שינויים, תנו ל-Claude להבין את הקוד. קודם - הבנה:
+                        לפני שמבקשים לבנות משהו, תנו ל-Claude להבין את הנתונים קודם. קודם - הבנה:
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-analyze the database schema</div>
+what columns are in this dataset and what does each one mean?</div>
                         ואז - ביצוע:
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-build a dashboard showing products that are most frequently returned by our UK customers</div>
-                        כשClaude מבין את המבנה קודם, הפתרונות שלו הרבה יותר מדויקים.
+build a dashboard showing feature adoption rates by cohort, using the data in usage_events.csv</div>
+                        כש-Claude מבין את המבנה קודם, הפתרונות שלו הרבה יותר מדויקים.
                     </div>
                 </div>
             </div>
 
-            <!-- Tip 4: Shortcuts -->
-            <div class="tip-card">
-                <div class="tip-card-header" onclick="toggleTip(this)">
-                    <div class="tip-card-title">
-                        <span class="tip-num">4</span>
-                        <span>דברו איתו כמו עם קולגה</span>
-                    </div>
-                    <span class="tip-arrow">&#9660;</span>
-                </div>
-                <div class="tip-card-body">
-                    <div class="tip-card-content">
-                        אין צורך בפקודות מיוחדות או בשפה טכנית. פשוט תארו מה אתם רוצים בשפה טבעית. דוגמאות לבקשות טבעיות:
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-what files have I changed?</div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-commit my changes with a descriptive message</div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-add input validation to the user registration form</div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-review my changes and suggest improvements</div>
-                        Claude Code מבין הקשר, כוונה, ושפה טבעית - לא צריך לדבר איתו ב"שפת מכונה".
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tip 5: Skip permissions -->
+            <!-- Tip 5: Step by step -->
             <div class="tip-card">
                 <div class="tip-card-header" onclick="toggleTip(this)">
                     <div class="tip-card-title">
                         <span class="tip-num">5</span>
-                        <span>תנו לו יד חופשית - דילוג על אישורים</span>
+                        <span>פרקו משימות מורכבות לשלבים</span>
                     </div>
                     <span class="tip-arrow">&#9660;</span>
                 </div>
                 <div class="tip-card-body">
                     <div class="tip-card-content">
-                        כברירת מחדל, Claude Code עוצר ומבקש אישור לפני כל פעולה (עריכת קובץ, הרצת פקודה וכו'). אפשר לשחרר אותו לרוץ קדימה - הפעלה במצב "ללא עצירות":
+                        במקום לתת משימה גדולה אחת, פרקו אותה לצעדים ברורים:
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-claude --dangerously-skip-permissions</div>
-                        <div class="alert alert-info" style="margin-top: 12px;">
-                            <div class="alert-icon">&#128161;</div>
-                            <p>הפלאג הזה מדלג על <strong>כל</strong> בקשות האישור. מומלץ להשתמש בו רק כשאתם עובדים על פרויקט אישי ולא על production.</p>
-                        </div>
-                        אם אתם באמצע שיחה וקיבלתם בקשת אישור, אפשר גם פשוט ללחוץ על <strong style="color: var(--white);">a</strong> (always allow) כדי לאשר את כל הפעולות מאותו סוג לכל הסשן.
+1. load the sales_q1.csv file and check its structure
+2. calculate revenue by product category and month
+3. create a bar chart showing month-over-month trends</div>
+                        Claude Code ידע לעבוד על כל שלב בנפרד ולוודא שהכל מתחבר.
                     </div>
                 </div>
             </div>
 
-            <!-- Tip 6: Terminal auto-launch -->
+            <!-- Tip 6: Skills -->
             <div class="tip-card">
                 <div class="tip-card-header" onclick="toggleTip(this)">
                     <div class="tip-card-title">
                         <span class="tip-num">6</span>
-                        <span>הטרמינל נפתח ישר על Claude Code</span>
-                    </div>
-                    <span class="tip-arrow">&#9660;</span>
-                </div>
-                <div class="tip-card-body">
-                    <div class="tip-card-content">
-                        נמאס לכם להקליד <code style="color: #79c0ff;">claude</code> בכל פעם שאתם פותחים טרמינל? אפשר להגדיר שהוא ייפתח אוטומטית.
-                        <br><br>
-                        <strong style="color: var(--white);">Mac - הוסיפו שורה אחת לסוף הקובץ ~/.zshrc:</strong>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-echo 'claude' >> ~/.zshrc</div>
-                        <strong style="color: var(--white);">או - פרופיל ייעודי ב-Terminal של Mac:</strong>
-                        <div style="margin: 8px 0; padding: 12px 16px; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 10px; color: var(--gray-300); font-size: 0.92rem; line-height: 1.8;">
-                            1. פתחו Terminal &#8594; Settings &#8594; Profiles<br>
-                            2. צרו פרופיל חדש בשם "Claude Code"<br>
-                            3. בלשונית Shell, בשדה "Run command" הכניסו: <code style="color: #79c0ff;">claude</code><br>
-                            4. הגדירו את הפרופיל הזה כברירת מחדל
-                        </div>
-                        <strong style="color: var(--white);">Windows - הוסיפו פרופיל ב-Windows Terminal:</strong>
-                        <div style="margin: 8px 0; padding: 12px 16px; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 10px; color: var(--gray-300); font-size: 0.92rem; line-height: 1.8;">
-                            1. פתחו Windows Terminal &#8594; Settings &#8594; Add new profile<br>
-                            2. בשדה Command line הכניסו: <code style="color: #79c0ff;">claude</code><br>
-                            3. הגדירו כ-Default profile
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tip 7: claude-code-guide for skills -->
-            <div class="tip-card">
-                <div class="tip-card-header" onclick="toggleTip(this)">
-                    <div class="tip-card-title">
-                        <span class="tip-num">7</span>
                         <span>תתייעצו עם Claude לפני שבונים סקיל</span>
                     </div>
                     <span class="tip-arrow">&#9660;</span>
@@ -907,14 +1026,35 @@ echo 'claude' >> ~/.zshrc</div>
 how do I create a custom skill?</div>
                         <div class="code-block">
                             <button class="copy-btn" onclick="copyCode(this)">העתק</button>
-what are skills and how do I use them?</div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
 can you help me build a skill that does X?</div>
-                        ל-Claude Code יש מדריך מובנה (claude-code-guide) שיודע להסביר בדיוק איך בונים סקילים, מה המבנה הנכון, ואיך מפעילים אותם. אתם פשוט שואלים - והוא מלמד אתכם.
                         <div class="alert alert-success" style="margin-top: 12px;">
                             <div class="alert-icon">&#9889;</div>
                             <p>הכלל: כל פעם שאתם לא יודעים איך לעשות משהו ב-Claude Code - פשוט <strong>תשאלו אותו</strong>. הוא יודע להסביר על עצמו.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip 7: Skip permissions (Advanced) -->
+            <div class="tip-card">
+                <div class="tip-card-header" onclick="toggleTip(this)">
+                    <div class="tip-card-title">
+                        <span class="tip-num">7</span>
+                        <span>דילוג על אישורים <span style="font-size: 0.75rem; color: var(--gray-400); font-weight: 400; margin-right: 8px;">(מתקדם)</span></span>
+                    </div>
+                    <span class="tip-arrow">&#9660;</span>
+                </div>
+                <div class="tip-card-body">
+                    <div class="tip-card-content">
+                        כברירת מחדל, Claude Code עוצר ומבקש אישור לפני כל פעולה. אחרי שמכירים את הכלי ורוצים שיריץ משימות בלי הפסקות - אפשר לאשר כל סוג פעולה בנפרד באמצע שיחה על ידי לחיצה על <strong style="color: var(--white);">a</strong> (always allow).
+                        <br><br>
+                        לאלה שרוצים לדלג על הכל מההתחלה:
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">העתק</button>
+claude --dangerously-skip-permissions</div>
+                        <div class="alert alert-info" style="margin-top: 12px;">
+                            <div class="alert-icon">&#128161;</div>
+                            <p>מומלץ רק לפרויקטים אישיים. לא להשתמש על קבצי production או נתוני חברה רגישים.</p>
                         </div>
                     </div>
                 </div>
@@ -923,27 +1063,67 @@ can you help me build a skill that does X?</div>
 
         <!-- CTA -->
         <div class="cta-banner">
-            <p>מוכנים להתחיל?</p>
-            <div class="sub">הפקודות והטיפים האלה הם כל מה שצריך כדי לעבוד עם Claude Code ביום-יום.</div>
+            <p>האתגר שלכם להיום</p>
+            <div class="sub">פתחו טרמינל, הכנסו לתיקייה עם קובץ כלשהו, הקלידו <code style="background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px; font-family: monospace;">claude</code> ושאלו: <em>"what's in this folder?"</em> - ותראו מה קורה.</div>
         </div>
 
-        <!-- Back to installation -->
-        <div class="alert alert-success" style="justify-content: center; text-align: center;">
-            <p>עוד לא התקנתם? <a href="installation-guide.html" style="color: var(--green); font-weight: 700; text-decoration: underline;">חזרו למדריך ההתקנה</a></p>
+        <!-- WhatsApp Group -->
+        <div style="text-align: center; padding: 48px 0; border-top: 1px solid var(--gray-700);">
+            <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--white); margin-bottom: 8px;">בואו נמשיך ביחד</h2>
+            <p style="color: var(--gray-400); font-size: 1rem; margin-bottom: 24px;">טיפים, שאלות, שיתוף תוצאות ועזרה הדדית</p>
+            <img src="../assets/qr-whatsapp-group.png" style="width: 180px; border-radius: 12px; margin-bottom: 12px;"><br>
+            <span style="color: var(--green); font-family: monospace; font-size: 0.9rem; font-weight: 600;">Claude Code IL - ProdOps דיונים</span>
         </div>
 
         <!-- Footer -->
         <div class="guide-footer">
             <p class="name">Claude Code for Product Ops</p>
-            <p>הוכן על ידי חמי בן-לביא</p>
+            <p>הוכן על ידי <a href="https://www.linkedin.com/in/hemibenlavi/" target="_blank" style="color: var(--white); text-decoration: none; border-bottom: 1px solid var(--gray-400);">חמי בן-לביא</a></p>
         </div>
     </div>
 
     <script>
+        // Accordion — smooth animation using scrollHeight + ARIA
         function toggleTip(header) {
             const card = header.closest('.tip-card');
-            card.classList.toggle('open');
+            const body = card.querySelector('.tip-card-body');
+            const isOpen = card.classList.contains('open');
+
+            if (isOpen) {
+                body.style.maxHeight = body.scrollHeight + 'px';
+                requestAnimationFrame(() => {
+                    body.style.transition = 'max-height 0.35s ease';
+                    body.style.maxHeight = '0';
+                });
+                card.classList.remove('open');
+                header.setAttribute('aria-expanded', 'false');
+            } else {
+                body.style.maxHeight = body.scrollHeight + 'px';
+                body.addEventListener('transitionend', () => {
+                    body.style.maxHeight = 'none';
+                }, { once: true });
+                card.classList.add('open');
+                header.setAttribute('aria-expanded', 'true');
+            }
         }
+
+        // ARIA init on page load
+        document.querySelectorAll('.tip-card-header').forEach((header, i) => {
+            const card = header.closest('.tip-card');
+            const body = card.querySelector('.tip-card-body');
+            const bodyId = 'tip-body-' + i;
+            body.id = bodyId;
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-controls', bodyId);
+            header.setAttribute('aria-expanded', card.classList.contains('open') ? 'true' : 'false');
+            body.setAttribute('role', 'region');
+            body.setAttribute('aria-labelledby', bodyId + '-header');
+            // Keyboard support
+            header.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTip(header); }
+            });
+        });
 
         function copyCode(btn) {
             const block = btn.closest('.code-block');
@@ -962,11 +1142,16 @@ can you help me build a skill that does X?</div>
             });
         }
 
-        // Active nav highlight on scroll
+        // Nav shadow on scroll + active link highlight
+        const navBar = document.querySelector('.nav-bar');
         const sections = document.querySelectorAll('.section, .separator');
         const navLinks = document.querySelectorAll('.nav-link');
 
         window.addEventListener('scroll', () => {
+            // Nav shadow
+            navBar.classList.toggle('scrolled', window.scrollY > 10);
+
+            // Active section highlight
             let current = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop - 80;
