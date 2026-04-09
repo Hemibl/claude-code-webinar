@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRW4GYVGD3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KRW4GYVGD3');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code - מבוא מעשי | הרשמה</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #0d9373;
+            --primary-dark: #0a7a60;
+            --primary-light: #12b88a;
+            --primary-subtle: #e6f7f2;
+            --accent: #065f46;
+            --bg: #f8fafb;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-secondary: #4a5568;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-focus: #0d9373;
+            --error: #b91c1c;
+            --error-bg: #fef2f2;
+            --success-bg: #ecfdf5;
+            --success-border: #6ee7b7;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.1);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Heebo', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 420px;
+            background: linear-gradient(135deg, #064e3b 0%, #0d9373 50%, #14b8a6 100%);
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 420px;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(255,255,255,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            z-index: 100;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 8px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 48px 32px 40px;
+            color: #fff;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px;
+            padding: 6px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.95);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            direction: ltr;
+            white-space: nowrap;
+        }
+
+        .header .subtitle {
+            font-size: 1.15rem;
+            font-weight: 500;
+            opacity: 0.95;
+            margin-bottom: 16px;
+            direction: rtl;
+        }
+
+        .header .description {
+            font-size: 0.95rem;
+            font-weight: 300;
+            opacity: 0.85;
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 40px 36px;
+            margin-top: -8px;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--primary-subtle);
+        }
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .field label .optional {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .field label .required {
+            color: var(--error);
+            margin-inline-start: 2px;
+        }
+
+        .field input[type="text"],
+        .field input[type="email"],
+        .field input[type="url"],
+        .field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text);
+            background: #fff;
+            transition: border-color var(--transition), box-shadow var(--transition);
+            outline: none;
+        }
+
+        .field input[type="text"]:hover,
+        .field input[type="email"]:hover,
+        .field input[type="url"]:hover,
+        .field textarea:hover {
+            border-color: #cbd5e1;
+        }
+
+        .field input[type="text"]:focus,
+        .field input[type="email"]:focus,
+        .field input[type="url"]:focus,
+        .field textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(13, 147, 115, 0.12);
+        }
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .field.error input,
+        .field.error textarea {
+            border-color: var(--error);
+            background: var(--error-bg);
+        }
+
+        .field .error-msg {
+            display: none;
+            font-size: 0.8rem;
+            color: var(--error);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .field .error-msg::before {
+            content: '\26A0';
+            margin-inline-end: 4px;
+        }
+
+        .field.error .error-msg {
+            display: block;
+        }
+
+        fieldset.field {
+            border: none;
+            padding: 0;
+        }
+
+        fieldset.field legend {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 6px;
+            width: 100%;
+        }
+
+        fieldset.field legend .required {
+            color: var(--error);
+            margin-inline-start: 2px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-align: center;
+            background: #fff;
+            margin-bottom: 0;
+        }
+
+        .radio-option label:hover {
+            border-color: var(--primary);
+            background: var(--primary-subtle);
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            border-color: var(--primary);
+            background: var(--primary-subtle);
+            color: var(--primary-dark);
+            font-weight: 500;
+            box-shadow: 0 0 0 3px rgba(13, 147, 115, 0.1);
+        }
+
+        .field.error .radio-option label {
+            border-color: #fca5a5;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to left, transparent, var(--border), transparent);
+            margin: 30px 0;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            margin-top: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            opacity: 0;
+            transition: opacity var(--transition);
+        }
+
+        .submit-btn:hover::before {
+            opacity: 1;
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 6px 24px rgba(13, 147, 115, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 48px 32px;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 30px rgba(13, 147, 115, 0.25);
+        }
+
+        .success-icon svg {
+            width: 36px;
+            height: 36px;
+            stroke: #fff;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .success-message h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .success-message p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px 20px 16px;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .footer.below-card {
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .footer .divider {
+            margin: 0 8px;
+            opacity: 0.5;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 16px 48px;
+            }
+
+            .header {
+                padding: 36px 20px 32px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header .subtitle {
+                font-size: 1rem;
+            }
+
+            .header .description {
+                font-size: 0.88rem;
+            }
+
+            .card {
+                padding: 28px 22px;
+                border-radius: 14px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .radio-option {
+                min-width: unset;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .field {
+            opacity: 0;
+            transform: translateY(12px);
+            animation: fieldAppear 0.4s ease forwards;
+        }
+
+        .field:nth-child(1) { animation-delay: 0.1s; }
+        .field:nth-child(2) { animation-delay: 0.15s; }
+        .field:nth-child(3) { animation-delay: 0.2s; }
+        .field:nth-child(4) { animation-delay: 0.25s; }
+        .field:nth-child(5) { animation-delay: 0.3s; }
+        .field:nth-child(6) { animation-delay: 0.35s; }
+        .field:nth-child(7) { animation-delay: 0.4s; }
+        .field:nth-child(8) { animation-delay: 0.45s; }
+        .field:nth-child(9) { animation-delay: 0.5s; }
+        .field:nth-child(10) { animation-delay: 0.55s; }
+
+        @keyframes fieldAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<a href="#registration-form" class="skip-link">דלג לטופס הרשמה</a>
+
+<div class="container">
+    <header class="header">
+        <div class="header-badge">Webinar / 15.4.2026</div>
+        <h1>Claude Code</h1>
+        <p class="subtitle">מבוא מעשי - רביעי 15.4 | 21:00</p>
+        <p class="description">
+            בלי קוד, בלי רקע טכני. אבל עם מלא ערך.
+        </p>
+    </header>
+
+    <main>
+    <div class="card">
+        <div id="form-section">
+            <h2 class="card-title">הרשמה למפגש<br><span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">הרשמה ב-2 דקות</span></h2>
+
+            <form id="registration-form" novalidate>
+                <!-- Full Name -->
+                <div class="field" data-required>
+                    <label for="fullname">שם מלא <span class="required" aria-hidden="true">*</span></label>
+                    <input type="text" id="fullname" name="fullname" placeholder="השם המלא שלך" required autocomplete="name" aria-describedby="err-fullname" aria-required="true" autofocus>
+                    <div class="error-msg" id="err-fullname" role="alert">נא למלא שם מלא</div>
+                </div>
+
+                <!-- Email -->
+                <div class="field" data-required>
+                    <label for="email">אימייל <span class="required" aria-hidden="true">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email" aria-describedby="err-email" aria-required="true">
+                    <div class="error-msg" id="err-email" role="alert">נא למלא אימייל תקין</div>
+                </div>
+
+                <!-- Company -->
+                <div class="field" data-required>
+                    <label for="company">חברה <span class="required" aria-hidden="true">*</span></label>
+                    <input type="text" id="company" name="company" placeholder="שם החברה" required autocomplete="organization" aria-describedby="err-company" aria-required="true">
+                    <div class="error-msg" id="err-company" role="alert">נא למלא שם חברה</div>
+                </div>
+
+                <!-- Role -->
+                <div class="field" data-required>
+                    <label for="role">תפקיד <span class="required" aria-hidden="true">*</span></label>
+                    <input type="text" id="role" name="role" placeholder="התפקיד שלך בחברה" required autocomplete="organization-title" aria-describedby="err-role" aria-required="true">
+                    <div class="error-msg" id="err-role" role="alert">נא למלא תפקיד</div>
+                </div>
+
+                <!-- LinkedIn - required -->
+                <div class="field" data-required>
+                    <label for="linkedin">לינק ללינקדאין <span class="required" aria-hidden="true">*</span></label>
+                    <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/your-profile" dir="ltr" style="text-align: left;" autocomplete="url" required aria-describedby="err-linkedin" aria-required="true">
+                    <div class="error-msg" id="err-linkedin" role="alert">נא למלא לינק ללינקדאין</div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <!-- Claude Code Installed -->
+                <fieldset class="field" data-required data-radio role="radiogroup" aria-describedby="err-installed">
+                    <legend>האם Claude Code מותקן אצלך במחשב? <span class="required" aria-hidden="true">*</span></legend>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="installed-yes" name="installed" value="yes" required>
+                            <label for="installed-yes">כן</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="installed-no" name="installed" value="no">
+                            <label for="installed-no">לא</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="installed-unsure" name="installed" value="unsure">
+                            <label for="installed-unsure">לא בטוח/ה</label>
+                        </div>
+                    </div>
+                    <div class="error-msg" id="err-installed" role="alert">נא לבחור תשובה</div>
+                </fieldset>
+
+                <!-- Prior Experience -->
+                <fieldset class="field" data-required data-radio role="radiogroup" aria-describedby="err-experience" style="margin-top: 32px;">
+                    <legend>יש לך ניסיון קודם עם Claude Code? <span class="required" aria-hidden="true">*</span></legend>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="exp-none" name="experience" value="none" required>
+                            <label for="exp-none">לא, בכלל לא</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="exp-some" name="experience" value="some">
+                            <label for="exp-some">ניסיתי קצת</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="exp-regular" name="experience" value="regular">
+                            <label for="exp-regular">משתמש/ת קבוע/ה</label>
+                        </div>
+                    </div>
+                    <div class="error-msg" id="err-experience" role="alert">נא לבחור תשובה</div>
+                </fieldset>
+
+                <div class="section-divider"></div>
+
+                <!-- Frustration -->
+                <div class="field" data-required>
+                    <label for="frustration">מה המשימה שהכי גוזלת לך זמן בעבודה? <span class="required" aria-hidden="true">*</span></label>
+                    <textarea id="frustration" name="frustration" placeholder="למשל: דוחות שבועיים, סנכרון בין צוותים, מעקב ידני..." required aria-describedby="err-frustration" aria-required="true"></textarea>
+                    <div class="error-msg" id="err-frustration" role="alert">נא למלא שדה זה</div>
+                </div>
+
+                <!-- Expectations -->
+                <div class="field">
+                    <label for="expectations">ציפיות מהמפגש <span class="optional">(לא חובה)</span></label>
+                    <textarea id="expectations" name="expectations" placeholder="מה תרצה/י לקחת מהמפגש?" style="min-height: 60px;"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>שמור לי מקום</span>
+                </button>
+            </form>
+        </div>
+
+        <div id="success-section" class="success-message" role="status" aria-live="polite">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2>נרשמת בהצלחה!</h2>
+            <p style="margin-bottom: 8px;"><strong><span id="success-name"></span></strong> - תודה על ההרשמה!</p>
+            <p style="margin-bottom: 4px;">מדריך התקנה ולינק למפגש יישלחו אליכם למייל <span id="success-email" style="direction: ltr; unicode-bidi: embed;"></span> לפני המפגש</p>
+            <p style="margin-bottom: 20px;">נתראה ביום <strong>רביעי 15.4 בשעה 21:00</strong></p>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+-+מבוא+מעשי&dates=20260415T210000/20260415T223000&ctz=Asia/Jerusalem" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem;">הוסיפו ליומן</a>
+        </div>
+    </div>
+    </main>
+
+    <footer class="footer below-card">
+        המפגש יתקיים ב-Zoom<br>
+        <strong>חמי בן לביא</strong> <span class="divider">|</span> Head of Product Operations
+    </footer>
+</div>
+
+<script>
+    const form = document.getElementById('registration-form');
+    const formSection = document.getElementById('form-section');
+    const successSection = document.getElementById('success-section');
+
+    function validateField(field) {
+        const isRadio = field.hasAttribute('data-radio');
+        const isRequired = field.hasAttribute('data-required');
+        if (!isRequired) return true;
+
+        if (isRadio) {
+            const radios = field.querySelectorAll('input[type="radio"]');
+            const checked = Array.from(radios).some(r => r.checked);
+            if (!checked) {
+                field.classList.add('error');
+                return false;
+            }
+        } else {
+            const input = field.querySelector('input, textarea');
+            if (input && !input.value.trim()) {
+                field.classList.add('error');
+                return false;
+            }
+            if (input && input.type === 'email' && input.value.trim() && !input.validity.valid) {
+                field.classList.add('error');
+                return false;
+            }
+        }
+
+        field.classList.remove('error');
+        return true;
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        let isValid = true;
+
+        form.querySelectorAll('.field.error').forEach(f => f.classList.remove('error'));
+
+        form.querySelectorAll('.field[data-required]').forEach(field => {
+            if (!validateField(field)) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            const firstError = form.querySelector('.field.error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        }
+
+        const formData = {
+            timestamp: new Date().toLocaleString('he-IL'),
+            fullName: document.getElementById('fullname').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            company: document.getElementById('company').value.trim(),
+            role: document.getElementById('role').value.trim(),
+            linkedin: document.getElementById('linkedin').value.trim(),
+            claudeInstalled: document.querySelector('input[name="installed"]:checked')?.value || '',
+            experience: document.querySelector('input[name="experience"]:checked')?.value || '',
+            frustration: document.getElementById('frustration').value.trim(),
+            expectations: document.getElementById('expectations').value.trim(),
+            webinar: 'webinar-2-hanemr-15.4.2026'
+        };
+
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-PNOKKqRBiAaPSorRLPND9DnrtfJAJ8kNZoJWa4eqECZzgoAa0V7UhEuJ3UzPOkAoMg/exec';
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            redirect: 'follow'
+        }).catch(err => console.error('Submit error:', err));
+
+        document.getElementById('success-name').textContent = formData.fullName;
+        document.getElementById('success-email').textContent = formData.email;
+        formSection.style.display = 'none';
+        successSection.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    form.querySelectorAll('.field[data-required]:not([data-radio])').forEach(field => {
+        const input = field.querySelector('input, textarea');
+        if (input) {
+            input.addEventListener('blur', function() {
+                if (this.value.trim()) {
+                    validateField(field);
+                }
+            });
+        }
+    });
+
+    form.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('input', function() {
+            this.closest('.field')?.classList.remove('error');
+        });
+        input.addEventListener('change', function() {
+            this.closest('.field')?.classList.remove('error');
+        });
+    });
+</script>
+
+</body>
+</html>
