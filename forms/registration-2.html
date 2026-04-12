@@ -669,9 +669,9 @@
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
-            <h2>נרשמת בכיף!</h2>
+            <h2>נרשמת בהצלחה!</h2>
             <p style="margin-bottom: 8px;"><strong><span id="success-name"></span></strong> - תודה על ההרשמה!</p>
-            <p style="margin-bottom: 4px;">מדריך התקנה ולינק למפגש יישלחו למייל <span id="success-email" style="direction: ltr; unicode-bidi: embed;"></span> לפני המפגש</p>
+            <p style="margin-bottom: 4px;">שלחתי לך מייל ל-<span id="success-email" style="direction: ltr; unicode-bidi: embed;"></span> עם לינק למפגש ומדריך התקנה</p>
             <p style="margin-bottom: 20px;">נתראה ביום <strong>רביעי 15.4 בשעה 21:00</strong></p>
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+לנמרים+מעופפים+-+ממריאים+ביחד&dates=20260415T180000Z/20260415T193000Z&ctz=Asia/Jerusalem" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem;">הוסיפו ליומן</a>
         </div>
@@ -766,7 +766,51 @@
         formSection.style.display = 'none';
         successSection.classList.add('show');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        launchConfetti();
     });
+
+    function launchConfetti() {
+        var colors = ['#0d9373', '#14b8a6', '#f5e642', '#6ee7b7', '#065f46', '#fff'];
+        var canvas = document.createElement('canvas');
+        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+        document.body.appendChild(canvas);
+        var ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var pieces = [];
+        for (var i = 0; i < 120; i++) {
+            pieces.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                r: Math.random() * 6 + 3,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                dx: Math.random() * 4 - 2,
+                dy: Math.random() * 4 + 2,
+                rot: Math.random() * 360,
+                dr: Math.random() * 6 - 3
+            });
+        }
+        var frame = 0;
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pieces.forEach(function(p) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+                ctx.restore();
+                p.x += p.dx;
+                p.y += p.dy;
+                p.rot += p.dr;
+                p.dy += 0.05;
+            });
+            frame++;
+            if (frame < 180) requestAnimationFrame(draw);
+            else document.body.removeChild(canvas);
+        }
+        draw();
+    }
 
     form.querySelectorAll('.field[data-required]:not([data-radio])').forEach(field => {
         const input = field.querySelector('input, textarea');
