@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הקמת Backend - וובינר 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.8;
+            color: #1a1a2e;
+            background: #f8fafb;
+        }
+        h1 { color: #0d9373; margin-bottom: 8px; }
+        h2 { color: #064e3b; margin-top: 32px; border-bottom: 2px solid #e6f7f2; padding-bottom: 8px; }
+        .step-num { background: #0d9373; color: #fff; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-left: 8px; }
+        code { background: #e2e8f0; padding: 2px 8px; border-radius: 4px; direction: ltr; unicode-bidi: embed; font-size: 0.9rem; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; direction: ltr; text-align: left; overflow-x: auto; font-size: 0.85rem; line-height: 1.6; }
+        .highlight { background: #fef3c7; padding: 12px 16px; border-radius: 8px; border-right: 4px solid #f59e0b; margin: 16px 0; }
+        .success { background: #ecfdf5; padding: 12px 16px; border-radius: 8px; border-right: 4px solid #10b981; margin: 16px 0; }
+        ol li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+<h1>הקמת Backend לוובינר 2 (הנמר)</h1>
+<p>3 שלבים פשוטים - כ-5 דקות</p>
+
+<h2><span class="step-num">1</span> יצירת Google Sheet חדש</h2>
+<ol>
+    <li>פתח <a href="https://sheets.google.com" target="_blank">Google Sheets</a></li>
+    <li>צור גיליון חדש ריק</li>
+    <li>תן לו שם: <strong>הרשמות וובינר 2 - הנמר 15.4</strong></li>
+</ol>
+
+<h2><span class="step-num">2</span> הדבקת הסקריפט + פריסה</h2>
+<ol>
+    <li>בתפריט העליון: <strong>Extensions</strong> ← <strong>Apps Script</strong></li>
+    <li>מחק את כל הקוד שמופיע, והדבק במקום את זה:</li>
+</ol>
+
+<pre>
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+    var data;
+    if (e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch(parseErr) {
+        data = e.parameter;
+      }
+    } else {
+      data = e.parameter;
+    }
+
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        'Timestamp',
+        'שם מלא',
+        'אימייל',
+        'חברה',
+        'תפקיד',
+        'לינקדאין',
+        'Claude מותקן?',
+        'ניסיון',
+        'מה גוזל זמן',
+        'ציפיות',
+        'Webinar'
+      ]);
+    }
+
+    sheet.appendRow([
+      data.timestamp || new Date().toLocaleString('he-IL'),
+      data.fullName || '',
+      data.email || '',
+      data.company || '',
+      data.role || '',
+      data.linkedin || '',
+      data.claudeInstalled || '',
+      data.experience || '',
+      data.frustration || '',
+      data.expectations || '',
+      data.webinar || 'webinar-2'
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: 'success',
+        message: 'Form submitted successfully'
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: 'error',
+        message: error.toString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput(JSON.stringify({
+      status: 'ok',
+      message: 'Form backend is running'
+    }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+</pre>
+
+<ol start="3">
+    <li>שמור (<code>Cmd+S</code>)</li>
+    <li>לחץ <strong>Deploy</strong> ← <strong>New deployment</strong></li>
+    <li>ליד Select type לחץ על גלגל השיניים ובחר <strong>Web app</strong></li>
+    <li>הגדרות:
+        <ul>
+            <li>Execute as: <strong>Me</strong></li>
+            <li>Who has access: <strong>Anyone</strong></li>
+        </ul>
+    </li>
+    <li>לחץ <strong>Deploy</strong>, אשר הרשאות</li>
+    <li>העתק את ה-<strong>Web app URL</strong> שמופיע</li>
+</ol>
+
+<h2><span class="step-num">3</span> חיבור הטופס</h2>
+
+<div class="highlight">
+    <strong>אחרי שהעתקת את ה-URL, תדביק לי אותו כאן בצ'אט ואני אעדכן את הטופס.</strong>
+</div>
+
+<div class="success">
+    <strong>בדיקה:</strong> אחרי החיבור, נמלא טופס ניסיון ונוודא שהשורה מופיעה בגיליון.
+</div>
+
+</body>
+</html>

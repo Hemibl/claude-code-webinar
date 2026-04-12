@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claude Code - מבוא מעשי | הרשמה</title>
+    <title>Claude Code - לנמרים מעופפים | הרשמה</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
 
@@ -431,8 +431,19 @@
         }
 
         .footer.below-card {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-top: 4px;
+            font-size: 0.85rem;
+        }
+
+        .footer.below-card a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer.below-card a:hover {
+            text-decoration: underline;
         }
 
         .footer .divider {
@@ -525,24 +536,25 @@
 
 <div class="container">
     <header class="header">
-        <div class="header-badge">Webinar / 15.4.2026</div>
-        <h1>Claude Code</h1>
-        <p class="subtitle">מבוא מעשי - רביעי 15.4 | 21:00</p>
+        <div class="header-badge"><span style="font-size: 1.4em; vertical-align: middle; margin-left: 6px;">🐆</span> מפגש בלעדי לחברי עמותת הנמר</div>
+        <h1 style="direction: ltr;">Claude Code</h1>
+        <p class="subtitle" style="margin-bottom: 4px; font-size: 1.3rem; font-weight: 600; opacity: 1;">לנמרים מעופפים</p>
+        <p class="subtitle">ממריאים ביחד - <span style="color: #f5e642; font-weight: 700;">רביעי 15.4 | 21:00</span></p>
         <p class="description">
-            בלי קוד, בלי רקע טכני. אבל עם מלא ערך.
+            בלי קוד, בלי רקע טכני. בואו נבנה בסיס לעבודה אפקטיבית עם AI.
         </p>
     </header>
 
     <main>
     <div class="card">
         <div id="form-section">
-            <h2 class="card-title">הרשמה למפגש<br><span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">הרשמה ב-2 דקות</span></h2>
+            <h2 class="card-title">הרשמה למפגש</h2>
 
             <form id="registration-form" novalidate>
                 <!-- Full Name -->
                 <div class="field" data-required>
                     <label for="fullname">שם מלא <span class="required" aria-hidden="true">*</span></label>
-                    <input type="text" id="fullname" name="fullname" placeholder="השם המלא שלך" required autocomplete="name" aria-describedby="err-fullname" aria-required="true" autofocus>
+                    <input type="text" id="fullname" name="fullname" placeholder="השם המלא" required autocomplete="name" aria-describedby="err-fullname" aria-required="true" autofocus>
                     <div class="error-msg" id="err-fullname" role="alert">נא למלא שם מלא</div>
                 </div>
 
@@ -553,32 +565,36 @@
                     <div class="error-msg" id="err-email" role="alert">נא למלא אימייל תקין</div>
                 </div>
 
-                <!-- Company -->
+                <!-- Recruitment Cohort -->
                 <div class="field" data-required>
-                    <label for="company">חברה <span class="required" aria-hidden="true">*</span></label>
-                    <input type="text" id="company" name="company" placeholder="שם החברה" required autocomplete="organization" aria-describedby="err-company" aria-required="true">
-                    <div class="error-msg" id="err-company" role="alert">נא למלא שם חברה</div>
+                    <label for="cohort">מחזור גיוס <span class="required" aria-hidden="true">*</span></label>
+                    <input type="text" id="cohort" name="cohort" placeholder="למשל: מרץ 01, נוב 17..." required autocomplete="off" aria-describedby="err-cohort" aria-required="true">
+                    <div class="error-msg" id="err-cohort" role="alert">נא למלא מחזור גיוס</div>
+                </div>
+
+                <!-- Company / Institution -->
+                <div class="field">
+                    <label for="company">חברה / מוסד לימודים</label>
+                    <input type="text" id="company" name="company" placeholder="למשל: שם החברה, אוניברסיטה, סטודנט/ית..." autocomplete="organization">
                 </div>
 
                 <!-- Role -->
-                <div class="field" data-required>
-                    <label for="role">תפקיד <span class="required" aria-hidden="true">*</span></label>
-                    <input type="text" id="role" name="role" placeholder="התפקיד שלך בחברה" required autocomplete="organization-title" aria-describedby="err-role" aria-required="true">
-                    <div class="error-msg" id="err-role" role="alert">נא למלא תפקיד</div>
+                <div class="field">
+                    <label for="role">תפקיד / תחום עיסוק</label>
+                    <input type="text" id="role" name="role" placeholder="למשל: PM, אנליסט/ית, סטודנט/ית להנדסה..." autocomplete="organization-title">
                 </div>
 
-                <!-- LinkedIn - required -->
-                <div class="field" data-required>
-                    <label for="linkedin">לינק ללינקדאין <span class="required" aria-hidden="true">*</span></label>
-                    <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/your-profile" dir="ltr" style="text-align: left;" autocomplete="url" required aria-describedby="err-linkedin" aria-required="true">
-                    <div class="error-msg" id="err-linkedin" role="alert">נא למלא לינק ללינקדאין</div>
+                <!-- LinkedIn - optional -->
+                <div class="field">
+                    <label for="linkedin">לינק ללינקדאין</label>
+                    <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/your-profile" dir="ltr" style="text-align: left;" autocomplete="url" aria-describedby="err-linkedin">
                 </div>
 
                 <div class="section-divider"></div>
 
                 <!-- Claude Code Installed -->
                 <fieldset class="field" data-required data-radio role="radiogroup" aria-describedby="err-installed">
-                    <legend>האם Claude Code מותקן אצלך במחשב? <span class="required" aria-hidden="true">*</span></legend>
+                    <legend>האם Claude Code מותקן אצלכם במחשב? <span class="required" aria-hidden="true">*</span></legend>
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" id="installed-yes" name="installed" value="yes" required>
@@ -598,7 +614,7 @@
 
                 <!-- Prior Experience -->
                 <fieldset class="field" data-required data-radio role="radiogroup" aria-describedby="err-experience" style="margin-top: 32px;">
-                    <legend>יש לך ניסיון קודם עם Claude Code? <span class="required" aria-hidden="true">*</span></legend>
+                    <legend>יש לכם ניסיון קודם עם Claude Code? <span class="required" aria-hidden="true">*</span></legend>
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" id="exp-none" name="experience" value="none" required>
@@ -618,22 +634,32 @@
 
                 <div class="section-divider"></div>
 
-                <!-- Frustration -->
-                <div class="field" data-required>
-                    <label for="frustration">מה המשימה שהכי גוזלת לך זמן בעבודה? <span class="required" aria-hidden="true">*</span></label>
-                    <textarea id="frustration" name="frustration" placeholder="למשל: דוחות שבועיים, סנכרון בין צוותים, מעקב ידני..." required aria-describedby="err-frustration" aria-required="true"></textarea>
-                    <div class="error-msg" id="err-frustration" role="alert">נא למלא שדה זה</div>
+                <!-- Frustration - open question -->
+                <div class="field">
+                    <label for="frustration">מה הייתם רוצים לשפר או לייעל בעבודה או בלימודים?</label>
+                    <textarea id="frustration" name="frustration" placeholder="ספרו בחופשיות - מה מאתגר, מה לוקח יותר מדי זמן, מה הייתם רוצים לעשות אחרת..."></textarea>
                 </div>
 
                 <!-- Expectations -->
                 <div class="field">
-                    <label for="expectations">ציפיות מהמפגש <span class="optional">(לא חובה)</span></label>
-                    <textarea id="expectations" name="expectations" placeholder="מה תרצה/י לקחת מהמפגש?" style="min-height: 60px;"></textarea>
+                    <label for="expectations">ציפיות מהמפגש</label>
+                    <textarea id="expectations" name="expectations" placeholder="מה תרצו לקחת מהמפגש?" style="min-height: 60px;"></textarea>
+                </div>
+
+                <!-- Installation info box -->
+                <div class="info-box" style="background: var(--primary-subtle); border: 1px solid #c6f0e2; border-radius: var(--radius-sm); padding: 16px 20px; margin-top: 24px; margin-bottom: 8px; font-size: 0.88rem; line-height: 1.75; color: var(--text-secondary);">
+                    <strong style="color: var(--text); display: block; margin-bottom: 6px;">לפני המפגש - עדיף מאוד להתקין את Claude Code</strong>
+                    לא נקדיש זמן להתקנה במפגש עצמו, אבל אל דאגה - הכנתי מדריך התקנה פשוט גם ל-Windows וגם ל-Mac.<br>
+                    שימו לב: נדרש חשבון Claude Pro בעלות $20 לחודש. אבל כמובן שאפשר גם להשתתף כ״צופים מהצד״ ללא חשבון, ואחרי המפגש להחליט אם מתאים לכם.
                 </div>
 
                 <button type="submit" class="submit-btn">
-                    <span>שמור לי מקום</span>
+                    <span>יאללה, שמור לי מקום</span>
                 </button>
+
+                <p style="text-align: center; font-size: 0.82rem; color: var(--text-muted); margin-top: 16px; line-height: 1.6;">
+                    המפגש יימשך כשעה וחצי ולא יהיה מוקלט
+                </p>
             </form>
         </div>
 
@@ -643,18 +669,18 @@
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
-            <h2>נרשמת בהצלחה!</h2>
+            <h2>נרשמת בכיף!</h2>
             <p style="margin-bottom: 8px;"><strong><span id="success-name"></span></strong> - תודה על ההרשמה!</p>
-            <p style="margin-bottom: 4px;">מדריך התקנה ולינק למפגש יישלחו אליכם למייל <span id="success-email" style="direction: ltr; unicode-bidi: embed;"></span> לפני המפגש</p>
+            <p style="margin-bottom: 4px;">מדריך התקנה ולינק למפגש יישלחו למייל <span id="success-email" style="direction: ltr; unicode-bidi: embed;"></span> לפני המפגש</p>
             <p style="margin-bottom: 20px;">נתראה ביום <strong>רביעי 15.4 בשעה 21:00</strong></p>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+-+מבוא+מעשי&dates=20260415T210000/20260415T223000&ctz=Asia/Jerusalem" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem;">הוסיפו ליומן</a>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+לנמרים+מעופפים+-+ממריאים+ביחד&dates=20260415T180000Z/20260415T193000Z&ctz=Asia/Jerusalem" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem;">הוסיפו ליומן</a>
         </div>
     </div>
     </main>
 
     <footer class="footer below-card">
         המפגש יתקיים ב-Zoom<br>
-        <strong>חמי בן לביא</strong> <span class="divider">|</span> Head of Product Operations
+        <a href="https://www.linkedin.com/in/hemibenlavi/" target="_blank" rel="noopener noreferrer"><strong>חמי בן לביא</strong></a> <span class="divider">|</span> <a href="tel:0544608119" dir="ltr">054-460-8119</a>
     </footer>
 </div>
 
@@ -719,6 +745,7 @@
             company: document.getElementById('company').value.trim(),
             role: document.getElementById('role').value.trim(),
             linkedin: document.getElementById('linkedin').value.trim(),
+            cohort: document.getElementById('cohort').value.trim(),
             claudeInstalled: document.querySelector('input[name="installed"]:checked')?.value || '',
             experience: document.querySelector('input[name="experience"]:checked')?.value || '',
             frustration: document.getElementById('frustration').value.trim(),
@@ -726,7 +753,7 @@
             webinar: 'webinar-2-hanemr-15.4.2026'
         };
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-PNOKKqRBiAaPSorRLPND9DnrtfJAJ8kNZoJWa4eqECZzgoAa0V7UhEuJ3UzPOkAoMg/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxdJobcF5iLqjWW8a7LD1mObXUng_NzIj61xD3H9icIVm2oheVJnsUl1BgzNNRdG58E2A/exec';
 
         fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',

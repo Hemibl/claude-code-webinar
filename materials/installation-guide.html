@@ -10,7 +10,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מדריך התקנה - Claude Code for Product Ops</title>
+    <title>מדריך התקנה - Claude Code לנמרים מעופפים</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after {
@@ -222,6 +222,16 @@
 
         body.os-win .win-only {
             display: block;
+        }
+
+        /* Hide content until OS is selected */
+        body:not(.os-mac):not(.os-win) .step-section,
+        body:not(.os-mac):not(.os-win) .section-separator,
+        body:not(.os-mac):not(.os-win) .cta-banner,
+        body:not(.os-mac):not(.os-win) .progress-bar,
+        body:not(.os-mac):not(.os-win) .guide-footer,
+        body:not(.os-mac):not(.os-win) #troubleshooting {
+            display: none !important;
         }
 
         /* Step sections */
@@ -668,11 +678,11 @@
         }
     </style>
 </head>
-<body class="os-mac">
+<body>
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="header-badge">CLAUDE CODE FOR PRODUCT OPS</div>
+            <div class="header-badge">CLAUDE CODE לנמרים מעופפים 🐆</div>
             <h1>מדריך <span>התקנה</span></h1>
             <p>עקבו אחרי השלבים - ותגיעו למפגש מוכנים לחלוטין.</p>
         </div>
@@ -712,7 +722,7 @@
             <p style="color: var(--white); font-size: 1.2rem; font-weight: 800; margin-bottom: 4px;">לפני שמתחילים</p>
             <p style="color: var(--gray-300); font-size: 1rem; margin-bottom: 16px;">בחרו את מערכת ההפעלה שלכם - ההוראות יתאימו את עצמן:</p>
             <div class="os-toggle" style="margin: 0;">
-                <button class="os-btn active" onclick="setOS('mac')">
+                <button class="os-btn" onclick="setOS('mac')">
                     <span class="os-icon" style="font-family: -apple-system, BlinkMacSystemFont, sans-serif;">&#xF8FF;</span>
                     <span>Mac</span>
                 </button>
@@ -1061,9 +1071,9 @@
         <!-- CTA Banner -->
         <div class="cta-banner">
             <p style="margin-bottom: 12px;">&#x1F389; יאללה מגניב, עברנו את השלב הזה!</p>
-            <p>נתראה ביום רביעי 25.3 בשעה 21:00</p>
-            <p class="sub">Microsoft Teams</p>
-            <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+for+Product+Ops&dates=20260325T210000/20260325T223000&ctz=Asia/Jerusalem&details=Join+Teams%3A+https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F29134819112132%3Fp%3DwnyzY9JisPKnS4vBXG" target="_blank" rel="noopener noreferrer">
+            <p>נתראה ביום רביעי 15.4 בשעה 21:00</p>
+            <p class="sub">Zoom</p>
+            <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Claude+Code+לנמרים+מעופפים+-+ממריאים+ביחד&dates=20260415T180000Z/20260415T193000Z&ctz=Asia/Jerusalem" target="_blank" rel="noopener noreferrer">
                 הוסיפו ליומן שלכם
             </a>
         </div>
@@ -1071,7 +1081,8 @@
         <!-- Footer -->
         <div class="guide-footer">
             <p class="name"><a href="https://www.linkedin.com/in/hemibenlavi/" target="_blank" rel="noopener noreferrer" style="color: var(--white); text-decoration: none; border-bottom: 1px solid var(--green); padding-bottom: 2px; transition: color 0.2s;">חמי בן לביא</a></p>
-            <p>Head of Product Operations | AI for Product Ops</p>
+            <p>Head of Product Operations</p>
+            <p><a href="tel:0544608119" style="color: var(--gray-400); text-decoration: none;">054-460-8119</a></p>
         </div>
     </div>
 
@@ -1121,9 +1132,7 @@
             if (!wasOpen) item.classList.add('open');
         }
 
-        // Restore OS preference
-        var saved = localStorage.getItem('preferred-os');
-        if (saved) setOS(saved);
+        // OS preference restore removed - user must choose each time
 
         // Progress bar: highlight active step and mark completed steps
         var stepSections = document.querySelectorAll('.step-section[data-step]');
