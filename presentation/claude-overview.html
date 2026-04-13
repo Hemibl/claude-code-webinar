@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הכירו את Claude - מבט על</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRW4GYVGD3"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-KRW4GYVGD3');</script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;800;900&display=swap');
+
+        :root {
+            --white: #ffffff;
+            --warm: #faf9f7;
+            --black: #1a1a1a;
+            --gray-mid: #999;
+            --gray-dark: #555;
+            --accent: #D97757;
+            --accent-light: rgba(217, 119, 87, 0.08);
+            --accent-glow: rgba(217, 119, 87, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: var(--white);
+            color: var(--black);
+        }
+
+        /* ─── Slides ─── */
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 80px 48px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            overflow: hidden;
+        }
+
+        .slide.active { opacity: 1; pointer-events: all; }
+
+        /* Warm alternating bg */
+        .slide-warm { background: var(--warm); }
+        .slide-dark { background: var(--black); color: white; }
+
+        /* Staggered entrance */
+        .anim {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+        .slide.active .anim { opacity: 1; transform: translateY(0); }
+
+        .anim:nth-child(1) { transition-delay: 0.1s; }
+        .anim:nth-child(2) { transition-delay: 0.2s; }
+        .anim:nth-child(3) { transition-delay: 0.3s; }
+        .anim:nth-child(4) { transition-delay: 0.4s; }
+        .anim:nth-child(5) { transition-delay: 0.5s; }
+
+        /* Row-by-row for specific slides */
+        .row-anim {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .slide.active .row-anim { opacity: 1; transform: translateY(0); }
+        .slide.active .row-anim:nth-child(1) { transition-delay: 0.1s; }
+        .slide.active .row-anim:nth-child(2) { transition-delay: 0.3s; }
+        .slide.active .row-anim:nth-child(3) { transition-delay: 0.5s; }
+        .slide.active .row-anim:nth-child(4) { transition-delay: 0.7s; }
+
+        /* ─── Section bar ─── */
+        .bar-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+            align-self: flex-start;
+        }
+
+        .bar {
+            width: 4px;
+            height: 36px;
+            background: var(--accent);
+            flex-shrink: 0;
+            transform: scaleY(0);
+            transition: transform 0.4s ease 0.15s;
+            transform-origin: top;
+            border-radius: 2px;
+        }
+
+        .slide.active .bar { transform: scaleY(1); }
+
+        .bar-title h2 {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── Pink line ─── */
+        .accent-line {
+            width: 48px;
+            height: 3px;
+            background: var(--accent);
+            margin: 20px auto;
+            transform: scaleX(0);
+            transition: transform 0.5s ease 0.4s;
+            border-radius: 2px;
+        }
+        .slide.active .accent-line { transform: scaleX(1); }
+
+        /* ─── Content ─── */
+        .content {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        /* Feature list */
+        .flist { list-style: none; }
+
+        .flist li {
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 25px;
+            color: var(--gray-dark);
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            line-height: 1.5;
+        }
+
+        .flist li strong {
+            color: var(--black);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .flist li .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 12px;
+        }
+
+        .flist li.highlight-row {
+            background: var(--accent-light);
+            padding: 18px 20px;
+            margin: 4px -20px;
+            border-color: transparent;
+            border-radius: 6px;
+        }
+
+        /* Model cards */
+        .model-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 28px;
+        }
+
+        .model-card {
+            border: 2px solid #e8e8e8;
+            padding: 44px 28px;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .model-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .model-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+        }
+        .model-card:hover::after { transform: scaleX(1); }
+
+        .model-card.featured {
+            border-color: var(--accent);
+            box-shadow: 0 4px 24px var(--accent-glow);
+        }
+        .model-card.featured::after { transform: scaleX(1); }
+
+        .model-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 14px;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            border-radius: 3px;
+        }
+
+        .model-name {
+            font-size: 46px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .model-version {
+            font-size: 14px;
+            color: var(--gray-mid);
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            font-weight: 400;
+        }
+
+        .model-desc {
+            font-size: 21px;
+            color: var(--gray-mid);
+            line-height: 1.7;
+        }
+        .model-desc strong { color: var(--black); font-weight: 700; }
+
+        /* Stat grid 2x2 */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .stat-box {
+            padding: 32px 28px;
+            border: 1px solid #e8e8e8;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            border-radius: 4px;
+        }
+
+        .stat-box:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .stat-num {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            padding-top: 4px;
+        }
+
+        .stat-name {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .stat-desc {
+            font-size: 19px;
+            color: var(--gray-mid);
+            line-height: 1.5;
+        }
+
+        /* Vibe coding - dark slide */
+        .vibe-title {
+            font-size: 92px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            line-height: 1;
+            color: white;
+        }
+
+        .vibe-subtitle {
+            font-size: 30px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 300;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .vibe-quote {
+            font-size: 23px;
+            color: rgba(255,255,255,0.8);
+            border-right: 3px solid var(--accent);
+            padding-right: 24px;
+            margin-top: 40px;
+            line-height: 1.7;
+            max-width: 750px;
+            text-align: right;
+        }
+
+        .vibe-punchline {
+            font-size: 30px;
+            font-weight: 700;
+            margin-top: 44px;
+            color: white;
+            text-align: center;
+        }
+
+        .vibe-punchline span {
+            display: block;
+            font-weight: 300;
+            color: rgba(255,255,255,0.4);
+            font-size: 24px;
+            margin-top: 8px;
+        }
+
+        /* Price */
+        .price-box {
+            display: inline-block;
+            border: 3px solid var(--accent);
+            padding: 28px 60px;
+            margin-top: 28px;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .price-amount {
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        .price-label {
+            font-size: 22px;
+            color: var(--gray-mid);
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* ─── Watermark ─── */
+        .watermark {
+            position: absolute;
+            bottom: 56px;
+            left: 32px;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+
+        .watermark img {
+            width: 48px;
+            height: 48px;
+        }
+
+        /* ─── Navigation (auto-hide) ─── */
+        .nav-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-top: 1px solid #eee;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .nav-bar.visible { opacity: 1; }
+        .nav-bar:hover { opacity: 1; }
+
+        .nav-btn {
+            background: var(--white);
+            border: 1px solid #ddd;
+            color: var(--black);
+            padding: 7px 18px;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            border-radius: 3px;
+        }
+
+        .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .nav-btn:disabled { opacity: 0.15; cursor: default; }
+
+        .slide-counter { color: var(--gray-mid); font-size: 13px; font-weight: 300; }
+
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: rgba(0,0,0,0.04);
+            z-index: 100;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.5s ease;
+        }
+
+        /* Meta footer */
+        .meta-footer {
+            font-size: 15px;
+            color: rgba(255,255,255,0.2);
+            margin-top: 48px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .slide { padding: 20px 32px 48px; }
+            .split { grid-template-columns: 1fr; gap: 32px; }
+            .model-cards { grid-template-columns: 1fr; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .vibe-title { font-size: 48px; }
+            .bar-title h2 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<!-- ═══════ ACT 1: WHO IS BEHIND THIS ═══════ -->
+
+<!-- SLIDE 1: Title -->
+<div class="slide active" data-slide="0">
+    <div style="text-align: center;">
+        <img src="../assets/claude-logo-clean.png" alt="Claude" style="width: 150px; height: 150px; border-radius: 36px; margin-bottom: 24px; opacity: 0; transform: scale(0.85); transition: opacity 0.8s ease 0.2s, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;" class="slide-logo">
+        <div class="accent-line"></div>
+        <div style="font-size: 68px; font-weight: 900; letter-spacing: 2px;">הכירו את Claude</div>
+        <p class="slide-sub" style="font-size: 26px; color: var(--gray-mid); font-weight: 300; margin-top: 16px; opacity: 0; transform: translateY(10px); transition: all 0.5s ease 0.8s;">
+            7 דקות לפני שצוללים לטרמינל
+        </p>
+    </div>
+</div>
+
+<!-- SLIDE 2: Anthropic -->
+<div class="slide slide-warm" data-slide="1">
+    <div class="content">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 36px;">
+            <span class="bar"></span>
+            <img src="images/anthropic-logo.png" alt="Anthropic" style="height: 44px; border-radius: 10px;">
+            <h2 style="font-size: 42px; font-weight: 800;">Anthropic בקצרה</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 72px; align-items: center;">
+            <ul class="flist">
+                <li class="anim" style="padding: 22px 0; font-size: 27px;">
+                    <span class="dot"></span>
+                    <div><strong>2021</strong> קבוצה של חוקרי AI עזבה את OpenAI כי רצתה לבנות AI בצורה אחראית יותר</div>
+                </li>
+                <li class="anim" style="padding: 22px 0; font-size: 27px;">
+                    <span class="dot"></span>
+                    <div><strong>$30B הכנסות</strong> בקצב שנתי (אפריל 2026) · שווי חברה $380B</div>
+                </li>
+                <li class="anim" style="padding: 22px 0; font-size: 27px;">
+                    <span class="dot"></span>
+                    <div><strong>היום</strong> אחת מ-3 חברות ה-AI המובילות בעולם, לצד OpenAI ו-Google</div>
+                </li>
+            </ul>
+            <div class="anim" style="display: flex; gap: 40px;">
+                <div style="text-align: center;">
+                    <img src="images/dario-amodei.png" alt="Dario Amodei" style="width: 190px; height: 190px; object-fit: cover; object-position: top; border-radius: 50%; border: 3px solid rgba(0,0,0,0.06);">
+                    <div style="font-size: 19px; font-weight: 700; margin-top: 14px;">Dario Amodei</div>
+                    <div style="font-size: 14px; color: var(--gray-mid); font-weight: 400;">CEO & Co-Founder</div>
+                </div>
+                <div style="text-align: center;">
+                    <img src="images/daniela-amodei.png" alt="Daniela Amodei" style="width: 190px; height: 190px; object-fit: cover; object-position: top; border-radius: 50%; border: 3px solid rgba(0,0,0,0.06);">
+                    <div style="font-size: 19px; font-weight: 700; margin-top: 14px;">Daniela Amodei</div>
+                    <div style="font-size: 14px; color: var(--gray-mid); font-weight: 400;">President & Co-Founder</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="watermark"><img src="../assets/claude-logo-clean.png" alt=""></div>
+</div>
+
+<!-- SLIDE 3: Models -->
+<div class="slide" data-slide="2">
+    <div class="content">
+        <div class="bar-title"><span class="bar"></span><h2>שלושה מודלים</h2></div>
+        <div class="model-cards">
+            <div class="model-card anim">
+                <div class="model-badge">הכי חזק</div>
+                <div class="model-name">Opus</div>
+                <div class="model-version">CLAUDE OPUS 4.6</div>
+                <div class="model-desc">
+                    חשיבה עמוקה ומורכבת
+                    <br>משימות רב-שלביות
+                    <br><br><strong>כשצריך את הטוב ביותר</strong>
+                </div>
+            </div>
+            <div class="model-card featured anim">
+                <div class="model-badge" style="background: var(--black);">ברירת מחדל שלכם</div>
+                <div class="model-name">Sonnet</div>
+                <div class="model-version">CLAUDE SONNET 4.6</div>
+                <div class="model-desc">
+                    איזון מושלם: חכם + מהיר
+                    <br>מספיק לרוב המשימות
+                    <br><br><strong>מה שתשתמשו בו 90% מהזמן</strong>
+                </div>
+            </div>
+            <div class="model-card anim">
+                <div class="model-badge">הכי מהיר</div>
+                <div class="model-name">Haiku</div>
+                <div class="model-version">CLAUDE HAIKU 4.5</div>
+                <div class="model-desc">
+                    מהיר וזול
+                    <br>סיווג, מיון, סיכום
+                    <br><br><strong>כשצריך כמות ומהירות</strong>
+                </div>
+            </div>
+        </div>
+        <p class="anim" style="text-align: center; margin-top: 36px; font-size: 21px; color: var(--gray-mid);">
+            כולם מדברים עברית · כולם מבינים תמונות, קבצים וקוד
+        </p>
+    </div>
+    <div class="watermark"><img src="../assets/claude-logo-clean.png" alt=""></div>
+</div>
+
+<!-- ═══════ ACT 2: WHY THIS MATTERS TO YOU ═══════ -->
+
+<!-- SLIDE 4: Why Claude -->
+<div class="slide slide-warm" data-slide="3">
+    <div class="content" style="max-width: 1100px;">
+        <div class="bar-title"><span class="bar"></span><h2>למה דווקא Claude?</h2></div>
+        <div class="stat-grid">
+            <div class="stat-box anim">
+                <div class="stat-num">01</div>
+                <div>
+                    <div class="stat-name">קונטקסט ענק</div>
+                    <div class="stat-desc">מיליון tokens - כ-3,000 עמודים בשיחה אחת. נותנים לו codebase שלם והוא מבין</div>
+                </div>
+            </div>
+            <div class="stat-box anim">
+                <div class="stat-num">02</div>
+                <div>
+                    <div class="stat-name">הכי טוב בקוד</div>
+                    <div class="stat-desc">מוביל בכל מדד של כתיבת קוד. וזה בדיוק מה שמעניין אותנו היום</div>
+                </div>
+            </div>
+            <div class="stat-box anim">
+                <div class="stat-num">03</div>
+                <div>
+                    <div class="stat-name">Computer Use</div>
+                    <div class="stat-desc">יכול לשלוט במחשב - עכבר, מקלדת, מסך. x8 מכל מתחרה</div>
+                </div>
+            </div>
+            <div class="stat-box anim">
+                <div class="stat-num">04</div>
+                <div>
+                    <div class="stat-name">אמינות</div>
+                    <div class="stat-desc">עוקב אחרי הוראות בצורה מדויקת. פחות הזיות, יותר עקביות</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="watermark"><img src="../assets/claude-logo-clean.png" alt=""></div>
+</div>
+
+<!-- SLIDE 5: Products -->
+<div class="slide" data-slide="4">
+    <div class="content" style="max-width: 950px;">
+        <div class="bar-title"><span class="bar"></span><h2>איך משתמשים ב-Claude</h2></div>
+        <ul class="flist" style="font-size: 27px;">
+            <li class="anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>claude.ai</strong> ממשק Web - צ'אט, העלאת קבצים, יצירת תוכן</div>
+            </li>
+            <li class="anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>Desktop / Mobile</strong> אפליקציה ל-Mac, Windows, iOS, Android</div>
+            </li>
+            <li class="anim highlight-row" style="font-size: 29px;">
+                <span class="dot"></span>
+                <div><strong>Claude Code</strong> סוכן AI בטרמינל - מה שנלמד היום</div>
+            </li>
+        </ul>
+    </div>
+    <div class="watermark"><img src="../assets/claude-logo-clean.png" alt=""></div>
+</div>
+
+<!-- SLIDE 6: Vibe Coding - THE MOMENT -->
+<div class="slide slide-dark" data-slide="5">
+    <div class="content" style="max-width: 1050px;">
+        <div class="anim" style="text-align: center; margin-bottom: 44px;">
+            <div class="vibe-title">Vibe Coding</div>
+            <div class="accent-line"></div>
+            <div class="vibe-subtitle">
+                לתאר מה רוצים בשפה טבעית - ולתת ל-AI לכתוב את הקוד
+            </div>
+        </div>
+        <div class="vibe-quote anim">
+            "אני לא מפתח. אני לא כותב קוד. אבל בשנה האחרונה בניתי דשבורדים, טפסי הרשמה, מצגות אינטרקטיביות, סקריפטים לאוטומציה, ניתוחי נתונים - הכל עם Claude Code."
+            <div style="font-size: 17px; color: rgba(255,255,255,0.4); margin-top: 14px; font-weight: 700;">חמי בן-לביא, Head of Product Operations</div>
+        </div>
+        <div class="vibe-punchline anim">
+            זה לא "low code". זה no code for real.
+            <span>אתם אומרים מה, Claude עושה איך.</span>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════ ACT 3: I WANT TO START ═══════ -->
+
+<!-- SLIDE 7a: מה זה Claude Code -->
+<div class="slide slide-warm" data-slide="6">
+    <div class="content" style="max-width: 950px;">
+        <div class="bar-title"><span class="bar"></span><h2>מה זה Claude Code</h2></div>
+        <ul class="flist" style="font-size: 27px;">
+            <li class="row-anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>סוכן AI בטרמינל</strong> מקבל הוראה בעברית, מבצע: יוצר קבצים, כותב קוד, מריץ פקודות</div>
+            </li>
+            <li class="row-anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>מבין codebase שלם</strong> קורא את כל הפרויקט, לא רק קובץ אחד</div>
+            </li>
+            <li class="row-anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>Git מובנה</strong> commits, branches, PRs - בלי שתצטרכו לזכור פקודות</div>
+            </li>
+            <li class="row-anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>ניתן להרחבה</strong> CLAUDE.md, סקילים, חיבור ל-Jira/Slack/דפדפן</div>
+            </li>
+        </ul>
+    </div>
+    <div class="watermark"><img src="../assets/claude-logo-clean.png" alt=""></div>
+</div>
+
+<!-- SLIDE 7b: למי זה מתאים -->
+<div class="slide" data-slide="7">
+    <div class="content" style="max-width: 950px;">
+        <div class="bar-title"><span class="bar"></span><h2>למי זה מתאים</h2></div>
+        <ul class="flist" style="font-size: 27px;">
+            <li class="row-anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>Product Ops</strong> אוטומציות, דשבורדים, ניתוחי נתונים</div>
+            </li>
+            <li class="row-anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>PMs</strong> פרוטוטייפים, specs, מחקר תחרותי</div>
+            </li>
+            <li class="row-anim" style="padding: 22px 0;">
+                <span class="dot"></span>
+                <div><strong>אנליסטים</strong> עיבוד CSV, הפקת דוחות, ויזואליזציה</div>
+            </li>
+            <li class="row-anim highlight-row" style="font-size: 27px;">
+                <span class="dot"></span>
+                <div><strong>כל מי שלא כותב קוד</strong> אבל רוצה לבנות דברים</div>
+            </li>
+        </ul>
+    </div>
+    <div class="watermark"><img src="../assets/claude-logo-clean.png" alt=""></div>
+</div>
+
+<!-- SLIDE 9: Pricing -->
+<div class="slide slide-warm" data-slide="8">
+    <div style="text-align: center; max-width: 900px;">
+        <div class="bar-title" style="justify-content: center;">
+            <span class="bar"></span>
+            <h2 style="font-size: 42px; font-weight: 800;">כמה זה עולה</h2>
+        </div>
+        <p class="anim" style="font-size: 24px; color: var(--gray-dark); margin-bottom: 36px; font-weight: 400;">
+            Claude Code דורש מנוי Pro ומעלה
+        </p>
+        <div class="anim">
+            <div class="price-box">
+                <div class="price-amount">$20</div>
+                <div class="price-label">לחודש - תוכנית Pro</div>
+            </div>
+        </div>
+        <ul class="flist anim" style="margin-top: 40px; text-align: right; max-width: 550px; margin-left: auto; margin-right: auto; font-size: 24px;">
+            <li style="padding: 18px 0;">
+                <span class="dot"></span>
+                <div><strong>Pro</strong> מספיק לרוב המשתמשים, כולל Claude Code</div>
+            </li>
+            <li style="padding: 18px 0;">
+                <span class="dot"></span>
+                <div><strong>Max</strong> $100-$200 - למי שצריך שימוש אינטנסיבי</div>
+            </li>
+        </ul>
+        <p class="anim" style="font-size: 18px; color: var(--gray-mid); margin-top: 24px;">
+            יש גם Free - אבל בלי Claude Code
+        </p>
+    </div>
+    <div class="watermark"><img src="../assets/claude-logo-clean.png" alt=""></div>
+</div>
+
+<!-- SLIDE 10: Let's Go -->
+<div class="slide slide-dark" data-slide="9">
+    <div style="text-align: center;">
+        <img src="../assets/claude-logo-clean.png" alt="Claude" style="width: 130px; height: 130px; border-radius: 30px; margin-bottom: 28px; opacity: 0; transform: scale(0.85); transition: opacity 0.8s ease 0.2s, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;" class="slide-logo-end">
+        <div style="width: 48px; height: 3px; background: var(--accent); margin: 0 auto 24px; border-radius: 2px; transform: scaleX(0); transition: transform 0.5s ease 0.5s;" class="line-end"></div>
+        <div style="font-size: 68px; font-weight: 900; color: white; letter-spacing: 3px; opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;" class="title-end">
+            בואו נצלול פנימה
+        </div>
+        <p style="font-size: 22px; color: rgba(255,255,255,0.3); margin-top: 20px; font-weight: 300; opacity: 0; transition: opacity 0.5s ease 0.8s;" class="sub-end">
+            מעבר לטרמינל ←
+        </p>
+        <div style="margin-top: 56px; opacity: 0; transition: opacity 0.5s ease 1s;" class="meta-end">
+            <div style="font-size: 22px; color: rgba(255,255,255,0.6); font-weight: 700;">חמי בן-לביא</div>
+            <div style="font-size: 16px; color: rgba(255,255,255,0.3); margin-top: 6px; font-weight: 400;">Head of Product Operations · 200Apps</div>
+            <div style="font-size: 14px; color: var(--accent); opacity: 0.5; margin-top: 20px; letter-spacing: 0.5px;">מצגת זו נבנתה עם Claude Code</div>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar" id="navbar">
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">הבא &larr;</button>
+    <span class="slide-counter" id="counter">1 / 10</span>
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">הקודם &rarr;</button>
+</div>
+
+<script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    let navTimeout;
+
+    function showSlide(index) {
+        slides.forEach(s => s.classList.remove('active'));
+        slides[index].classList.add('active');
+
+        // Title slide
+        if (index === 0) {
+            const logo = slides[0].querySelector('.slide-logo');
+            const sub = slides[0].querySelector('.slide-sub');
+            if (logo) { logo.style.opacity = '1'; logo.style.transform = 'scale(1)'; }
+            if (sub) { sub.style.opacity = '1'; sub.style.transform = 'translateY(0)'; }
+        }
+
+        // Anthropic bar
+        if (index === 1) {
+            const bar = slides[1].querySelector('.bar');
+            if (bar) bar.style.transform = 'scaleY(1)';
+        }
+
+        // Last slide
+        if (index === total - 1) {
+            const el = slides[index];
+            ['slide-logo-end', 'line-end', 'title-end', 'sub-end', 'meta-end'].forEach(cls => {
+                const e = el.querySelector('.' + cls);
+                if (e) {
+                    e.style.opacity = '1';
+                    if (cls === 'slide-logo-end') e.style.transform = 'scale(1)';
+                    if (cls === 'title-end') e.style.transform = 'translateY(0)';
+                    if (cls === 'line-end') e.style.transform = 'scaleX(1)';
+                }
+            });
+            // meta footer has two classes, handle separately
+            const meta = el.querySelector('.meta-footer');
+            if (meta) meta.style.opacity = '1';
+        }
+
+        // Dark slides - adjust nav
+        const isDark = slides[index].classList.contains('slide-dark');
+        const nav = document.getElementById('navbar');
+        if (isDark) {
+            nav.style.background = 'rgba(26,26,26,0.9)';
+            nav.style.borderColor = 'rgba(255,255,255,0.1)';
+            nav.querySelectorAll('.nav-btn').forEach(b => { b.style.color = 'white'; b.style.borderColor = 'rgba(255,255,255,0.2)'; b.style.background = 'transparent'; });
+            document.querySelector('.slide-counter').style.color = 'rgba(255,255,255,0.4)';
+        } else {
+            nav.style.background = 'rgba(255,255,255,0.95)';
+            nav.style.borderColor = '#eee';
+            nav.querySelectorAll('.nav-btn').forEach(b => { b.style.color = ''; b.style.borderColor = ''; b.style.background = ''; });
+            document.querySelector('.slide-counter').style.color = '';
+        }
+
+        document.getElementById('counter').textContent = `${index + 1} / ${total}`;
+        document.getElementById('progress').style.width = `${((index + 1) / total) * 100}%`;
+        document.getElementById('prevBtn').disabled = index === 0;
+        document.getElementById('nextBtn').disabled = index === total - 1;
+
+        flashNav();
+    }
+
+    function navigate(dir) {
+        const next = current + dir;
+        if (next >= 0 && next < total) {
+            current = next;
+            showSlide(current);
+        }
+    }
+
+    // Auto-hide nav
+    function flashNav() {
+        const nav = document.getElementById('navbar');
+        nav.classList.add('visible');
+        clearTimeout(navTimeout);
+        navTimeout = setTimeout(() => nav.classList.remove('visible'), 2500);
+    }
+
+    document.addEventListener('mousemove', flashNav);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === ' ') { e.preventDefault(); navigate(1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); navigate(-1); }
+        if (e.key === 'f' || e.key === 'F') {
+            if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+            else document.exitFullscreen();
+        }
+    });
+
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+    });
+
+    showSlide(0);
+</script>
+
+</body>
+</html>
