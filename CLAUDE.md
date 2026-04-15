@@ -59,6 +59,12 @@
 - שם פרטי - כפי שנכתב בטופס (עברית או אנגלית)
 - לינק למדריך ההתקנה: https://hemibl.github.io/claude-code-webinar/materials/installation-guide.html
 
+## Analytics
+Google Analytics: https://analytics.google.com (נכס: Claude Code Webinar, ID: G-KRW4GYVGD3)
+דוח דפים: Reports → Engagement → Pages and screens
+
+כלל: כל דף HTML חדש שנוצר בפרויקט זה - יש להוסיף אוטומטית את ה-GA snippet עם ID: G-KRW4GYVGD3 מיד אחרי תגית <head>
+
 ## Webinar Recording
 סרטון הוובינר: https://www.youtube.com/watch?v=2Lein1_Z5iQ
 
