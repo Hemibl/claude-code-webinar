@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Static Site (Python)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8080"],
+      "port": 8080
+    },
+    {
+      "name": "Presentation Only",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8081", "-d", "presentation"],
+      "port": 8081
+    },
+    {
+      "name": "Materials Only",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8082", "-d", "materials"],
+      "port": 8082
+    }
+  ]
+}

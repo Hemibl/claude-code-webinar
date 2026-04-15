@@ -1,0 +1,1 @@
+function testDoPost(){var e={postData:{contents:JSON.stringify({fullName:"Test",email:"hemibenlavi@gmail.com",company:"X",role:"Y",cohort:"1",claudeInstalled:"yes",experience:"none",frustration:"",expectations:"",webinar:"test"})}};doPost(e);}

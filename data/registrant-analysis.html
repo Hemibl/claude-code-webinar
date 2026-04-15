@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניתוח נרשמים - וובינר Claude Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0d9373;
+  --primary-light: #e8f5f0;
+  --primary-dark: #0a7a60;
+  --accent: #065f46;
+  --bg: #f8fafb;
+  --card-bg: #ffffff;
+  --text: #1a1a2e;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.1);
+  --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: white;
+  padding: 40px;
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -30%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+.header .meta {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  border-top: 3px solid var(--primary);
+}
+.stat-card .number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+.stat-card .label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 8px;
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+.card h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card h2 .icon {
+  width: 28px;
+  height: 28px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+/* Grid layout */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .header { padding: 24px; }
+  .header h1 { font-size: 1.5rem; }
+}
+
+/* Bar charts */
+.bar-chart { margin-top: 8px; }
+.bar-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 12px;
+}
+.bar-label {
+  min-width: 140px;
+  font-size: 0.9rem;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bar-track {
+  flex: 1;
+  height: 28px;
+  background: var(--primary-light);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  border-radius: 6px;
+  transition: width 0.8s ease;
+  min-width: 2px;
+}
+.bar-value {
+  min-width: 36px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+}
+
+/* Highlight bar */
+.bar-item.highlight .bar-fill {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+.bar-item.highlight .bar-value {
+  color: #d97706;
+}
+
+/* Donut chart */
+.donut-container {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.donut {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.donut-center {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  z-index: 2;
+}
+.donut-center .big { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+.donut-center .small { font-size: 0.7rem; color: var(--text-light); }
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* Company table */
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+}
+.company-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: var(--primary-light);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.company-item.notable {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1px solid #f59e0b;
+}
+.company-item .count {
+  background: var(--primary);
+  color: white;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.company-item.notable .count {
+  background: #d97706;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tag.large {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 16px;
+}
+.tag.medium {
+  background: var(--primary-light);
+  color: var(--accent);
+  font-weight: 500;
+}
+.tag.small {
+  background: #f3f4f6;
+  color: var(--text-light);
+}
+.tag .tag-count {
+  font-weight: 700;
+}
+
+/* Insight cards */
+.insight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.insight {
+  padding: 16px 20px;
+  border-radius: 10px;
+  border-right: 4px solid var(--primary);
+  background: var(--primary-light);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.insight strong {
+  color: var(--accent);
+}
+.insight.action {
+  border-right-color: #f59e0b;
+  background: #fffbeb;
+}
+.insight.action strong {
+  color: #92400e;
+}
+
+/* Section divider */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 28px 0 16px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-light);
+}
+
+/* Percentage labels */
+.pct {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-right: 4px;
+}
+
+/* Micro-interactions */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+@keyframes barGrow {
+  from { width: 0; }
+}
+
+.card {
+  animation: fadeInUp 0.5s ease both;
+}
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.2s; }
+
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeInUp 0.4s ease both;
+}
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+.stat-card:nth-child(5) { animation-delay: 0.5s; }
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.stat-card .number {
+  animation: countUp 0.6s ease both;
+}
+
+.bar-fill {
+  animation: barGrow 1s ease both;
+}
+.bar-item:nth-child(1) .bar-fill { animation-delay: 0.1s; }
+.bar-item:nth-child(2) .bar-fill { animation-delay: 0.2s; }
+.bar-item:nth-child(3) .bar-fill { animation-delay: 0.3s; }
+.bar-item:nth-child(4) .bar-fill { animation-delay: 0.35s; }
+.bar-item:nth-child(5) .bar-fill { animation-delay: 0.4s; }
+.bar-item:nth-child(6) .bar-fill { animation-delay: 0.45s; }
+.bar-item:nth-child(7) .bar-fill { animation-delay: 0.5s; }
+.bar-item:nth-child(8) .bar-fill { animation-delay: 0.55s; }
+.bar-item:nth-child(9) .bar-fill { animation-delay: 0.6s; }
+.bar-item:nth-child(10) .bar-fill { animation-delay: 0.65s; }
+.bar-item:nth-child(11) .bar-fill { animation-delay: 0.7s; }
+.bar-item:nth-child(12) .bar-fill { animation-delay: 0.75s; }
+
+.bar-item {
+  transition: transform 0.15s ease;
+}
+.bar-item:hover {
+  transform: translateX(-4px);
+}
+
+.company-item {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  animation: slideInRight 0.3s ease both;
+}
+.company-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tag {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: default;
+}
+.tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+.insight {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  animation: fadeInUp 0.4s ease both;
+}
+.insight:hover {
+  transform: translateX(-4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.header {
+  animation: fadeInUp 0.6s ease both;
+}
+
+.donut {
+  transition: transform 0.3s ease;
+}
+.donut:hover {
+  transform: scale(1.05);
+}
+
+.legend-item {
+  transition: transform 0.15s ease;
+}
+.legend-item:hover {
+  transform: translateX(-3px);
+}
+
+/* Session planning section */
+.session-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+  border-right: 5px solid;
+  animation: fadeInUp 0.5s ease both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.session-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.session-card.demo { border-right-color: #8b5cf6; }
+.session-card.audience { border-right-color: #0d9373; }
+.session-card.strategy { border-right-color: #f59e0b; }
+.session-card.risk { border-right-color: #ef4444; }
+
+.session-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.session-card .badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+}
+.badge.purple { background: #8b5cf6; }
+.badge.green { background: #0d9373; }
+.badge.amber { background: #f59e0b; }
+.badge.red { background: #ef4444; }
+
+.session-card ul {
+  padding-right: 20px;
+  margin: 0;
+}
+.session-card li {
+  margin-bottom: 8px;
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+.session-card li strong {
+  color: var(--accent);
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .session-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>ניתוח נרשמים - וובינר Claude Code</h1>
+  <p>וובינר לקהילת Product Operations - ניתוח מלא של הנרשמים</p>
+  <div class="meta">עודכן: 25 במרץ 2026 (גרסה 4) | מקור: טופס הרשמה Google Forms</div>
+</div>
+
+<!-- Stats Row -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="number">84</div>
+    <div class="label">נרשמים ייחודיים</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">54</div>
+    <div class="label">חברות שונות</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">61%</div>
+    <div class="label">ללא נסיון בקלוד קוד</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">54%</div>
+    <div class="label">קלוד קוד לא מותקן במחשב</div>
+  </div>
+</div>
+
+<!-- Companies -->
+<div class="card">
+  <h2><span class="icon">🏢</span> פילוח חברות</h2>
+  <p style="margin-bottom:16px; color: var(--text-light); font-size:0.9rem;">84 נרשמים מ-54 חברות/מקורות שונים. חברות בולטות מסומנות בצהוב.</p>
+
+  <div class="section-title">חברות עם מספר נרשמים (2+)</div>
+  <div class="company-grid">
+    <div class="company-item notable"><span>SolarEdge</span><span class="count">7</span></div>
+    <div class="company-item notable"><span>Palo Alto Networks</span><span class="count">5</span></div>
+    <div class="company-item notable"><span>Monday.com</span><span class="count">6</span></div>
+    <div class="company-item notable"><span>Bagel AI</span><span class="count">4</span></div>
+    <div class="company-item notable"><span>Orca Security</span><span class="count">3</span></div>
+    <div class="company-item notable"><span>Fireblocks</span><span class="count">2</span></div>
+    <div class="company-item notable"><span>Nexxen</span><span class="count">3</span></div>
+    <div class="company-item notable"><span>Varonis</span><span class="count">2</span></div>
+    <div class="company-item notable"><span>JFrog</span><span class="count">2</span></div>
+    <div class="company-item notable"><span>Checkmarx</span><span class="count">2</span></div>
+    <div class="company-item notable"><span>Riskified</span><span class="count">2</span></div>
+  </div>
+
+  <div class="section-title">חברות עם נרשם אחד</div>
+  <div class="company-grid">
+    <div class="company-item"><span>EL AL</span><span class="count">1</span></div>
+    <div class="company-item"><span>Hello Heart</span><span class="count">1</span></div>
+    <div class="company-item"><span>Nvidia</span><span class="count">1</span></div>
+    <div class="company-item"><span>Wix</span><span class="count">1</span></div>
+    <div class="company-item"><span>Lemonade</span><span class="count">1</span></div>
+    <div class="company-item"><span>Kaltura</span><span class="count">1</span></div>
+    <div class="company-item"><span>CyberArk</span><span class="count">1</span></div>
+    <div class="company-item"><span>Cyera</span><span class="count">1</span></div>
+    <div class="company-item"><span>Cellebrite</span><span class="count">1</span></div>
+    <div class="company-item"><span>Controlup</span><span class="count">1</span></div>
+    <div class="company-item"><span>Tenable</span><span class="count">1</span></div>
+    <div class="company-item"><span>Salt Security</span><span class="count">1</span></div>
+    <div class="company-item"><span>Placer.ai</span><span class="count">1</span></div>
+    <div class="company-item"><span>MoonActive</span><span class="count">1</span></div>
+    <div class="company-item"><span>Elementor</span><span class="count">1</span></div>
+    <div class="company-item"><span>Ecoplant</span><span class="count">1</span></div>
+    <div class="company-item"><span>Yotpo</span><span class="count">1</span></div>
+    <div class="company-item"><span>Optibus</span><span class="count">1</span></div>
+    <div class="company-item"><span>Payoneer</span><span class="count">1</span></div>
+    <div class="company-item"><span>MedOrion</span><span class="count">1</span></div>
+    <div class="company-item"><span>Unity</span><span class="count">1</span></div>
+    <div class="company-item"><span>Remitly</span><span class="count">1</span></div>
+    <div class="company-item"><span>Sensi.AI</span><span class="count">1</span></div>
+    <div class="company-item"><span>WSC Sports</span><span class="count">1</span></div>
+    <div class="company-item"><span>Aidoc</span><span class="count">1</span></div>
+    <div class="company-item"><span>Itonics</span><span class="count">1</span></div>
+    <div class="company-item"><span>Como</span><span class="count">1</span></div>
+    <div class="company-item"><span>200 Apps</span><span class="count">1</span></div>
+    <div class="company-item"><span>Daro</span><span class="count">1</span></div>
+    <div class="company-item"><span>Tigi</span><span class="count">1</span></div>
+    <div class="company-item"><span>Optimove</span><span class="count">1</span></div>
+    <div class="company-item"><span>Neon Kit</span><span class="count">1</span></div>
+    <div class="company-item"><span>SE (לא צוין)</span><span class="count">1</span></div>
+    <div class="company-item"><span>בנק (לא צוין)</span><span class="count">1</span></div>
+    <div class="company-item"><span>Pitech</span><span class="count">1</span></div>
+    <div class="company-item"><span>O.pearlsman</span><span class="count">1</span></div>
+    <div class="company-item"><span>עצמאית</span><span class="count">1</span></div>
+    <div class="company-item"><span>Armis</span><span class="count">1</span></div>
+    <div class="company-item"><span>Optival Ltd</span><span class="count">1</span></div>
+    <div class="company-item"><span>Firearc</span><span class="count">1</span></div>
+    <div class="company-item"><span>Migdal Technologies</span><span class="count">1</span></div>
+    <div class="company-item"><span>Army (צה"ל)</span><span class="count">1</span></div>
+    <div class="company-item"><span>מחפשת עבודה / עצמאית</span><span class="count">3</span></div>
+  </div>
+</div>
+
+<!-- Roles + Experience grid -->
+<div class="grid-2">
+
+<!-- Roles -->
+<div class="card">
+  <h2><span class="icon">👤</span> פילוח תפקידים</h2>
+  <div class="bar-chart">
+    <div class="bar-item">
+      <span class="bar-label">Product Ops</span>
+      <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+      <span class="bar-value">27 <span class="pct">(33%)</span></span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">Program/Project Manager</span>
+      <div class="bar-track"><div class="bar-fill" style="width:48%"></div></div>
+      <span class="bar-value">16 <span class="pct">(20%)</span></span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">Director / VP / Head</span>
+      <div class="bar-track"><div class="bar-fill" style="width:44%"></div></div>
+      <span class="bar-value">15 <span class="pct">(18%)</span></span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">Product Manager</span>
+      <div class="bar-track"><div class="bar-fill" style="width:36%"></div></div>
+      <span class="bar-value">12 <span class="pct">(15%)</span></span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">Ops אחר / הון אנושי</span>
+      <div class="bar-track"><div class="bar-fill" style="width:18%"></div></div>
+      <span class="bar-value">7 <span class="pct">(8%)</span></span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">TPM</span>
+      <div class="bar-track"><div class="bar-fill" style="width:9%"></div></div>
+      <span class="bar-value">4 <span class="pct">(5%)</span></span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">Designer</span>
+      <div class="bar-track"><div class="bar-fill" style="width:6%"></div></div>
+      <span class="bar-value">2 <span class="pct">(3%)</span></span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">מחפש/ת עבודה</span>
+      <div class="bar-track"><div class="bar-fill" style="width:3%"></div></div>
+      <span class="bar-value">1 <span class="pct">(1%)</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- Experience -->
+<div class="card">
+  <h2><span class="icon">📊</span> נסיון עם קלוד קוד</h2>
+
+  <div class="donut-container" style="justify-content: flex-start;">
+    <div class="donut" style="background: conic-gradient(#ef4444 0% 54%, #0d9373 54% 96%, #9ca3af 96% 100%);">
+      <div class="donut-center">
+        <span class="big">54%</span>
+        <span class="small">לא מותקן</span>
+      </div>
+    </div>
+    <div class="donut-legend">
+      <div style="font-weight:600; margin-bottom:8px; color:var(--accent);">קלוד קוד מותקן?</div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#0d9373"></span>
+        <span><strong>כן</strong> - 36 (43%)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#ef4444"></span>
+        <span><strong>לא</strong> - 45 (54%)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#9ca3af"></span>
+        <span><strong>לא בטוח</strong> - 3 (3%)</span>
+      </div>
+    </div>
+  </div>
+
+  <hr style="border:none; border-top:1px solid var(--border); margin:24px 0;">
+
+  <div class="donut-container" style="justify-content: flex-start;">
+    <div class="donut" style="background: conic-gradient(#ef4444 0% 61%, #f59e0b 61% 93%, #0d9373 93% 100%);">
+      <div class="donut-center">
+        <span class="big">61%</span>
+        <span class="small">ללא נסיון</span>
+      </div>
+    </div>
+    <div class="donut-legend">
+      <div style="font-weight:600; margin-bottom:8px; color:var(--accent);">רמת נסיון</div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#ef4444"></span>
+        <span><strong>ללא ניסיון</strong> - 51 (61%)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#f59e0b"></span>
+        <span><strong>ניסיון מסוים</strong> - 27 (32%)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#0d9373"></span>
+        <span><strong>שימוש קבוע</strong> - 6 (7%)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Pain Points -->
+<div class="card">
+  <h2><span class="icon">⏰</span> מה גוזל זמן? - ניתוח נושאים</h2>
+  <p style="margin-bottom:16px; color: var(--text-light); font-size:0.9rem;">קטגוריזציה של תשובות חופשיות. נרשם אחד יכול להופיע ביותר מקטגוריה אחת.</p>
+
+  <div class="bar-chart">
+    <div class="bar-item highlight">
+      <span class="bar-label">מעקב ידני ומשימות</span>
+      <div class="bar-track"><div class="bar-fill" style="width:80%; background: linear-gradient(90deg, #f59e0b, #d97706)"></div></div>
+      <span class="bar-value" style="color:#d97706">24</span>
+    </div>
+    <div class="bar-item highlight">
+      <span class="bar-label">סנכרון בין צוותים</span>
+      <div class="bar-track"><div class="bar-fill" style="width:70%; background: linear-gradient(90deg, #f59e0b, #d97706)"></div></div>
+      <span class="bar-value" style="color:#d97706">21</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">דוחות ודשבורדים</span>
+      <div class="bar-track"><div class="bar-fill" style="width:47%"></div></div>
+      <span class="bar-value">14</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">עדכוני סטטוס</span>
+      <div class="bar-track"><div class="bar-fill" style="width:33%"></div></div>
+      <span class="bar-value">10</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">מצגות ומסמכים</span>
+      <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+      <span class="bar-value">9</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">ניתוח נתונים ודאטה</span>
+      <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+      <span class="bar-value">9</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">תהליכים / אוטומציות</span>
+      <div class="bar-track"><div class="bar-fill" style="width:23%"></div></div>
+      <span class="bar-value">7</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">Slack / מיילים / תקשורת</span>
+      <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+      <span class="bar-value">6</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">כתיבה טכנית / PRDs</span>
+      <div class="bar-track"><div class="bar-fill" style="width:17%"></div></div>
+      <span class="bar-value">5</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">סיכומי ישיבות</span>
+      <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+      <span class="bar-value">3</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">פרוטוטייפים / דיזיין</span>
+      <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+      <span class="bar-value">3</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">Release notes / GTM</span>
+      <div class="bar-track"><div class="bar-fill" style="width:7%"></div></div>
+      <span class="bar-value">2</span>
+    </div>
+  </div>
+</div>
+
+<!-- Expectations -->
+<div class="card">
+  <h2><span class="icon">🎯</span> ציפיות מהוובינר</h2>
+  <p style="margin-bottom:16px; color: var(--text-light); font-size:0.9rem;">סיכום מהתשובות שניתנו (לא כולם מילאו שדה זה).</p>
+
+  <div class="tags">
+    <span class="tag large"><span class="tag-count">26</span> ללמוד את הכלי ויכולותיו</span>
+    <span class="tag large"><span class="tag-count">13</span> כלים פרקטיים ליום-יום</span>
+    <span class="tag medium"><span class="tag-count">7</span> להבין ערך / רלוונטיות</span>
+    <span class="tag medium"><span class="tag-count">6</span> בניית סוכנים ואוטומציות</span>
+    <span class="tag medium"><span class="tag-count">4</span> לראות use cases מעשיים</span>
+    <span class="tag small"><span class="tag-count">3</span> התקנה ותחילת עבודה</span>
+    <span class="tag small"><span class="tag-count">2</span> הבדל Claude Code vs Cowork</span>
+    <span class="tag small"><span class="tag-count">2</span> העשרה כללית</span>
+  </div>
+
+  <div style="margin-top:20px; padding:14px; background:#f8f9fa; border-radius:8px; font-size:0.85rem; color: var(--text-light);">
+    <strong>ציטוטים בולטים:</strong><br>
+    "להפסיק לפחד ;)"<br>
+    "מה שתארת באג'נדה נשמע מושלם :)"<br>
+    "ללמוד מה שאני לא יודעת"<br>
+    "הבדל בין Claude Cowork לבין Claude Code לצרכים פרודקטיים שאינם קשורים לקוד עצמו"<br>
+    "יכול לבנות סוכנים"
+  </div>
+</div>
+
+<!-- Registration Timeline -->
+<div class="card">
+  <h2><span class="icon">🕐</span> זמני הרשמה</h2>
+  <p style="margin-bottom:16px; color: var(--text-light); font-size:0.9rem;">רוב ההרשמות ב-23 במרץ 2026, עם 14 נרשמים נוספים ב-24-25 במרץ. חלון ההרשמה העיקרי: 11:20-14:30.</p>
+  <div class="bar-chart">
+    <div class="bar-item">
+      <span class="bar-label">10:00-11:00</span>
+      <div class="bar-track"><div class="bar-fill" style="width:4%"></div></div>
+      <span class="bar-value">1</span>
+    </div>
+    <div class="bar-item highlight">
+      <span class="bar-label">11:00-11:30</span>
+      <div class="bar-track"><div class="bar-fill" style="width:100%; background: linear-gradient(90deg, #f59e0b, #d97706)"></div></div>
+      <span class="bar-value" style="color:#d97706">25</span>
+    </div>
+    <div class="bar-item highlight">
+      <span class="bar-label">11:30-12:00</span>
+      <div class="bar-track"><div class="bar-fill" style="width:96%; background: linear-gradient(90deg, #f59e0b, #d97706)"></div></div>
+      <span class="bar-value" style="color:#d97706">24</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">12:00-12:30</span>
+      <div class="bar-track"><div class="bar-fill" style="width:28%"></div></div>
+      <span class="bar-value">7</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">12:30-13:00</span>
+      <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+      <span class="bar-value">2</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">13:00-14:00</span>
+      <div class="bar-track"><div class="bar-fill" style="width:32%"></div></div>
+      <span class="bar-value">8</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">14:00-15:00</span>
+      <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+      <span class="bar-value">2</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">17:00-18:00</span>
+      <div class="bar-track"><div class="bar-fill" style="width:4%"></div></div>
+      <span class="bar-value">1</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">22:00+ (ערב)</span>
+      <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+      <span class="bar-value">2</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">24.3 (למחרת)</span>
+      <div class="bar-track"><div class="bar-fill" style="width:16%"></div></div>
+      <span class="bar-value">5</span>
+    </div>
+    <div class="bar-item">
+      <span class="bar-label">25.3 (יום הוובינר)</span>
+      <div class="bar-track"><div class="bar-fill" style="width:28%"></div></div>
+      <span class="bar-value">7</span>
+    </div>
+  </div>
+  <p style="margin-top:12px; font-size:0.85rem; color:var(--text-light);">58% נרשמו בשעה הראשונה (11:00-12:00) - מעיד על ויראליות גבוהה בקבוצת הווצאפ. 14 נרשמים נוספים הצטרפו ב-24-25 במרץ, כולל 7 ביום הוובינר עצמו.</p>
+</div>
+
+<!-- Insights grid -->
+<div class="grid-2">
+
+<!-- Insights -->
+<div class="card">
+  <h2><span class="icon">💡</span> תובנות מרכזיות</h2>
+  <div class="insight-list">
+    <div class="insight">
+      <strong>קהל מתחיל:</strong> 61% ללא ניסיון כלל ו-54% בלי Claude מותקן. הוובינר חייב להתחיל מאפס ולכלול הדרכת התקנה.
+    </div>
+    <div class="insight">
+      <strong>כאב מספר 1 - מעקב וסנכרון:</strong> הנושאים "מעקב ידני ומשימות" (24) ו"סנכרון בין צוותים" (21) מופיעים אצל כ-55% מהנרשמים. זה ה-use case המרכזי להדגים.
+    </div>
+    <div class="insight">
+      <strong>דוחות ודשבורדים:</strong> 14 נרשמים מזכירים דוחות, דשבורדים או ניתוח נתונים - הדמו של "דשבורד מנתונים גולמיים" רלוונטי מאוד. עוד 9 ציינו ניתוח נתונים ודאטה.
+    </div>
+    <div class="insight">
+      <strong>חברות טייר-1:</strong> נוכחות מרשימה של SolarEdge (7!), Palo Alto (5), Monday.com (5), Bagel AI (4), Orca Security (3), Checkmarx (2), Riskified (2), JFrog (2), Nvidia, Wix, Fireblocks, CyberArk, Payoneer, EL AL, Armis. זה קהל איכותי מאוד.
+    </div>
+    <div class="insight">
+      <strong>בכירים בקהל:</strong> 19% ברמת Director/VP/Head - כולל VP, דירקטורים, Head of Ops, Chief of Staff. יש להתייחס גם לפרספקטיבה ניהולית ולא רק לביצוע.
+    </div>
+    <div class="insight">
+      <strong>עניין בסוכנים ואוטומציות:</strong> 6 נרשמים ציינו "בניית סוכנים" או "אוטומציות" כציפייה, ו-7 ציינו תהליכים ואוטומציות כנקודת כאב. תכנון הזכרת סקילים ו-agents בסוף הוובינר.
+    </div>
+  </div>
+</div>
+
+<!-- Action items -->
+<div class="card">
+  <h2><span class="icon">✅</span> פעולות נדרשות</h2>
+  <div class="insight-list">
+    <div class="insight action">
+      <strong>1. מדריך התקנה מקדים:</strong> לשלוח לנרשמים מדריך התקנה לפני הוובינר. 54% בלי Claude מותקן - אם לא יתקינו מראש, יאבדו 15 דקות רק על זה.
+    </div>
+    <div class="insight action">
+      <strong>2. דמו סנכרון צוותים:</strong> להוסיף לדמו דוגמה של "סנכרון בין צוותים" - למשל יצירת סטטוס אפדייט אוטומטי מ-Jira שנשלח לכולם. זה הכאב הכי נפוץ (45 אזכורים של מעקב+סנכרון).
+    </div>
+    <div class="insight action">
+      <strong>3. דמו דשבורד:</strong> הדמו המוגמר של דשבורד מנתונים הוא בול - 23 אנשים מדברים על דוחות, דשבורדים או ניתוח נתונים. לוודא שהדמו מראה מאיפה הנתונים הגיעו.
+    </div>
+    <div class="insight action">
+      <strong>4. רמת השפה:</strong> לדבר ברמה של "מנהל שמבין קונספטים אבל לא כותב קוד". להימנע מז'רגון טכני. להדגיש "אני לא מפתח" שוב ושוב.
+    </div>
+    <div class="insight action">
+      <strong>5. Slack + מיילים use case:</strong> 5 אנשים ציינו Slack ומיילים כנקודת כאב (כולל מענה למיילים ארגוניים). לשקול דמו קצר של "כתוב לי הודעת עדכון על סמך הנתונים האלה".
+    </div>
+    <div class="insight action">
+      <strong>6. פולואפ:</strong> עם 84 נרשמים מחברות מובילות, להכין CTA ברור לסוף הוובינר: קבוצת ווצאפ, מפגש המשך, או שירות ייעוץ.
+    </div>
+    <div class="insight action">
+      <strong>7. להכין תשובה ל-Claude Code vs Cowork:</strong> נשאל במפורש בטופס ההרשמה. להכין הסבר ברור של ההבדלים.
+    </div>
+    <div class="insight action">
+      <strong>8. דאטה ויזואלי לפתיחה:</strong> לפתוח עם הסלייד "84 נרשמים מ-54 חברות" - זה מייצר WOW ומראה שהקהל איכותי (מה שמחזק את המוטיבציה להקשיב).
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Session Planning -->
+<div class="card" style="background: linear-gradient(135deg, #faf5ff, #ede9fe); border: 1px solid #c4b5fd; margin-bottom: 8px;">
+  <h2 style="color:#7c3aed; font-size: 1.5rem; margin-bottom: 4px;">תובנות מעשיות למפגש</h2>
+  <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px;">מבוסס על ניתוח 84 נרשמים - המלצות קונקרטיות לתוכן, דמואים ומסרים</p>
+</div>
+
+<div class="session-grid">
+
+<div class="session-card demo">
+  <h3><span class="badge purple">דמו</span> מה להדגים ולמה</h3>
+  <ul>
+    <li><strong>דמו #1 - מעקב משימות (24 אזכורים):</strong> לקחת CSV/Excel מבולגן ולהפוך אותו לדשבורד מסודר. זה הכאב הכי גדול של הקהל - "מעקב ידני" הוזכר על ידי כמעט כל נרשם שלישי.</li>
+    <li><strong>דמו #2 - סנכרון צוותים (21 אזכורים):</strong> להראות יצירת סטטוס אפדייט אוטומטי מ-Jira/מקורות שונים. לדוגמה: "תמשוך נתונים מ-3 מקורות ותייצר סיכום שבועי".</li>
+    <li><strong>דמו #3 - דוחות מנתונים (14+9 אזכורים):</strong> הדמו המוגמר של דשבורד מנתונים גולמיים - מושלם. 23 אנשים ציינו דוחות או ניתוח נתונים כנקודת כאב.</li>
+    <li><strong>בונוס - מצגות ומסמכים (9):</strong> אם יש זמן, להראות יצירת מצגת מבריף בשפה חופשית. 9 אנשים ציינו מצגות כנקודת כאב.</li>
+  </ul>
+</div>
+
+<div class="session-card audience">
+  <h3><span class="badge green">קהל</span> מי נמצא בחדר</h3>
+  <ul>
+    <li><strong>61% מתחילים לגמרי</strong> - אין ניסיון ב-AI Code. לדבר לאט, להסביר כל צעד, לא להשתמש בז'רגון טכני כמו "terminal", "CLI", "repo".</li>
+    <li><strong>19% בכירים (Director/VP/Head)</strong> - כולל VP, דירקטורים, Head of Ops/IT. לתת גם פרספקטיבה ניהולית: "איך זה חוסך לצוות שלכם שעות".</li>
+    <li><strong>33% Product Ops, 19% Program Managers</strong> - הקהל הליבה. כל הדוגמאות צריכות להיות מעולם ה-Ops: סטטוסים, דוחות, סנכרון, תהליכים.</li>
+    <li><strong>54% בלי Claude מותקן</strong> - לא לבנות על זה שאנשים יתרגלו בזמן אמת. המדריך חייב להגיע מראש, ולהדגיש בהודעה שנשלחת.</li>
+    <li><strong>3 מחפשי עבודה + חוזרת מלידה</strong> - רגישות: לא להגיד "תשתמשו בזה בחברה שלכם" - אלא "בכל סביבת עבודה".</li>
+  </ul>
+</div>
+
+<div class="session-card strategy">
+  <h3><span class="badge amber">מסרים</span> מה להגיד ומה לא</h3>
+  <ul>
+    <li><strong>פתיחה חזקה:</strong> "84 נרשמים מ-54 חברות - SolarEdge, Palo Alto, Monday, Nexxen, Orca, Armis, EL AL... אני נרגש לראות את הקהל הזה." זה בונה אמון ומוטיבציה.</li>
+    <li><strong>המסר המרכזי:</strong> "אני לא מפתח. בדיוק כמוכם. ואלה הדברים שאני עושה עם Claude Code כל יום." - 61% ללא ניסיון, צריך להוריד את החסם הפסיכולוגי.</li>
+    <li><strong>שאלה מוכנה ל-Cowork vs Code:</strong> נשאל במפורש בטופס. להכין תשובה ברורה: "Cowork = שיחה. Code = סוכן שעובד על הקבצים שלכם".</li>
+    <li><strong>ציטוט חזק:</strong> "מישהי כתבה בטופס ההרשמה: להפסיק לפחד. אז היום אנחנו מפסיקים לפחד." - פתיחה אמוציונלית שמחברת.</li>
+    <li><strong>CTA לסיום:</strong> עם 84 אנשים מחברות מובילות - להכין CTA ברור: קבוצת ווצאפ להמשך, אפשרות ליעוץ אישי, מפגש המשך.</li>
+  </ul>
+</div>
+
+<div class="session-card risk">
+  <h3><span class="badge red">סיכונים</span> מה יכול להשתבש</h3>
+  <ul>
+    <li><strong>אנשים לא יתקינו מראש:</strong> 54% בלי Claude. לשלוח תזכורת 24 שעות לפני עם המדריך + הודעה "ללא התקנה לא תוכלו להתנסות".</li>
+    <li><strong>פער רמות גדול:</strong> 7% משתמשים קבועים (regular) מול 61% ללא ניסיון. המשתמשים המתקדמים עלולים להשתעמם. פתרון: "טיפים מתקדמים" בסוף כל דמו.</li>
+    <li><strong>84 אנשים = שאלות רבות:</strong> להגביל Q&A ל-15 דקות, להציע "שלחו שאלות בצ'אט ואענה אחרי". לשקול מנחה/מודרטור לצ'אט.</li>
+    <li><strong>דמו חי נכשל:</strong> להכין backup של כל דמו כ-GIF/סרטון קצר. אם Claude לא מגיב - "הנה מה שקורה בדרך כלל" ולהראות סרטון.</li>
+    <li><strong>Teams connection issues:</strong> עם 84 משתתפים, לוודא שה-Teams מוגדר נכון. להתחבר 15 דקות מוקדם.</li>
+  </ul>
+</div>
+
+</div>
+
+<!-- Summary -->
+<div class="card" style="background: linear-gradient(135deg, var(--primary-light), #f0fdf4); border: 1px solid #a7f3d0;">
+  <h2 style="color:var(--primary)">סיכום ביצועי הרשמה</h2>
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top:8px;">
+    <div>
+      <strong>כמות:</strong> 84 נרשמים ייחודיים - יותר מפי 3 מהציפייה המקורית (כ-25). הרשמות ממשיכות לזרום עד יום הוובינר.
+    </div>
+    <div>
+      <strong>איכות:</strong> חברות טייר-1 של הייטק ישראלי מ-54 חברות. 18% ברמת Director+. Armis, Riskified, Checkmarx וחברות חדשות מצטרפות.
+    </div>
+    <div>
+      <strong>ויראליות:</strong> 58% נרשמו בשעה הראשונה מפרסום הטופס.
+    </div>
+    <div>
+      <strong>מוכנות:</strong> רוב הקהל מתחיל (61% ללא ניסיון) - צריך גישה "hands-on from zero".
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center; padding:20px; color:var(--text-light); font-size:0.8rem;">
+  נוצר אוטומטית עם Claude Code | עודכן 25.3.2026 (גרסה 4 - 84 נרשמים)
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRW4GYVGD3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KRW4GYVGD3');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניתוח נרשמים - הנמר | Claude Code 15.4.2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0d9373;
+  --primary-light: #e8f5f0;
+  --primary-dark: #0a7a60;
+  --accent: #065f46;
+  --yellow: #f59e0b;
+  --yellow-light: #fef3c7;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --purple: #7c3aed;
+  --purple-light: #f5f3ff;
+  --bg: #f8fafb;
+  --card-bg: #ffffff;
+  --text: #1a1a2e;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.1);
+  --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+.header {
+  background: linear-gradient(135deg, #064e3b 0%, #0d9373 60%, #0891b2 100%);
+  color: white;
+  padding: 40px;
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+}
+.header h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+.header .sub { font-size: 1rem; opacity: 0.85; }
+.header .badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.card.full { margin-bottom: 24px; }
+
+.card-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title .icon { font-size: 1rem; }
+
+.stat-number {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+.stat-sub {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 8px;
+}
+
+/* Bar chart */
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.bar-label {
+  font-size: 0.85rem;
+  color: var(--text);
+  min-width: 120px;
+  text-align: right;
+}
+.bar-track {
+  flex: 1;
+  height: 22px;
+  background: var(--primary-light);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-right: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  min-width: 30px;
+  transition: width 0.6s ease;
+}
+.bar-fill.yellow { background: var(--yellow); }
+.bar-fill.red { background: var(--red); }
+.bar-fill.blue { background: var(--blue); }
+.bar-fill.purple { background: var(--purple); }
+.bar-count {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  min-width: 40px;
+}
+
+/* Donut */
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.donut {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.donut-center {
+  width: 80px; height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  z-index: 2;
+}
+.donut-center .big { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
+.donut-center .small { font-size: 0.65rem; color: var(--text-light); }
+.donut-legend { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+/* Tags */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.tag {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.tag.primary { background: var(--primary); color: white; font-weight: 600; }
+.tag.green { background: var(--primary-light); color: var(--accent); font-weight: 500; }
+.tag.yellow { background: var(--yellow-light); color: #92400e; }
+.tag.blue { background: var(--blue-light); color: #1e40af; }
+.tag.purple { background: var(--purple-light); color: #5b21b6; }
+.tag.red { background: var(--red-light); color: var(--red); }
+.tag.gray { background: #f3f4f6; color: var(--text-light); }
+
+/* Insights */
+.insight-list { list-style: none; }
+.insight-list li {
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.insight-list li.green { background: #f0fdf4; border-right: 3px solid var(--primary); }
+.insight-list li.yellow { background: var(--yellow-light); border-right: 3px solid var(--yellow); }
+.insight-list li.red { background: var(--red-light); border-right: 3px solid var(--red); }
+.insight-list li.blue { background: var(--blue-light); border-right: 3px solid var(--blue); }
+.insight-list li.purple { background: var(--purple-light); border-right: 3px solid var(--purple); }
+.insight-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+/* Section heading */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin-right: 8px;
+}
+
+/* Table */
+.table-wrap { overflow-x: auto; overflow-y: auto; max-height: 600px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead th {
+  background: var(--primary-light);
+  color: var(--accent);
+  font-weight: 600;
+  padding: 10px 12px;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 2px solid #c6e8de;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+tbody tr:hover { background: #f9fafb; }
+th.sortable:hover { background: #d1f0e6; }
+th.sortable .sort-icon { font-size: 0.8em; opacity: 0.6; margin-right: 4px; }
+tbody td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.pill.yes { background: #d1fae5; color: #065f46; }
+.pill.no { background: #fee2e2; color: #991b1b; }
+.pill.unsure { background: #fef3c7; color: #92400e; }
+.pill.none { background: #f3f4f6; color: #6b7280; }
+.pill.some { background: #dbeafe; color: #1e40af; }
+.pill.regular { background: #ede9fe; color: #5b21b6; }
+.pill.young { background: #d1fae5; color: #065f46; }
+.pill.mid { background: #dbeafe; color: #1e40af; }
+.pill.senior { background: #fef3c7; color: #92400e; }
+.pill.veteran { background: #fde8f8; color: #7c3aed; }
+
+/* Age badge */
+.age-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Recommendation cards */
+.rec-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.rec-card .rec-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.rec-card .rec-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.rec-card .rec-title { font-weight: 700; font-size: 0.95rem; }
+.rec-card .rec-body { font-size: 0.87rem; color: var(--text-light); line-height: 1.6; }
+
+/* Quote */
+.quote {
+  background: #f9fafb;
+  border-right: 3px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.83rem;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>🐆 ניתוח נרשמים - הנמר</h1>
+  <div class="sub">Claude Code לנמרים מעופפים | רביעי 15.4.2026 | 21:00</div>
+  <span class="badge">נוצר ב-14.4.2026 | 58 נרשמים</span>
+</div>
+
+<!-- KPIs -->
+<div class="grid-4">
+  <div class="card">
+    <div class="card-title"><span class="icon">👥</span> סה"כ נרשמים</div>
+    <div class="stat-number">58</div>
+    <div class="stat-label">נרשמים</div>
+    <div class="stat-sub">כולם חברי עמותת הנמר</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">💻</span> Claude מותקן</div>
+    <div class="stat-number" style="color:#dc2626">36%</div>
+    <div class="stat-label">21 אנשים בלבד</div>
+    <div class="stat-sub" style="color:#dc2626">⚠️ 62% לא מותקן!</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🎓</span> ניסיון קודם</div>
+    <div class="stat-number" style="color:#7c3aed">16%</div>
+    <div class="stat-label">9 משתמשים קבועים</div>
+    <div class="stat-sub">55% ללא ניסיון כלל</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🎒</span> סטודנטים</div>
+    <div class="stat-number" style="color:#2563eb">~38%</div>
+    <div class="stat-label">כ-22 סטודנטים</div>
+    <div class="stat-sub">מתוך 58 נרשמים</div>
+  </div>
+</div>
+
+<!-- Install & Experience -->
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title"><span class="icon">💻</span> התקנת Claude Code</div>
+    <div class="donut-wrap">
+      <div class="donut" style="background: conic-gradient(#dc2626 0% 62%, #0d9373 62% 98%, #f59e0b 98% 100%);">
+        <div class="donut-center">
+          <div class="big">58</div>
+          <div class="small">נרשמים</div>
+        </div>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div><strong>לא מותקן - 36 (62%)</strong></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#0d9373"></div>מותקן - 21 (36%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>לא בטוח - 1 (2%)</div>
+      </div>
+    </div>
+    <div style="margin-top:14px; padding:10px; background:#fef2f2; border-radius:8px; font-size:0.85rem; color:#991b1b;">
+      ⚠️ <strong>62% לא מותקן</strong> - כדאי להקדיש כמה דקות בפתיחה לעזור למי שלא התקין.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">⚡</span> ניסיון קודם עם Claude Code</div>
+    <div class="donut-wrap">
+      <div class="donut" style="background: conic-gradient(#6b7280 0% 55%, #2563eb 55% 84%, #7c3aed 84% 100%);">
+        <div class="donut-center">
+          <div class="big">58</div>
+          <div class="small">נרשמים</div>
+        </div>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#6b7280"></div>ללא ניסיון - 32 (55%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>ניסיתי קצת - 17 (29%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div><strong>משתמש קבוע - 9 (16%)</strong></div>
+      </div>
+    </div>
+    <div style="margin-top:14px; padding:10px; background:#f5f3ff; border-radius:8px; font-size:0.85rem; color:#5b21b6;">
+      💡 יש 9 משתמשים קבועים - אפשר לשתף אותם בחוויה במהלך הוובינר ולהעמיק איתם.
+    </div>
+  </div>
+</div>
+
+<!-- Age Distribution -->
+<div class="card full">
+  <div class="card-title"><span class="icon">🎂</span> התפלגות גילאים לפי מחזור גיוס</div>
+  <div class="section-title">גיל משוער (2026 - שנת גיוס + 18)</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; margin-bottom:20px;">
+    <div style="background:#d1fae5; border-radius:10px; padding:16px; text-align:center;">
+      <div style="font-size:2rem; font-weight:800; color:#065f46;">24</div>
+      <div style="font-weight:600; color:#065f46;">גיל 18-27</div>
+      <div style="font-size:0.82rem; color:#065f46; opacity:0.8;">גויסו 2017-2022</div>
+      <div style="font-size:0.8rem; margin-top:6px;">41% מהנרשמים - קהל צעיר מאוד</div>
+    </div>
+    <div style="background:#dbeafe; border-radius:10px; padding:16px; text-align:center;">
+      <div style="font-size:2rem; font-weight:800; color:#1e40af;">20</div>
+      <div style="font-weight:600; color:#1e40af;">גיל 28-35</div>
+      <div style="font-size:0.82rem; color:#1e40af; opacity:0.8;">גויסו 2009-2016</div>
+      <div style="font-size:0.8rem; margin-top:6px;">34% מהנרשמים - מקצועות קריירה</div>
+    </div>
+    <div style="background:#fef3c7; border-radius:10px; padding:16px; text-align:center;">
+      <div style="font-size:2rem; font-weight:800; color:#92400e;">14</div>
+      <div style="font-weight:600; color:#92400e;">גיל 36+</div>
+      <div style="font-size:0.82rem; color:#92400e; opacity:0.8;">גויסו לפני 2008</div>
+      <div style="font-size:0.8rem; margin-top:6px;">24% מהנרשמים - וותיקים ומנוסים</div>
+    </div>
+  </div>
+
+  <div class="section-title">מחזורי גיוס לפי שנה</div>
+  <div class="bar-row"><div class="bar-label">2020-2022 (גיל ~22-24)</div><div class="bar-track"><div class="bar-fill" style="width:12%">7</div></div><div class="bar-count">7</div></div>
+  <div class="bar-row"><div class="bar-label">2017-2019 (גיל ~25-27)</div><div class="bar-track"><div class="bar-fill" style="width:29%">17</div></div><div class="bar-count">17</div></div>
+  <div class="bar-row"><div class="bar-label">2013-2016 (גיל ~28-31)</div><div class="bar-track"><div class="bar-fill blue" style="width:24%">14</div></div><div class="bar-count">14</div></div>
+  <div class="bar-row"><div class="bar-label">2006-2012 (גיל ~32-38)</div><div class="bar-track"><div class="bar-fill yellow" style="width:21%">12</div></div><div class="bar-count">12</div></div>
+  <div class="bar-row"><div class="bar-label">לפני 2006 (גיל ~38+)</div><div class="bar-track"><div class="bar-fill red" style="width:14%">8</div></div><div class="bar-count">8</div></div>
+</div>
+
+<!-- Sectors & Roles -->
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title"><span class="icon">🏢</span> סקטורים</div>
+    <div class="bar-row"><div class="bar-label">סטודנטים / לימודים</div><div class="bar-track"><div class="bar-fill" style="width:38%">22</div></div><div class="bar-count">22</div></div>
+    <div class="bar-row"><div class="bar-label">הייטק / טכנולוגיה</div><div class="bar-track"><div class="bar-fill blue" style="width:26%">15</div></div><div class="bar-count">15</div></div>
+    <div class="bar-row"><div class="bar-label">תעשייה / עסקים</div><div class="bar-track"><div class="bar-fill yellow" style="width:14%">8</div></div><div class="bar-count">8</div></div>
+    <div class="bar-row"><div class="bar-label">ביטחון / תשתיות</div><div class="bar-track"><div class="bar-fill red" style="width:9%">5</div></div><div class="bar-count">5</div></div>
+    <div class="bar-row"><div class="bar-label">לא צוין</div><div class="bar-track"><div class="bar-fill" style="width:14%; background:#9ca3af">8</div></div><div class="bar-count">8</div></div>
+    <div style="margin-top:14px;">
+      <div class="tags">
+        <span class="tag green">אלביט</span>
+        <span class="tag green">ארמיס</span>
+        <span class="tag green">Hub Technologies</span>
+        <span class="tag green">בנק לאומי</span>
+        <span class="tag green">בזק</span>
+        <span class="tag green">חברת חשמל</span>
+        <span class="tag green">Bitsight</span>
+        <span class="tag green">Movement</span>
+        <span class="tag yellow">BGU, TAU, BIU, עברית, אריאל</span>
+        <span class="tag blue">צהל</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">💼</span> תפקידים</div>
+    <div class="bar-row"><div class="bar-label">סטודנטים</div><div class="bar-track"><div class="bar-fill" style="width:26%">15</div></div><div class="bar-count">15</div></div>
+    <div class="bar-row"><div class="bar-label">מפתחים / טכניים</div><div class="bar-track"><div class="bar-fill purple" style="width:21%">12</div></div><div class="bar-count">12</div></div>
+    <div class="bar-row"><div class="bar-label">אנליסטים / דאטה</div><div class="bar-track"><div class="bar-fill blue" style="width:12%">7</div></div><div class="bar-count">7</div></div>
+    <div class="bar-row"><div class="bar-label">מנהלים / עסקים</div><div class="bar-track"><div class="bar-fill yellow" style="width:14%">8</div></div><div class="bar-count">8</div></div>
+    <div class="bar-row"><div class="bar-label">הנדסה (לא תוכנה)</div><div class="bar-track"><div class="bar-fill" style="width:10%">6</div></div><div class="bar-count">6</div></div>
+    <div class="bar-row"><div class="bar-label">אחר / לא צוין</div><div class="bar-track"><div class="bar-fill" style="width:17%; background:#9ca3af">10</div></div><div class="bar-count">10</div></div>
+    <div style="margin-top:14px; padding:10px; background:#f5f3ff; border-radius:8px; font-size:0.85rem; color:#5b21b6;">
+      💡 קהל מגוון: פחות ProdOps, הרבה מפתחים, מהנדסים וסטודנטים
+    </div>
+  </div>
+</div>
+
+<!-- Pain Points & Expectations -->
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title"><span class="icon">😤</span> מה רוצים לשפר / לייעל?</div>
+    <div class="bar-row"><div class="bar-label">אוטומציה של תהליכים</div><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div><div class="bar-count">חזק</div></div>
+    <div class="bar-row"><div class="bar-label">ניהול פרויקטים / לימודים</div><div class="bar-track"><div class="bar-fill blue" style="width:35%"></div></div><div class="bar-count">בולט</div></div>
+    <div class="bar-row"><div class="bar-label">כתיבת קוד יעיל</div><div class="bar-track"><div class="bar-fill purple" style="width:30%"></div></div><div class="bar-count">בולט</div></div>
+    <div class="bar-row"><div class="bar-label">חיבור מקורות מידע</div><div class="bar-track"><div class="bar-fill yellow" style="width:20%"></div></div><div class="bar-count">קיים</div></div>
+    <div class="bar-row"><div class="bar-label">ניהול מידע אישי</div><div class="bar-track"><div class="bar-fill" style="width:15%"></div></div><div class="bar-count">קיים</div></div>
+
+    <div style="margin-top:16px;">
+      <div class="quote">"ללמוד איך לבצע באמצעות קוד פשוט תהליכים שחוזרים על עצמם בצורה ידנית"</div>
+      <div class="quote">"אוטומציה של משימות רוחב, התאמה מהירה של אפליקציות לדרישות משתנות"</div>
+      <div class="quote">"לחבר מידע מגיליונות אקסל, מערכת אורקל ועוד - להכנת הצעות מחיר"</div>
+      <div class="quote">"לנהל משימות יומיות ומידע באופן אוטומטי, לדאוג שמידע יגיע אליי"</div>
+      <div class="quote">"קוד, ניהול זמן, ממשק ל-IDE, הרמת פרויקטים, יצירת AGENT אישי"</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🎯</span> ציפיות מהמפגש</div>
+    <div class="tags" style="margin-bottom:14px;">
+      <span class="tag primary">ללמוד מטרם</span>
+      <span class="tag green">ידע מעשי</span>
+      <span class="tag blue">אוטומציה</span>
+      <span class="tag yellow">שימוש יום-יומי</span>
+      <span class="tag purple">קוד ואדריכלות</span>
+      <span class="tag gray">סקילים / .md</span>
+    </div>
+
+    <div class="bar-row"><div class="bar-label">הכרות בסיסית / מטרם</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><div class="bar-count">חזק</div></div>
+    <div class="bar-row"><div class="bar-label">יישום מעשי / דמו</div><div class="bar-track"><div class="bar-fill blue" style="width:40%"></div></div><div class="bar-count">בולט</div></div>
+    <div class="bar-row"><div class="bar-label">העמקה / פיצרים מתקדמים</div><div class="bar-track"><div class="bar-fill purple" style="width:20%"></div></div><div class="bar-count">קיים</div></div>
+    <div class="bar-row"><div class="bar-label">הבנת ארכיטקטורה / אגנטים</div><div class="bar-track"><div class="bar-fill yellow" style="width:15%"></div></div><div class="bar-count">קיים</div></div>
+
+    <div style="margin-top:16px;">
+      <div class="quote">"לדעת יותר מ'כתוב לו פרומפט והוא מבצע' - לדעת להשתמש בצורה חכמה ויעילה"</div>
+      <div class="quote">"להבין מה באמת היכולות מבחינת קוד וארכיטקטורה ואיך לבנות דברים אפליקטיביים"</div>
+      <div class="quote">"מעניין אותי לראות איך מנהל משתמש בקלוד קוד" (Data Engineer)</div>
+      <div class="quote">"להתחיל שימוש בכלי יד ביד - התקנה, הגדרה ושימוש בסיסי"</div>
+    </div>
+  </div>
+</div>
+
+<!-- Notable Attendees -->
+<div class="card full">
+  <div class="card-title"><span class="icon">⭐</span> נרשמים בולטים לתשומת לב</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:12px;">
+    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px;">
+      <div style="font-weight:700; color:#065f46;">ג.א.</div>
+      <div style="font-size:0.82rem; color:#6b7280; margin-bottom:6px;">חוקר ויזם | BGU | גיוס נוב 16 | גיל ~28</div>
+      <div style="font-size:0.83rem;">משתמש קבוע, מקים סטארטאפ. <strong>רוצה סקילים ו-.md</strong>. יכול לשמש דוגמה חיה.</div>
+    </div>
+    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px;">
+      <div style="font-weight:700; color:#065f46;">א.ב.</div>
+      <div style="font-size:0.82rem; color:#6b7280; margin-bottom:6px;">מנכ"ל | קלאריטיקס ביופארמה | גיוס מרץ 10 | גיל ~34</div>
+      <div style="font-size:0.83rem;">בעל עסק. <strong>רוצה ללמוד מטרם בקצב מהיר</strong>. מנהיג שיכול לפרגן לאחרים.</div>
+    </div>
+    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px;">
+      <div style="font-weight:700; color:#065f46;">ד.א.</div>
+      <div style="font-size:0.82rem; color:#6b7280; margin-bottom:6px;">Data Engineer | אייסטוייז | גיוס אוג 02 | גיל ~42</div>
+      <div style="font-size:0.83rem;">משתמש קבוע. רוצה לראות <strong>איך מנהל (לא מפתח) משתמש</strong>. נקודת מבט מעניינת לדיון.</div>
+    </div>
+    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:14px;">
+      <div style="font-weight:700; color:#1e40af;">ע.ה.</div>
+      <div style="font-size:0.82rem; color:#6b7280; margin-bottom:6px;">מתכנת | הרץ | גיוס אוג 15 | גיל ~29</div>
+      <div style="font-size:0.83rem;">משתמש קבוע. רוצה <strong>מעבר ליצירת קוד - כלי עבודה רחב יותר</strong>. קהל שמחפש next level.</div>
+    </div>
+    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:14px;">
+      <div style="font-weight:700; color:#1e40af;">Y.E.</div>
+      <div style="font-size:0.82rem; color:#6b7280; margin-bottom:6px;">אינטגרטור | Bright Way Vision | גיוס נוב 22 | גיל ~22</div>
+      <div style="font-size:0.83rem;">הצעיר ביותר שמגיע עם ניסיון! <strong>רוצה אינטגרציה עם VS Code ובניית אפליקציה</strong>. ממש technical.</div>
+    </div>
+    <div style="background:#fef3c7; border:1px solid #fde68a; border-radius:8px; padding:14px;">
+      <div style="font-weight:700; color:#92400e;">I.S.</div>
+      <div style="font-size:0.82rem; color:#6b7280; margin-bottom:6px;">Data Project Manager | Movement | גיוס מרץ 07 | גיל ~37</div>
+      <div style="font-size:0.83rem;">ניסיון מעמיק עם Cursor. <strong>רוצה ללמוד לעבוד עם Claude Code</strong>. השוואה מעניינת לדון בה.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Full Registrant Table -->
+<div class="card full">
+  <div class="card-title"><span class="icon">📋</span> רשימה מלאה - כל הנרשמים (58)</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>שם</th>
+          <th>חברה / מוסד</th>
+          <th>תפקיד</th>
+          <th class="sortable" data-col="4" data-type="cohort" title="מיין לפי מחזור">מחזור <span class="sort-icon">⇅</span></th>
+          <th class="sortable" data-col="5" data-type="number" title="מיין לפי גיל">גיל משוער <span class="sort-icon">⇅</span></th>
+          <th class="sortable" data-col="6" data-type="installed" title="מיין לפי התקנה">מותקן? <span class="sort-icon">⇅</span></th>
+          <th class="sortable" data-col="7" data-type="experience" title="מיין לפי ניסיון">ניסיון <span class="sort-icon">⇅</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>נ.ס.</td><td>אלביט</td><td>FP&A</td><td>מרץ 15</td><td><span class="pill mid">29</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>2</td><td>ג.מ.</td><td>וינטג</td><td>אנליסט</td><td>אוג 15</td><td><span class="pill mid">29</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>3</td><td>נ.ט.</td><td>האוניברסיטה הפתוחה</td><td>סטודנט מדמח</td><td>נוב 14</td><td><span class="pill mid">30</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>4</td><td>י.ב.</td><td>אוניברסיטת ת"א</td><td>סטודנט מאסטר הנדסה ביורפואית</td><td>נוב 17</td><td><span class="pill young">27</span></td><td><span class="pill no">לא</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>5</td><td>ס.מ.</td><td>ארמיס</td><td>אנליסט</td><td>נוב 06</td><td><span class="pill senior">38</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>6</td><td>ג.פ.</td><td>BGU</td><td>סטודנט כלכלה</td><td>נוב 19</td><td><span class="pill young">25</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>7</td><td>T.B.</td><td>Whitebox</td><td>Sales Leader</td><td>נוב 08</td><td><span class="pill senior">36</span></td><td><span class="pill no">לא</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>8</td><td>א.ר.</td><td>-</td><td>-</td><td>אוג 97</td><td><span class="pill veteran">47</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>9</td><td>ע.ד.</td><td>-</td><td>-</td><td>מרץ 14</td><td><span class="pill mid">30</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>10</td><td>א.ב. ⭐</td><td>קלאריטיקס ביופארמה</td><td>מנכ"ל</td><td>מרץ 10</td><td><span class="pill mid">34</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>11</td><td>א.ב.</td><td>Sangit</td><td>BI Developer</td><td>מרץ 14</td><td><span class="pill mid">30</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>12</td><td>ט.כ.</td><td>BGU</td><td>סטודנט הנדסת מכונות</td><td>מרץ 20</td><td><span class="pill young">24</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>13</td><td>ע.מ.</td><td>אוניברסיטת בר אילן</td><td>סטודנט מדמח</td><td>מרץ 21</td><td><span class="pill young">23</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>14</td><td>ד.פ.</td><td>Snobprod International</td><td>מנהל פעילות</td><td>אוג 94</td><td><span class="pill veteran">50</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>15</td><td>ת.ב.</td><td>BGU</td><td>סטודנט סטטיסטיקה וכלכלה</td><td>מרץ 19</td><td><span class="pill young">25</span></td><td><span class="pill no">לא</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>16</td><td>א.ב.</td><td>Innova Technologies</td><td>-</td><td>~81</td><td><span class="pill veteran">~63</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>17</td><td>ח.ע.</td><td>BGU (תואר שני)</td><td>סטודנט</td><td>מרץ 17</td><td><span class="pill young">27</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>18</td><td>ד.</td><td>בר אילן</td><td>מהנדס</td><td>מרץ 02</td><td><span class="pill senior">42</span></td><td><span class="pill no">לא</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>19</td><td>י.א.</td><td>Beckhoff Automation</td><td>מנהל מכירות</td><td>נוב 97</td><td><span class="pill veteran">47</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>20</td><td>א.ב.ח.</td><td>בנק לאומי</td><td>מפתח BI</td><td>מרץ 07</td><td><span class="pill senior">37</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>21</td><td>א.ט.</td><td>בזק עסקים</td><td>תמיכה לעסקים</td><td>נוב 19</td><td><span class="pill young">25</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>22</td><td>י.ז.</td><td>האוניברסיטה העברית</td><td>סטודנט הנדסת חשמל</td><td>נוב 19</td><td><span class="pill young">25</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>23</td><td>א.</td><td>Hub Technologies</td><td>Frontend Developer</td><td>מרץ 10</td><td><span class="pill mid">34</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>24</td><td>ש.ר.</td><td>Orion Security</td><td>אנליסט</td><td>אוג 17</td><td><span class="pill young">27</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>25</td><td>ד.א.</td><td>חברת חשמל</td><td>מתכנן מערכת חשמל</td><td>נוב 14</td><td><span class="pill mid">30</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>26</td><td>ג.פ.</td><td>המכללה האקדמית ת"א</td><td>סטודנט מדמח</td><td>מרץ 18</td><td><span class="pill young">26</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>27</td><td>ד.כ.</td><td>ארבה רובוטיקס</td><td>אינטגרציה</td><td>נוב 15</td><td><span class="pill mid">29</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>28</td><td>א.ג.</td><td>אוניברסיטת בר אילן</td><td>סטודנט הנדסת חשמל</td><td>אוג 18</td><td><span class="pill young">26</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>29</td><td>ז.ז.</td><td>BGU (מאסטר)</td><td>סטודנט הנדסת חשמל</td><td>אוג 13</td><td><span class="pill mid">31</span></td><td><span class="pill no">לא</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>30</td><td>נ.י.</td><td>OpenEyes</td><td>מנהל אופרציה + פולסטאק</td><td>מרץ 18</td><td><span class="pill young">26</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>31</td><td>O.G.</td><td>Pushit</td><td>-</td><td>נוב 06</td><td><span class="pill senior">38</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>32</td><td>Y.E. ⭐</td><td>Bright Way Vision</td><td>אינטגרטור</td><td>נוב 22</td><td><span class="pill young">22</span></td><td><span class="pill unsure">לא בטוח</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>33</td><td>ב.ש.</td><td>Pro Algorithm</td><td>מפתח תוכנה</td><td>מרץ 14</td><td><span class="pill mid">30</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>34</td><td>ע.ג.</td><td>צה"ל</td><td>-</td><td>אוג 99</td><td><span class="pill senior">45</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>35</td><td>ע.ה. ⭐</td><td>הרץ</td><td>מתכנת</td><td>אוג 15</td><td><span class="pill mid">29</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>36</td><td>י.ה.</td><td>בר אילן (מאסטר)</td><td>סטודנט ביואינפורמטיקה</td><td>אוג 18</td><td><span class="pill young">26</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>37</td><td>ח.ב.</td><td>-</td><td>-</td><td>נוב 17</td><td><span class="pill young">27</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>38</td><td>ג.כ.</td><td>-</td><td>-</td><td>מרץ 18</td><td><span class="pill young">26</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>39</td><td>א.כ.</td><td>-</td><td>CSM</td><td>נוב 11</td><td><span class="pill mid">33</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>40</td><td>ד.א. ⭐</td><td>אייסטוייז</td><td>Data Engineer</td><td>אוג 02</td><td><span class="pill senior">42</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>41</td><td>ש.ב.</td><td>סטודנט</td><td>-</td><td>מרץ 21</td><td><span class="pill young">23</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>42</td><td>ע.י.א.</td><td>אוניברסיטת בר אילן</td><td>סטודנט הנדסה</td><td>מרץ 21</td><td><span class="pill young">23</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>43</td><td>נ.ג.</td><td>אוניברסיטת אריאל</td><td>הנדסת חשמל</td><td>מרץ 20</td><td><span class="pill young">24</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>44</td><td>א.צ.</td><td>BGU</td><td>סטודנט הנדסה</td><td>מרץ 21</td><td><span class="pill young">23</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>45</td><td>M.B.</td><td>רייכמן</td><td>בוגר מדמח</td><td>נוב 13</td><td><span class="pill mid">31</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>46</td><td>א.ו.</td><td>מכללת עזריאלי</td><td>סטודנט תעשייה וניהול</td><td>אוג 18</td><td><span class="pill young">26</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>47</td><td>י.א.</td><td>-</td><td>-</td><td>מרץ 15</td><td><span class="pill mid">29</span></td><td><span class="pill yes">כן</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>48</td><td>י.י.</td><td>משרד עו"ד דין</td><td>עו"ד</td><td>אוג 12</td><td><span class="pill mid">32</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>49</td><td>א.ד.</td><td>לימודי לשכה</td><td>לימודים</td><td>נוב 17</td><td><span class="pill young">27</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>50</td><td>ע.ל.</td><td>מכללת אפקה</td><td>סטודנט הנדסת מכונות</td><td>נוב 18</td><td><span class="pill young">26</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>51</td><td>ג.א. ⭐</td><td>BGU</td><td>חוקר ויזם (מקים סטארטאפ)</td><td>נוב 16</td><td><span class="pill mid">28</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>52</td><td>א.ק.</td><td>-</td><td>Software Engineer</td><td>מרץ 11</td><td><span class="pill mid">33</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>53</td><td>I.S. ⭐</td><td>Movement</td><td>Data Project Manager</td><td>מרץ 07</td><td><span class="pill senior">37</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>54</td><td>א.ק.</td><td>Bitsight</td><td>Customer Success</td><td>מרץ 10</td><td><span class="pill mid">34</span></td><td><span class="pill yes">כן</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>55</td><td>א.א.</td><td>האוניברסיטה העברית</td><td>מפתח תוכנה</td><td>נוב 10</td><td><span class="pill mid">34</span></td><td><span class="pill no">לא</span></td><td><span class="pill some">קצת</span></td></tr>
+        <tr><td>56</td><td>א.ש.</td><td>מכללת שערי משפט</td><td>פיננסים</td><td>מרץ 97</td><td><span class="pill veteran">47</span></td><td><span class="pill no">לא</span></td><td><span class="pill none">טרם</span></td></tr>
+        <tr><td>57</td><td>ע.ל.</td><td>האוניברסיטה הפתוחה</td><td>Data Analyst</td><td>מרץ 21</td><td><span class="pill young">23</span></td><td><span class="pill yes">כן</span></td><td><span class="pill regular">קבוע</span></td></tr>
+        <tr><td>58</td><td>מ.כ.</td><td>-</td><td>-</td><td>ינואר 98</td><td><span class="pill veteran">46</span></td><td><span class="pill yes">כן</span></td><td><span class="pill none">טרם</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+    <div style="display:flex; align-items:center; gap:6px; font-size:0.8rem;"><span class="pill young">צעיר</span> גיל 18-27 (24 אנשים)</div>
+    <div style="display:flex; align-items:center; gap:6px; font-size:0.8rem;"><span class="pill mid">אמצע</span> גיל 28-35 (20 אנשים)</div>
+    <div style="display:flex; align-items:center; gap:6px; font-size:0.8rem;"><span class="pill senior">ותיק</span> גיל 36-42 (8 אנשים)</div>
+    <div style="display:flex; align-items:center; gap:6px; font-size:0.8rem;"><span class="pill veteran">וותיק מאוד</span> גיל 43+ (6 אנשים)</div>
+  </div>
+</div>
+
+<!-- Key Insights -->
+<div class="card full">
+  <div class="card-title"><span class="icon">💡</span> תובנות מרכזיות לפני הוובינר</div>
+  <ul class="insight-list">
+    <li class="red">
+      <span class="insight-icon">⚠️</span>
+      <div><strong>62% לא התקינו Claude Code</strong> - שקול 5 דקות פתיחה לעזרה בהתקנה, או לפחות לדבר על זה בפתיחה ולכוון למדריך ההתקנה שנשלח.</div>
+    </li>
+    <li class="blue">
+      <span class="insight-icon">🎒</span>
+      <div><strong>~38% סטודנטים</strong> - Use cases של לימודים (פרויקטים, בחינות, ניהול זמן) רלוונטיים כאן הרבה יותר מ-enterprise workflows.</div>
+    </li>
+    <li class="yellow">
+      <span class="insight-icon">🏗️</span>
+      <div><strong>הרבה מהנדסים וטכניים</strong> - מהנדסי חשמל, מתכנתים, מפתחים, Data Engineers. הם לא חוששים מקוד. אפשר לדבר על integration עם IDE, כתיבת קוד, אוטומציות טכניות - לא רק "ממשק שיחה".</div>
+    </li>
+    <li class="green">
+      <span class="insight-icon">🚀</span>
+      <div><strong>9 משתמשים קבועים + 17 שניסו</strong> - כ-45% עם ניסיון כלשהו. לא להתחיל מטרם מוחלט. אפשר לשאול בפתיחה "מי כבר השתמש?" ולתת להם לשתף.</div>
+    </li>
+    <li class="purple">
+      <span class="insight-icon">🎂</span>
+      <div><strong>גוון גילאים רחב מאוד</strong> - מגיל 22 עד 50+. קהל הנמר מגוון תמיד. פתיחה עם "אני לא מפתח, בדיוק כמוכם" עובדת פחות טוב כשיש 12 מפתחים בחדר - לכוון ל"כל אחד יכול לבנות".</div>
+    </li>
+    <li class="blue">
+      <span class="insight-icon">🔧</span>
+      <div><strong>Use case בולט: חיבור מקורות מידע</strong> - ביסוי (אלביט, Beckhoff, Innova) מדברים על חיבור Excel, Oracle, מערכות שונות. דמו של קריאת CSV/קבצים ועיבוד - יפגע בול בצורך.</div>
+    </li>
+    <li class="yellow">
+      <span class="insight-icon">💼</span>
+      <div><strong>מגוון תעשיות לא-הייטק</strong> - בנק לאומי, בזק, חברת חשמל, ארבה רובוטיקס, Beckhoff. שונה מ-SaaS ProdOps. לדבר על אוטומציה "בכל תחום" ולא רק על ניהול פיצ'רים.</div>
+    </li>
+  </ul>
+</div>
+
+<!-- Recommendations -->
+<div class="card full">
+  <div class="card-title"><span class="icon">🎯</span> המלצות מעשיות לוובינר מחר</div>
+
+  <div class="rec-card">
+    <div class="rec-header">
+      <div class="rec-icon" style="background:#fef2f2;">⚡</div>
+      <div class="rec-title">פתיחה: 2 דקות על התקנה</div>
+    </div>
+    <div class="rec-body">62% לא התקינו. בתחילת הוובינר - שאל מי לא התקין, הכוון למדריך ההתקנה שנשלח במייל, ותן להם להתקין ב-background בזמן שאתה מדבר. אל תדלג - זה יחסוך אחד שאחד בצ'אט.</div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-header">
+      <div class="rec-icon" style="background:#eff6ff;">🎒</div>
+      <div class="rec-title">פתיחה: התאמה לקהל הנמר</div>
+    </div>
+    <div class="rec-body">לא "אנשי ProdOps" - הקהל הרבה יותר מגוון. פתח עם "בין אם אתה סטודנט, מהנדס, מנהל או יזם - Claude Code יעשה אותך x5 יותר יעיל". פחות מיקוד ב-Jira/Confluence, יותר ב-אוטומציה כללית ובניית כלים.</div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-header">
+      <div class="rec-icon" style="background:#f0fdf4;">🛠️</div>
+      <div class="rec-title">דמו: בחר use case שמדבר לכולם</div>
+    </div>
+    <div class="rec-body">Use cases שמדברים לקהל הזה: (1) <strong>קריאת קבצים/CSV ויצירת אוטומציה</strong> - מדבר למהנדסים, אנליסטים, עסקים; (2) <strong>בניית כלי ניהול פשוט</strong> - לסטודנטים ומנהלים; (3) <strong>CLAUDE.md + workflows</strong> - לכולם. הדמו של "בריף ProdOps" פחות רלוונטי - שקול משהו גנרי יותר.</div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-header">
+      <div class="rec-icon" style="background:#f5f3ff;">👥</div>
+      <div class="rec-title">שיתוף המשתמשים הקיימים</div>
+    </div>
+    <div class="rec-body">יש 9 משתמשים קבועים - גיל אגמון, עומר הנקין, בן שואן, דן אהרונסון. שאל בפתיחה "מי כבר משתמש בקלוד קוד?" ותן להם לשתף מה הם עושים איתו. זה עושה את הוובינר חי ורלוונטי יותר לכל השאר.</div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-header">
+      <div class="rec-icon" style="background:#fef3c7;">📱</div>
+      <div class="rec-title">ציין את קהילת הנמר כיתרון</div>
+    </div>
+    <div class="rec-body">כולם מחוברים דרך עמותת הנמר - יש כאן קהילה. סגור עם ה-WhatsApp group של Claude Code + "המשך לנמרים". שיתוף ה-CLAUDE.md template, שאלות ועוד - בקהילה שהם כבר מכירים.</div>
+  </div>
+
+  <div class="rec-card">
+    <div class="rec-header">
+      <div class="rec-icon" style="background:#d1fae5;">🎯</div>
+      <div class="rec-title">קו מרכזי</div>
+    </div>
+    <div class="rec-body"><strong>"לא משנה מה אתה - מהנדס, סטודנט, מנהל, יזם - Claude Code הופך אותך לאדם שיכול לבנות כל דבר בעצמו."</strong> יותר גנרי, יותר inspiring, פחות role-specific.</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const MONTH_ORDER = { 'ינואר':1,'פברואר':2,'מרץ':3,'אפריל':4,'מאי':5,'יוני':6,'יולי':7,'אוגוסט':8,'אוג':8,'ספטמבר':9,'אוקטובר':10,'נוב':11,'נובמבר':11,'דצמבר':12 };
+  const INSTALLED_ORDER = { 'כן':2, 'לא בטוח':1, 'לא':0 };
+  const EXP_ORDER = { 'קבוע':3, 'קצת':2, 'טרם':1 };
+
+  function parseCohort(txt) {
+    // e.g. "מרץ 15" → year=2015, month=3
+    const parts = txt.trim().split(/\s+/);
+    if (parts.length < 2) return 0;
+    const month = MONTH_ORDER[parts[0]] || 0;
+    let year = parseInt(parts[1]);
+    if (year < 100) year = year <= 26 ? 2000 + year : 1900 + year;
+    return year * 100 + month;
+  }
+
+  function getCellValue(tr, colIndex, type) {
+    const td = tr.cells[colIndex];
+    if (!td) return 0;
+    const text = td.innerText.trim();
+    if (type === 'cohort') return parseCohort(text);
+    if (type === 'number') {
+      const n = parseFloat(text.replace(/[^0-9.]/g, ''));
+      return isNaN(n) ? 0 : n;
+    }
+    if (type === 'installed') return INSTALLED_ORDER[text] ?? -1;
+    if (type === 'experience') return EXP_ORDER[text] ?? -1;
+    return text;
+  }
+
+  let lastCol = null, lastDir = 1;
+
+  document.querySelectorAll('th.sortable').forEach(th => {
+    th.style.cursor = 'pointer';
+    th.style.userSelect = 'none';
+    th.addEventListener('click', function() {
+      const col = parseInt(this.dataset.col);
+      const type = this.dataset.type;
+      const dir = (lastCol === col) ? -lastDir : 1;
+      lastCol = col; lastDir = dir;
+
+      // reset icons
+      document.querySelectorAll('th.sortable .sort-icon').forEach(i => i.textContent = '⇅');
+      this.querySelector('.sort-icon').textContent = dir === 1 ? '↑' : '↓';
+
+      const tbody = this.closest('table').querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort((a, b) => {
+        const av = getCellValue(a, col, type);
+        const bv = getCellValue(b, col, type);
+        if (av < bv) return -dir;
+        if (av > bv) return dir;
+        return 0;
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+})();
+</script>
+
+<!-- Footer -->
+<div style="text-align:center; padding:20px; color:var(--text-light); font-size:0.82rem;">
+  נוצר ע"י Claude Code | 14.4.2026 | 58 נרשמים | הנמר 15.4.2026
+</div>
+
+</div>
+</body>
+</html>

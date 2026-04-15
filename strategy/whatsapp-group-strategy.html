@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אסטרטגיית קבוצת וואצאפ - Claude Code ProdOps</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0f1117;
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 2em; color: #fff; margin-bottom: 8px; }
+        .subtitle { color: #888; font-size: 1.1em; margin-bottom: 40px; border-bottom: 1px solid #2a2d35; padding-bottom: 20px; }
+        h2 { font-size: 1.4em; color: #c9a0ff; margin: 40px 0 16px; display: flex; align-items: center; gap: 10px; }
+        h2 .num { background: #c9a0ff; color: #0f1117; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: 700; flex-shrink: 0; }
+        h3 { color: #7eb8ff; font-size: 1.1em; margin: 24px 0 10px; }
+        p, li { color: #ccc; }
+        p { margin-bottom: 12px; }
+        .principle-box { background: linear-gradient(135deg, #1a1530, #1e2235); border: 1px solid #3a2d5c; border-radius: 12px; padding: 24px; margin: 24px 0; }
+        .principle-box h3 { color: #c9a0ff; margin-top: 0; }
+        .goal-box { background: linear-gradient(135deg, #1a2030, #1e2535); border: 1px solid #2d4a5c; border-radius: 12px; padding: 24px; margin: 24px 0; }
+        .goal-box h3 { color: #7eb8ff; margin-top: 0; }
+        .timeline { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
+        .timeline th { background: #1a1d28; color: #c9a0ff; padding: 12px 16px; text-align: right; font-weight: 600; border-bottom: 2px solid #3a2d5c; }
+        .timeline td { padding: 14px 16px; border-bottom: 1px solid #1e2130; vertical-align: top; }
+        .timeline tr:hover { background: #15171f; }
+        .day-label { color: #7eb8ff; font-weight: 600; white-space: nowrap; min-width: 100px; }
+        .time-label { color: #888; font-size: 0.85em; white-space: nowrap; }
+        .msg-type { display: inline-block; font-size: 0.75em; padding: 2px 10px; border-radius: 20px; font-weight: 600; }
+        .type-value { background: #1a3a2a; color: #5ecc89; }
+        .type-engage { background: #2a2a1a; color: #ccb95e; }
+        .type-cta { background: #3a1a2a; color: #cc5e7a; }
+        .type-social { background: #1a2a3a; color: #5e9acc; }
+        .type-story { background: #2a1a3a; color: #b89acc; }
+        .content-preview { background: #1a1d28; border-right: 3px solid #3a2d5c; border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 10px 0; font-size: 0.92em; color: #bbb; line-height: 1.6; }
+        .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+        .rule-card { background: #15171f; border: 1px solid #2a2d35; border-radius: 10px; padding: 18px; }
+        .rule-card .do { color: #5ecc89; font-weight: 600; margin-bottom: 6px; }
+        .rule-card .dont { color: #cc5e5e; font-weight: 600; margin-bottom: 6px; }
+        .rule-card p { font-size: 0.9em; margin: 0; }
+        .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+        .kpi { background: #15171f; border: 1px solid #2a2d35; border-radius: 10px; padding: 16px; text-align: center; }
+        .kpi .number { font-size: 1.6em; color: #c9a0ff; font-weight: 700; }
+        .kpi .label { font-size: 0.8em; color: #888; margin-top: 4px; }
+        ul { padding-right: 20px; margin: 8px 0; }
+        li { margin-bottom: 6px; }
+        .funnel { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 20px 0; }
+        .funnel-step { padding: 10px; text-align: center; border-radius: 8px; font-weight: 600; font-size: 0.9em; }
+        .f1 { background: #1a3a2a; color: #5ecc89; width: 100%; }
+        .f2 { background: #1a2a3a; color: #5e9acc; width: 85%; }
+        .f3 { background: #2a2a1a; color: #ccb95e; width: 70%; }
+        .f4 { background: #3a1a2a; color: #cc5e7a; width: 55%; }
+        .arrow { color: #555; font-size: 1.2em; }
+        .cadence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+        .cadence-card { background: #15171f; border: 1px solid #2a2d35; border-radius: 10px; padding: 18px; }
+        .cadence-card .day-tag { font-weight: 700; font-size: 0.85em; margin-bottom: 6px; }
+        .cadence-card p { font-size: 0.9em; margin: 0; }
+        .urgent-banner { background: linear-gradient(135deg, #2a1a1a, #301a20); border: 1px solid #5c2d3a; border-radius: 12px; padding: 20px 24px; margin: 24px 0; text-align: center; }
+        .urgent-banner .big { font-size: 1.3em; color: #ff8a8a; font-weight: 700; }
+        .dm-box { background: linear-gradient(135deg, #1a2a1a, #1e3520); border: 1px solid #2d5c3a; border-radius: 12px; padding: 24px; margin: 24px 0; }
+        .dm-box h3 { color: #5ecc89; margin-top: 0; }
+        .copy-block { background: #111318; border: 2px solid #c9a0ff; border-radius: 10px; padding: 20px; margin: 16px 0; font-size: 1em; color: #e0e0e0; line-height: 1.8; white-space: pre-line; }
+        .copy-label { color: #c9a0ff; font-weight: 700; font-size: 0.85em; margin-bottom: 8px; }
+        @media (max-width: 600px) { .rules-grid, .kpi-row, .cadence-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>אסטרטגיית קבוצת וואצאפ</h1>
+    <p class="subtitle">Claude Code for ProdOps | 59 חברי קבוצה | עדכון: 30.3.2026 (יום שני)<br>ערב פסח: רביעי 1.4 | פסח נגמר: רביעי 9.4</p>
+
+    <!-- ===== URGENCY ===== -->
+    <div class="urgent-banner">
+        <div class="big">4 ימים אחרי הוובינר. ערב פסח מחרתיים.</div>
+        <p style="color: #ccc; margin-top: 8px;">שתי הודעות לפני החג: שני 30.3 + רביעי 1.4 (ערב חג). אחרי פסח (10.4+) ממשיכים.</p>
+    </div>
+
+    <!-- ===== REAL GOAL ===== -->
+    <div class="goal-box">
+        <h3>המטרה האמיתית</h3>
+        <ul>
+            <li><strong>Top of mind</strong> - "חמי בן לביא" = "Claude Code / AI Ops" אצל 59 אנשים בכירים</li>
+            <li><strong>הזדמנויות</strong> - לידים לסדנאות בחברות וליווי צוותי</li>
+            <li><strong>קהל</strong> - נרשמים למפגש ההמשך בתשלום</li>
+        </ul>
+        <p>הכל מוסווה כערך חינמי. אתה נותן - וההזדמנויות מגיעות.</p>
+    </div>
+
+    <!-- ===== PRINCIPLES ===== -->
+    <div class="principle-box">
+        <h3>עקרונות מנחים</h3>
+        <p><strong>1. Value First, Sell Later</strong> - כל הודעה חייבת לתת ערך. אם זה מרגיש כמו פרסומת - למחוק ולנסח מחדש.</p>
+        <p><strong>2. קצר ופרקטי</strong> - 3-6 שורות מקס. צריך להרחיב? לינק החוצה.</p>
+        <p><strong>3. תדירות מוגנת</strong> - 2-3 הודעות בשבוע. לא יותר. קבוצה שמציפה = mute = מתה.</p>
+        <p><strong>4. בוקר, לא ערב</strong> - ימים ב'-ד', שעות 09:00-10:00. אנשי Ops פותחים ווצאפ בבוקר בעבודה.</p>
+    </div>
+
+    <!-- ===== WEEKLY CADENCE ===== -->
+    <h2><span class="num">1</span>מבנה שבועי קבוע (מתחיל אחרי פסח)</h2>
+
+    <div class="cadence-grid">
+        <div class="cadence-card">
+            <div class="day-tag" style="color: #5ecc89;">יום ב' בוקר (09:30) - טיפ השבוע</div>
+            <p>קצר, אקשנבילי, 5 דקות ליישום. פורמט קבוע: בעיה > פתרון > צילום מסך.</p>
+        </div>
+        <div class="cadence-card">
+            <div class="day-tag" style="color: #b89acc;">יום ד' בוקר (09:30) - "מה עשיתי השבוע"</div>
+            <p>סיפור אותנטי מהעבודה. לא מלוטש. כולל גם כישלונות. בונה אמינות.</p>
+        </div>
+    </div>
+    <p style="color: #888; font-size: 0.9em;">+ פעם בשבוע-שבועיים: שאלה / שיתוף משאב / הכרזה (לא ביום קבוע)</p>
+
+    <!-- ===== FUNNEL ===== -->
+    <h2><span class="num">2</span>הפאנל</h2>
+    <div class="funnel">
+        <div class="funnel-step f1">59 חברי קבוצה - ערך חינמי, טיפים, סיפורים</div>
+        <div class="arrow">v</div>
+        <div class="funnel-step f2">מגיבים פעילים - שאלות, סקר, דיון</div>
+        <div class="arrow">v</div>
+        <div class="funnel-step f3">מפגש המשך בתשלום (400-600 ש"ח) - 15-20 אנשים</div>
+        <div class="arrow">v</div>
+        <div class="funnel-step f4">סדנאות בחברות / ליווי צוותי (5,000-20,000 ש"ח)</div>
+    </div>
+
+    <!-- ===== DM TACTIC ===== -->
+    <div class="dm-box">
+        <h3>טקטיקת DM - הכלי הכי חזק שלך</h3>
+        <p>כל מי שמגיב בקבוצה - שלח לו הודעה פרטית. לא מכירתית. אנושית.</p>
+        <p><strong>דוגמה:</strong> מישהו כתב "ניסיתי לנתח CSV". אתה שולח לו פרטי:</p>
+        <div class="content-preview" style="border-right-color: #2d5c3a;">
+            היי [שם], ראיתי שניסית לעבוד עם CSV ב-Claude Code. איך הלך?
+            אם נתקעת במשהו אשמח לעזור - אני עושה את זה כל יום בעבודה
+        </div>
+        <p style="color: #888; font-size: 0.9em;">זה מה שהופך חבר קבוצה שקט ללקוח פוטנציאלי. הקשר האישי > הודעה בקבוצה.</p>
+    </div>
+
+    <!-- ===== BEFORE PESACH ===== -->
+    <h2><span class="num">3</span>לפני פסח: 2 הודעות (שני 30.3 + רביעי 1.4)</h2>
+    <p>שתי הודעות לפני שנכנסים לשקט של חג. הראשונה שוברת שקט, השנייה נותנת ערך ראשון.</p>
+
+    <table class="timeline">
+        <thead>
+            <tr><th>יום</th><th>שעה</th><th>סוג</th><th>תוכן</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="day-label">שני 30.3</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-engage">אינטראקציה</span></td>
+                <td><strong>שבירת שקט + איסוף מידע</strong></td>
+            </tr>
+            <tr>
+                <td class="day-label">רביעי 1.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-value">ערך + ברכה</span></td>
+                <td><strong>טיפ ראשון + ברכת חג</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="copy-label">הודעה 1 (שני 30.3, 09:30) - מוכנה להעתקה:</div>
+    <div class="copy-block">בוקר טוב!
+כמעט שבוע אחרי הוובינר - מה הדבר הראשון שניסיתם (או שאתם רוצים לנסות) עם Claude Code?
+
+אפילו תשובה בשורה אחת - יעזור לי לדעת מה לשתף פה.</div>
+
+    <div class="copy-label">הודעה 2 (רביעי 1.4, 09:30 - ערב חג) - מוכנה להעתקה:</div>
+    <div class="copy-block">טיפ ראשון בסדרה:
+
+הדבר הכי חשוב אחרי ההתקנה - ליצור קובץ CLAUDE.md בתיקייה שאתם עובדים בה.
+
+3 דברים לכתוב בו:
+1. מי אתם ומה התפקיד שלכם
+2. איזה כלים אתם עובדים איתם
+3. איך אתם רוצים שהתשובות ייראו
+
+מצורפת דוגמה.
+חג פסח שמח!</div>
+    <p style="color: #888; font-size: 0.85em;">* לצרף צילום מסך של CLAUDE.md לדוגמה</p>
+
+    <!-- ===== PESACH ===== -->
+    <div class="principle-box" style="border-color: #555;">
+        <h3 style="color: #888;">פסח: שקט בקבוצה (1.4 ערב - 9.4)</h3>
+        <p>לא שולחים הודעות לקבוצה. אבל מאחורי הקלעים:</p>
+        <ul>
+            <li>לשלוח DM אישי לכל מי שהגיב (ראה טקטיקת DM למעלה)</li>
+            <li>להכין 4-5 טיפים שבועיים מראש (CLAUDE.md, פקודות מפתח, use cases)</li>
+            <li>להכין דף נחיתה למפגש ההמשך + טופס הרשמה</li>
+            <li>לכתוב 2-3 סיפורי "מה עשיתי השבוע" מראש</li>
+        </ul>
+    </div>
+
+    <!-- ===== WEEK 1 AFTER PESACH ===== -->
+    <h2><span class="num">4</span>שבוע 1 אחרי פסח: חזרה + ערך (10.4 - 13.4)</h2>
+    <p>כולם חוזרים מהחג, inbox zero. הזמן להיכנס מחדש לראש.</p>
+
+    <table class="timeline">
+        <thead>
+            <tr><th>יום</th><th>שעה</th><th>סוג</th><th>תוכן</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="day-label">חמישי 10.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-value">ערך</span></td>
+                <td>
+                    <strong>טיפ #2 - פקודות בסיסיות</strong>
+                    <div class="content-preview">
+                        חזרנו מהחג! טיפ #2:<br><br>
+                        3 דברים ב-Claude Code שאני משתמש בהם כל יום:<br>
+                        1. /compact - כשהשיחה ארוכה מדי ורוצים להתחיל נקי<br>
+                        2. Shift+Tab - מעבר בין מצב תכנון למצב פעולה<br>
+                        3. @ - הפניה לקובץ ספציפי<br><br>
+                        [צילום מסך]
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ===== WEEK 2 ===== -->
+    <h2><span class="num">5</span>שבוע 2: קצב שבועי מתחיל (14.4 - 17.4)</h2>
+    <p>מכאן מתחיל הקצב הקבוע: ב' = טיפ, ד' = סיפור.</p>
+
+    <table class="timeline">
+        <thead>
+            <tr><th>יום</th><th>שעה</th><th>סוג</th><th>תוכן</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="day-label">שני 14.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-value">ערך</span></td>
+                <td>
+                    <strong>טיפ #3 - פקודה שחוסכת 30 דקות</strong>
+                    <div class="content-preview">
+                        טיפ השבוע:<br>
+                        פקודה אחת שחוסכת לי 30 דקות כל שבוע:<br>
+                        "תקרא את הקבצים בתיקייה ותגיד לי מה השתנה מאתמול"<br>
+                        אני מריץ את זה כל בוקר. במקום לסרוק ידנית.<br>
+                        [צילום מסך]
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="day-label">רביעי 16.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-story">סיפור</span></td>
+                <td>
+                    <strong>"מה עשיתי השבוע" #1</strong>
+                    <div class="content-preview">
+                        [סיפור אמיתי מהשבוע]<br>
+                        דוגמה: "המנכ"ל ביקש סיכום של כל הפרויקטים.<br>
+                        נתתי ל-Claude Code את ה-CSV מ-Jira. תוך 3 דקות שלחתי מייל.<br>
+                        הוא חשב שישבתי על זה שעה"
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ===== WEEK 3 ===== -->
+    <h2><span class="num">6</span>שבוע 3: סקר + טיזר (21.4 - 24.4)</h2>
+    <p>עכשיו יש engagement ותוכן. הזמן לבדוק מה הקבוצה רוצה ולזרוע את הרעיון של מפגש בתשלום.</p>
+
+    <table class="timeline">
+        <thead>
+            <tr><th>יום</th><th>שעה</th><th>סוג</th><th>תוכן</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="day-label">שני 21.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-value">ערך</span></td>
+                <td><strong>טיפ #4 + שיתוף משאב</strong> (לינק למדריך של מישהו אחר - MCP / Jira integration / נושא רלוונטי)</td>
+            </tr>
+            <tr>
+                <td class="day-label">רביעי 23.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-engage">אינטראקציה</span></td>
+                <td>
+                    <strong>סקר - "מה במפגש הבא?"</strong>
+                    <div class="content-preview">
+                        סקר מהיר - מה הייתם רוצים שנעשה במפגש הבא?<br>
+                        1 - hands-on ביחד (כל אחד עם use case שלו)<br>
+                        2 - דמו מתקדם שלי<br>
+                        3 - Q&A פתוח<br>
+                        4 - משהו אחר (כתבו)
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ===== WEEK 4 ===== -->
+    <h2><span class="num">7</span>שבוע 4: השקת מפגש בתשלום (28.4 - 30.4)</h2>
+    <p>חודש אחרי הוובינר. 3 שבועות ערך. עכשיו מותר למכור.</p>
+
+    <table class="timeline">
+        <thead>
+            <tr><th>יום</th><th>שעה</th><th>סוג</th><th>תוכן</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="day-label">שני 28.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-value">ערך + טיזר</span></td>
+                <td>
+                    <strong>סיכום ביניים</strong>
+                    <div class="content-preview">
+                        חודש אחרי הוובינר - כמה דברים מעניינים שעלו כאן:<br>
+                        1. [תובנה מהסקר]<br>
+                        2. [תובנה מהשאלות]<br>
+                        3. [תובנה מהאינטראקציות]<br><br>
+                        בעקבות זה, אני פותח מפגש המשך hands-on. פרטים ביום רביעי.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="day-label">רביעי 30.4</td>
+                <td class="time-label">09:30</td>
+                <td><span class="msg-type type-cta">CTA</span></td>
+                <td>
+                    <strong>השקת מפגש המשך</strong>
+                    <div class="content-preview">
+                        מפגש המשך: Claude Code Hands-On<br><br>
+                        - קבוצה קטנה (עד 20 אנשים)<br>
+                        - כל אחד מגיע עם use case אמיתי שלו<br>
+                        - יוצאים עם פתרון עובד<br>
+                        - תאריך: [X] | משך: 2 שעות | מחיר: [X] ש"ח<br><br>
+                        להרשמה: [לינק]<br>
+                        מקומות מוגבלים
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ===== 5 CONTENT TYPES ===== -->
+    <h2><span class="num">8</span>5 סוגי תוכן (חוק 4:1)</h2>
+
+    <table class="timeline">
+        <thead>
+            <tr><th>סוג</th><th>תדירות</th><th>דוגמה</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="msg-type type-value">טיפ שבועי</span></td>
+                <td class="time-label">כל יום ב'</td>
+                <td>קצר, אקשנבילי, 5 דקות ליישום. בעיה > פתרון > צילום מסך.</td>
+            </tr>
+            <tr>
+                <td><span class="msg-type type-story">מה עשיתי השבוע</span></td>
+                <td class="time-label">כל יום ד'</td>
+                <td>סיפור אותנטי. כולל כישלונות. "ניסיתי X, לא עבד, ואז..."</td>
+            </tr>
+            <tr>
+                <td><span class="msg-type type-engage">שאלה לקבוצה</span></td>
+                <td class="time-label">1-2 בחודש</td>
+                <td>סקר, שאלה פתוחה. גם engagement וגם אינטליגנציה.</td>
+            </tr>
+            <tr>
+                <td><span class="msg-type type-social">שיתוף משאב</span></td>
+                <td class="time-label">1-2 בחודש</td>
+                <td>לינק, מדריך - גם תוכן של אחרים. מראה שאתה curator.</td>
+            </tr>
+            <tr>
+                <td><span class="msg-type type-cta">CTA</span></td>
+                <td class="time-label">1 בחודש</td>
+                <td>מפגש, סדנה. מקסימום פעם בשבועיים.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ===== DO / DON'T ===== -->
+    <h2><span class="num">9</span>כללי התנהגות</h2>
+
+    <div class="rules-grid">
+        <div class="rule-card">
+            <div class="do">כן - לעשות</div>
+            <p>להגיב אישית לכל מי שמגיב. DM לכל מי שעונה משהו מעניין.</p>
+        </div>
+        <div class="rule-card">
+            <div class="dont">לא - להימנע</div>
+            <p>לא יותר מהודעה אחת ביום. 3 דברים? תפזר על פני השבוע.</p>
+        </div>
+        <div class="rule-card">
+            <div class="do">כן - לעשות</div>
+            <p>לשתף כישלונות. "ניסיתי X ולא עבד" = אמינות.</p>
+        </div>
+        <div class="rule-card">
+            <div class="dont">לא - להימנע</div>
+            <p>לא הודעות ארוכות. לינק החוצה אם צריך להרחיב.</p>
+        </div>
+        <div class="rule-card">
+            <div class="do">כן - לעשות</div>
+            <p>לשתף תוכן של אחרים. מראה שאתה curator, לא self-promoter.</p>
+        </div>
+        <div class="rule-card">
+            <div class="dont">לא - להימנע</div>
+            <p>לא בערב. לא שישי-שבת. לא בחג. רק ב'-ד', 09:00-10:00.</p>
+        </div>
+    </div>
+
+    <!-- ===== LONG TERM ===== -->
+    <h2><span class="num">10</span>תוכנית ארוכת טווח (חודש 2+)</h2>
+
+    <h3>מפגש קהילה חודשי (חינם)</h3>
+    <ul>
+        <li>30 דקות. "הדבר הכי מגניב שעשיתי עם AI החודש"</li>
+        <li>2-3 אנשים מהקבוצה משתפים (לא רק אתה)</li>
+        <li>יום קבוע: שלישי האחרון בחודש, 21:00</li>
+    </ul>
+
+    <h3>סדרת טיפים > Lead Magnet</h3>
+    <ul>
+        <li>אחרי 8-10 טיפים - לארוז ל-"AI Ops Starter Kit"</li>
+        <li>CLAUDE.md template + פקודות + use cases - דף נחיתה + רשימת מייל</li>
+    </ul>
+
+    <h3>הנעה לשירותים בתשלום</h3>
+    <ul>
+        <li><strong>חודש 2:</strong> מפגש hands-on שני</li>
+        <li><strong>חודש 2-3:</strong> "שעת ייעוץ 1:1" (300-500 ש"ח)</li>
+        <li><strong>חודש 3:</strong> פנייה ישירה לחברות - סדנה פנים-ארגונית (5,000-15,000 ש"ח)</li>
+    </ul>
+
+    <!-- ===== METRICS ===== -->
+    <h2><span class="num">11</span>מדדים למעקב</h2>
+
+    <div class="kpi-row">
+        <div class="kpi">
+            <div class="number">59</div>
+            <div class="label">חברי קבוצה<br>יעד חודש 1: 65+</div>
+        </div>
+        <div class="kpi">
+            <div class="number">?</div>
+            <div class="label">מגיבים ייחודיים<br>יעד: 10-15</div>
+        </div>
+        <div class="kpi">
+            <div class="number">0</div>
+            <div class="label">נרשמים למפגש בתשלום<br>יעד: 12-15</div>
+        </div>
+        <div class="kpi">
+            <div class="number">0</div>
+            <div class="label">לידים לסדנה ארגונית<br>יעד: 2-3 חברות</div>
+        </div>
+    </div>
+
+    <!-- ===== IMMEDIATE ACTION ===== -->
+    <h2><span class="num">!</span>פעולה מיידית</h2>
+
+    <div class="principle-box" style="border-color: #5ecc89;">
+        <h3 style="color: #5ecc89;">היום שני 30.3 | 09:30 בבוקר</h3>
+        <p>להעתיק ולשלוח את הודעה 1 (סעיף 3). אחרי שמישהו מגיב - DM אישי.</p>
+        <p>רביעי 1.4 ב-09:30 - הודעה 2 (טיפ CLAUDE.md + ברכת חג).</p>
+        <p>בפסח: DMs אישיים למגיבים + הכנת טיפים, דף נחיתה, סיפורים.</p>
+    </div>
+
+</div>
+</body>
+</html>

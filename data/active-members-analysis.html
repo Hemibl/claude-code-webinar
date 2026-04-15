@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חברים פעילים בקבוצה - זיהוי וניתוח</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f5f6fa; color: #1a1a1a; padding: 20px; line-height: 1.7; }
+  .container { max-width: 950px; margin: 0 auto; }
+  h1 { font-size: 1.5em; color: #075e54; margin-bottom: 5px; }
+  .subtitle { color: #667; font-size: 0.9em; margin-bottom: 25px; }
+
+  .person-card { background: #fff; border-radius: 12px; padding: 22px 26px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.07); border-right: 5px solid #25d366; position: relative; }
+  .person-card.vip { border-right-color: #ff9800; }
+  .person-card.star { border-right-color: #e91e63; }
+  .person-card.quiet { border-right-color: #9e9e9e; }
+
+  .person-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .person-name { font-size: 1.2em; font-weight: 700; color: #1a1a1a; }
+  .person-role { font-size: 0.95em; color: #555; margin-top: 2px; }
+  .person-company { display: inline-block; background: #e3f2fd; color: #1565c0; padding: 3px 12px; border-radius: 15px; font-size: 0.85em; font-weight: 600; }
+  .person-company.tier1 { background: #fff3e0; color: #e65100; }
+  .person-company.tier2 { background: #e8f5e9; color: #2e7d32; }
+
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 600; margin-left: 6px; }
+  .badge.power { background: #ff5722; color: #fff; }
+  .badge.evangelist { background: #e91e63; color: #fff; }
+  .badge.lead { background: #ff9800; color: #fff; }
+  .badge.passive { background: #9e9e9e; color: #fff; }
+
+  .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .detail-item { font-size: 0.88em; }
+  .detail-label { color: #888; font-size: 0.8em; }
+
+  .activity { background: #f8f9fa; border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 0.88em; }
+  .activity strong { color: #075e54; }
+
+  .summary-card { background: #fff; border-radius: 12px; padding: 22px 26px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.07); }
+  .summary-card h2 { font-size: 1.1em; color: #075e54; margin-bottom: 14px; border-bottom: 2px solid #25d366; padding-bottom: 6px; display: inline-block; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th { background: #075e54; color: #fff; padding: 10px 14px; text-align: right; font-size: 0.85em; }
+  td { padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 0.88em; }
+  tr:nth-child(even) { background: #fafafa; }
+
+  .insight-box { background: #fff8e1; border-radius: 8px; padding: 14px 18px; margin: 10px 0; border-right: 4px solid #ffc107; font-size: 0.9em; }
+  .action-box { background: #e3f2fd; border-radius: 8px; padding: 14px 18px; margin: 10px 0; border-right: 4px solid #1976d2; font-size: 0.9em; }
+
+  .linkedin-link { color: #0077b5; text-decoration: none; font-size: 0.85em; }
+  .linkedin-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>חברים פעילים בקבוצה - מי הם?</h1>
+<p class="subtitle">Claude Code IL - ProdOps דיונים | ניתוח על בסיס טופס הרשמה + פעילות בקבוצה</p>
+
+<!-- Person 1: Idan Benishu -->
+<div class="person-card vip">
+  <div class="person-header">
+    <div>
+      <div class="person-name">עידן בנישו (Idan Benishu) <span class="badge power">Power User</span></div>
+      <div class="person-role">Product Growth</div>
+    </div>
+    <span class="person-company tier2">Bagel</span>
+  </div>
+  <div class="details-grid">
+    <div class="detail-item">
+      <div class="detail-label">אימייל</div>
+      idan@getbagel.com
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">ניסיון קודם עם Claude</div>
+      regular - משתמש קבוע! התקין לפני הוובינר
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">מה גוזל לו זמן</div>
+      דוחות
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">הודעות בקבוצה</div>
+      ~12 הודעות (הכי פעיל!)
+    </div>
+  </div>
+  <div class="activity">
+    <strong>מה עשה בקבוצה:</strong> ענה בפירוט רב על שאלת Liat לגבי Skills - הסביר מה הם, איך בונים, איך משתפים, הזהיר מ-Hijack, המליץ על /insights, ציין שיש סקילים גם באתר אנתרופיק. תרם ידע עצמאי ללא שנשאל ישירות - סימן לחבר קהילה מעורב.
+  </div>
+  <div class="insight-box">
+    <strong>למה הוא חשוב:</strong> משתמש קבוע ("regular") - היחיד בקבוצה עם רמת ניסיון כזו. מכיר את המוצר לעומק, כולל אבטחה ו-edge cases. מוכן לעזור לאחרים באופן יזום. סטארטאפיסט (Bagel) עם גישת Product Growth - מבין ערך עסקי.
+  </div>
+  <div class="action-box">
+    <strong>פעולה מומלצת:</strong> הודעה פרטית - תודה על העזרה המדהימה בקבוצה + הצעה להיות "מומחה קהילתי" רשמי + הזמנה למפגש המשך (אולי כמרצה אורח על Skills). הוא יכול להיות שותף אמיתי בהובלת הקהילה.
+  </div>
+</div>
+
+<!-- Person 2: Alon Saban -->
+<div class="person-card">
+  <div class="person-header">
+    <div>
+      <div class="person-name">אלון סבן (alon S) <span class="badge lead">Warm Lead</span></div>
+      <div class="person-role">Prod Ops</div>
+    </div>
+    <span class="person-company tier1">Palo Alto Networks</span>
+  </div>
+  <div class="details-grid">
+    <div class="detail-item">
+      <div class="detail-label">אימייל</div>
+      asabban@paloaltonetworks.com
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">ניסיון קודם עם Claude</div>
+      some - ידע מוקדם, לא התקין לפני הוובינר
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">מה גוזל לו זמן</div>
+      PRD Creation
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">הודעות בקבוצה</div>
+      1 הודעה
+    </div>
+  </div>
+  <div class="activity">
+    <strong>מה עשה בקבוצה:</strong> "תודה רבה שוב על הסדנא !!" - הודעה קצרה אבל חיובית. פעילות נמוכה בקבוצה אך ההתלהבות ברורה.
+  </div>
+  <div class="insight-box">
+    <strong>למה הוא חשוב:</strong> Palo Alto Networks = חברה tier 1 לסדנאות ארגוניות (5 נרשמים מהחברה). PRD Creation = use case מושלם לדמו. גם אם הוא שקט בקבוצה, הפוטנציאל הארגוני גבוה.
+  </div>
+  <div class="action-box">
+    <strong>פעולה מומלצת:</strong> פולואפ פרטי: "היי אלון, שמח שנהנית! ציינת שיצירת PRDs גוזלת לך זמן - זה בדיוק אחד הדברים שאפשר לייעל עם Claude Code. רוצה שנדבר?" + בירור פוטנציאל סדנה ב-Palo Alto.
+  </div>
+</div>
+
+<!-- Person 2: Liat -->
+<div class="person-card star">
+  <div class="person-header">
+    <div>
+      <div class="person-name">ליאת טולדנו אונגר (Liat Toledano Unger) <span class="badge evangelist">Evangelist</span></div>
+      <div class="person-role">Ops Manager</div>
+    </div>
+    <span class="person-company tier2">Remitly</span>
+  </div>
+  <div class="details-grid">
+    <div class="detail-item">
+      <div class="detail-label">אימייל</div>
+      liatibentz@gmail.com
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">ניסיון קודם עם Claude</div>
+      none - הגיעה ללא ניסיון בכלל
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">מה גוזל לה זמן</div>
+      דוחות סטטוס
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">ציפיות מהוובינר</div>
+      העשרה
+    </div>
+  </div>
+  <div class="activity">
+    <strong>מה עשתה בקבוצה:</strong> שאלה על Skills ("אשמח להרחבה!"), שיתפה פוסט לינקדאין על הניסיון שלה עם Claude Code, ביקשה להתחבר בלינקדאין, כתבה "פתח לי עולם" + "חוויה מעולה".<br>
+    <a href="https://www.linkedin.com/in/liattol/" class="linkedin-link" target="_blank">פרופיל לינקדאין</a>
+  </div>
+  <div class="insight-box">
+    <strong>למה היא חשובה:</strong> הגיעה ללא ניסיון - ועכשיו כותבת פוסטים בלינקדאין על הנושא. זו בדיוק הצלחה שאפשר להציג. Remitly היא חברת fintech גלובלית (נסחרת בנאסדק). הפוסט שלה הוא social proof אורגני.
+  </div>
+  <div class="action-box">
+    <strong>פעולה מומלצת:</strong> לייק + תגובה משמעותית על הפוסט שלה בלינקדאין. הודעה פרטית: הצעה לשיתוף case study (אנונימי אם צריך). הזמנה למפגש המשך - אולי תשתף את הניסיון שלה.
+  </div>
+</div>
+
+<!-- Person 3: Dana -->
+<div class="person-card">
+  <div class="person-header">
+    <div>
+      <div class="person-name">דנה בוברמן (Dana Bubi) <span class="badge lead">Warm Lead</span></div>
+      <div class="person-role">Product Ops</div>
+    </div>
+    <span class="person-company tier2">Monday.com</span>
+  </div>
+  <div class="details-grid">
+    <div class="detail-item">
+      <div class="detail-label">אימייל</div>
+      d.bubi20@gmail.com
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">ניסיון קודם עם Claude</div>
+      none - אין ניסיון
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">מה גוזל לה זמן</div>
+      מענה להודעות Slack
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">הודעות בקבוצה</div>
+      2 - ביקשה לינק הקלטה פעמיים
+    </div>
+  </div>
+  <div class="activity">
+    <strong>מה עשתה בקבוצה:</strong> פספסה את הוובינר, ביקשה את הלינק להקלטה ("תוכל לשלוח שוב את ההודעה בבקשה?"). נראה שצפתה בהקלטה.
+  </div>
+  <div class="insight-box">
+    <strong>למה היא חשובה:</strong> Monday.com = חברה ישראלית גדולה (2 נרשמות משם - גם Netta Fishman). אם תצליח לייצר ערך אצלה, יש פוטנציאל לסדנה ארגונית ב-Monday. הנקודה שלה על "מענה להודעות Slack" = use case מושלם לאוטומציה עם Claude.
+  </div>
+  <div class="action-box">
+    <strong>פעולה מומלצת:</strong> הודעה פרטית: "היי דנה, הספקת לראות את ההקלטה? אם יש שאלות - אני פה. אגב, ראיתי שציינת שמענה ל-Slack גוזל לך זמן - זה בדיוק משהו שאפשר לייעל עם Claude Code, בשמחה אראה לך."
+  </div>
+</div>
+
+<!-- Person 4: Unknown Alon -->
+<div class="person-card quiet">
+  <div class="person-header">
+    <div>
+      <div class="person-name">אלון (לא אלון סבן) <span class="badge passive">לזהות</span></div>
+      <div class="person-role">לא ידוע</div>
+    </div>
+    <span class="person-company" style="background:#eee; color:#666;">חברה לא ידועה</span>
+  </div>
+  <div class="activity">
+    <strong>מה עשה בקבוצה:</strong> ביקש את לינק ההקלטה + הציע רעיון טוב: "אפשר לשים את זה בפרטי הקבוצה". אין לו התאמה ברשימת הנרשמים (יתכן שהצטרף ישירות לקבוצה).<br>
+    <em>אפשרות לזיהוי:</em> לבדוק את מספר הטלפון שלו ברשימת חברי הקבוצה.
+  </div>
+</div>
+
+<!-- Person 5: Anonymous security comment -->
+<div class="person-card quiet">
+  <div class="person-header">
+    <div>
+      <div class="person-name">משתתף אנונימי (נושא אבטחה) <span class="badge passive">לזהות</span></div>
+      <div class="person-role">לא ידוע</div>
+    </div>
+    <span class="person-company" style="background:#eee; color:#666;">לא ידוע</span>
+  </div>
+  <div class="activity">
+    <strong>מה עשה בקבוצה:</strong> כתב "אומרים שאפשר לפרוץ את קלוד ב-6 דקות" - הודעה שהובילה לדיון חשוב על אבטחה.
+  </div>
+</div>
+
+<!-- Summary Table -->
+<div class="summary-card">
+  <h2>טבלת סיכום</h2>
+  <table>
+    <tr>
+      <th>שם</th>
+      <th>חברה</th>
+      <th>תפקיד</th>
+      <th>רמת פעילות</th>
+      <th>פוטנציאל עסקי</th>
+    </tr>
+    <tr>
+      <td><strong>עידן בנישו</strong></td>
+      <td>Bagel</td>
+      <td>Product Growth</td>
+      <td>גבוהה מאוד (12 הודעות)</td>
+      <td>שגריר קהילה + שותף להובלה</td>
+    </tr>
+    <tr>
+      <td><strong>אלון סבן</strong></td>
+      <td>Palo Alto Networks</td>
+      <td>Prod Ops</td>
+      <td>נמוכה (1 הודעה)</td>
+      <td>סדנה ארגונית ב-Palo Alto</td>
+    </tr>
+    <tr>
+      <td><strong>ליאת טולדנו אונגר</strong></td>
+      <td>Remitly</td>
+      <td>Ops Manager</td>
+      <td>גבוהה (3 + פוסט לינקדאין)</td>
+      <td>Case study + אוונגליסטית</td>
+    </tr>
+    <tr>
+      <td><strong>דנה בוברמן</strong></td>
+      <td>Monday.com</td>
+      <td>Product Ops</td>
+      <td>נמוכה (2 בקשות לינק)</td>
+      <td>סדנה ארגונית ב-Monday</td>
+    </tr>
+    <tr>
+      <td><strong>אלון (?)</strong></td>
+      <td>לא ידוע</td>
+      <td>לא ידוע</td>
+      <td>נמוכה (1 הודעה)</td>
+      <td>הציע רעיון מועיל</td>
+    </tr>
+    <tr>
+      <td><strong>אנונימי</strong></td>
+      <td>לא ידוע</td>
+      <td>לא ידוע</td>
+      <td>נמוכה (1 הודעה)</td>
+      <td>מודעות אבטחה - מעניין</td>
+    </tr>
+  </table>
+</div>
+
+<!-- Strategic Insights -->
+<div class="summary-card">
+  <h2>תובנות אסטרטגיות</h2>
+
+  <div class="insight-box">
+    <strong>עידן בנישו = הנכס הכי חשוב.</strong> משתמש קבוע ("regular") שמכיר את Claude Code לעומק ומוכן לעזור לאחרים. הוא התנדב לענות לפני שאתה הספקת - סימן לחבר קהילה אמיתי. שווה לגייס אותו כשותף.
+  </div>
+
+  <div class="insight-box">
+    <strong>חברות Tier 1 בקבוצה:</strong> Palo Alto Networks (אלון סבן, 5 נרשמים מהחברה), Monday.com (דנה, 2 נרשמות), Remitly (ליאת). אלה המטרות הראשונות לסדנאות ארגוניות.
+  </div>
+
+  <div class="insight-box">
+    <strong>דפוס מעניין:</strong> עידן (Bagel) הגיע כמשתמש קבוע ועכשיו מלמד אחרים. ליאת (Remitly) הגיעה ללא ניסיון ועכשיו כותבת על זה בלינקדאין. שני סוגי הצלחה שונים - שניהם בעלי ערך.
+  </div>
+
+  <div class="action-box">
+    <strong>סדר עדיפויות לפולואפ:</strong><br>
+    1. עידן בנישו - הכי דחוף (שגריר קהילה, הצעה לשותפות)<br>
+    2. ליאת - תגובה לפוסט לינקדאין + הזמנה<br>
+    3. אלון סבן - פולואפ על PRD + פוטנציאל Palo Alto<br>
+    4. דנה - הודעה מותאמת על Slack automation<br>
+    5. זיהוי האלון השני והמשתתף האנונימי
+  </div>
+</div>
+
+<p style="text-align: center; color: #999; font-size: 0.8em; margin-top: 20px;">ניתוח נוצר ב-31.3.2026 | Claude Code</p>
+
+</div>
+</body>
+</html>

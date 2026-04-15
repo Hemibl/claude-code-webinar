@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תזכורת - Claude Code לנמרים מעופפים</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+            direction: rtl;
+        }
+        h2 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .message {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            white-space: pre-line;
+            line-height: 1.8;
+            font-size: 15px;
+            color: #1a1a1a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+        }
+        .copy-btn {
+            display: block;
+            margin: 0 auto 24px;
+            padding: 12px 32px;
+            background: #25D366;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .copy-btn:hover { background: #1da851; }
+        .note {
+            font-size: 13px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h2>תזכורת - לשלוח עם התמונה</h2>
+
+<div class="message" id="msg">🐆 תזכורת - הערב 21:00!
+
+*Claude Code - לנמרים מעופפים*
+
+הלילה אנחנו צוללים וממריאים ביחד 🚀
+
+📅 רביעי 15.4 | 21:00
+
+אם עדיין לא התקנתם Claude Code - עדיף לעשות את זה לפני המפגש:
+https://hemibl.github.io/claude-code-webinar/materials/installation-guide.html
+
+נתראה הערב! 🐆
+חמי בן לביא</div>
+
+<button class="copy-btn" onclick="copyMsg()">העתק הודעה</button>
+<p class="note">שלחו קודם את התמונה, אחריה את הטקסט</p>
+
+<script>
+function copyMsg() {
+    var text = document.getElementById('msg').innerText;
+    navigator.clipboard.writeText(text);
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'הועתק!';
+    setTimeout(function() { btn.textContent = 'העתק הודעה'; }, 2000);
+}
+</script>
+</body>
+</html>
