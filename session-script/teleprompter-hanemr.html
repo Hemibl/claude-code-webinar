@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>סקריפט - נמרים מעופפים 🐆</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.9;
+    padding: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .header {
+    background: #16213e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    border: 1px solid #0f3460;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header h1 { font-size: 22px; color: #e94560; margin-bottom: 8px; }
+  .header .meta { font-size: 14px; color: #8892b0; }
+  .nav { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .nav a {
+    background: #0f3460; color: #64ffda; padding: 6px 14px;
+    border-radius: 20px; text-decoration: none; font-size: 13px; white-space: nowrap;
+  }
+  .nav a:active { background: #e94560; }
+  .section {
+    background: #16213e; border-radius: 12px; padding: 20px;
+    margin-bottom: 16px; border-right: 4px solid #0f3460;
+  }
+  .section h2 {
+    color: #64ffda; font-size: 20px; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 1px solid #0f3460;
+  }
+  .section h3 { color: #e94560; font-size: 17px; margin: 20px 0 10px 0; }
+  .stage { color: #8892b0; font-size: 15px; font-style: italic; margin: 8px 0; }
+  .say {
+    background: #0a0a1a; border-radius: 10px; padding: 16px; margin: 10px 0;
+    border-right: 3px solid #64ffda; font-size: 19px; line-height: 2; color: #fff;
+  }
+  .type-prompt {
+    background: #0d2137; border-radius: 10px; padding: 16px; margin: 10px 0;
+    border-right: 3px solid #e94560;
+    font-family: 'Menlo', 'Courier New', monospace; font-size: 15px;
+    line-height: 1.7; color: #ccd6f6; direction: ltr; text-align: left; white-space: pre-wrap;
+  }
+  .backup {
+    background: #2d1a1a; border-radius: 10px; padding: 16px;
+    margin: 10px 0; border-right: 3px solid #ff6b6b;
+  }
+  .backup h4 { color: #ff6b6b; margin-bottom: 8px; }
+  .time-badge {
+    display: inline-block; background: #0f3460; color: #64ffda;
+    border-radius: 8px; padding: 2px 10px; font-size: 13px;
+    font-weight: 700; margin-bottom: 8px; direction: ltr;
+  }
+  .font-controls {
+    position: fixed; bottom: 16px; left: 16px;
+    display: flex; gap: 8px; z-index: 100;
+  }
+  .font-controls button {
+    background: #0f3460; color: #64ffda; border: none;
+    width: 44px; height: 44px; border-radius: 50%;
+    font-size: 22px; cursor: pointer; touch-action: manipulation;
+  }
+  .font-controls button:active { background: #e94560; }
+  hr { border: none; border-top: 1px solid #0f3460; margin: 20px 0; }
+  .highlight { color: #ffd700; font-weight: bold; }
+  .link-box {
+    background: #0a1628; border-radius: 8px; padding: 12px 16px;
+    margin: 8px 0; border: 1px solid #0f3460; direction: ltr; text-align: left;
+    color: #64ffda; font-size: 16px; font-weight: bold; word-break: break-all;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🐆 נמרים מעופפים - Claude Code</h1>
+  <div class="meta">15.4.2026 | 21:00-22:30 | 58 נרשמים | חמי בן לביא</div>
+  <div class="nav">
+    <a href="#part1">1. פתיחה</a>
+    <a href="#part2">2. מצגת</a>
+    <a href="#part3">3. וואו</a>
+    <a href="#part4">4. CLAUDE.md</a>
+    <a href="#part5">5. דמו מרכזי</a>
+    <a href="#part6">6. דמו מוגמר</a>
+    <a href="#part7">7. סיכום + Q&A</a>
+  </div>
+</div>
+
+<!-- חלק 1 -->
+<div class="section" id="part1">
+  <h2>חלק 1: פתיחה (21:00-21:08 | 8 דק')</h2>
+
+  <div class="time-badge">21:00</div>
+  <h3>פתיחה חמה - הנמר</h3>
+  <div class="stage">מה על המסך: לוגו הנמר / סלייד פתיחה</div>
+  <div class="say">
+    "ערב טוב לכולם - נמרים מעופפים!<br><br>
+    קצת לא שגרתי לי לפתוח עם זה, אבל... נמר. 🐆<br>
+    כולנו פה דרך עמותת הנמר, ואני חושב שיש משהו מיוחד בלעשות את זה עם אנשים שחלקים עם קשר משותף כל כך חזק.<br><br>
+    אני חמי בן לביא - Head of Product Operations ב-200Apps.<br>
+    לא מפתח. לא עשיתי תואר במדעי המחשב. רקע בצילום, וידאו, ניהול.<br>
+    ולפני כמה חודשים - התאהבתי ב-Claude Code, ומאז לא הפסקתי."
+  </div>
+
+  <div class="time-badge">21:02</div>
+  <h3>מי בחדר הזה</h3>
+  <div class="stage">מה על המסך: נתונים מהניתוח</div>
+  <div class="say">
+    "קראתי את כל מה שכתבתם בטופס ההרשמה. ואני חייב לשתף - החדר הזה מדהים.<br><br>
+    יש פה 58 איש:<br>
+    - סטודנטים להנדסה, מדמח, כלכלה, ביואינפורמטיקה<br>
+    - מפתחים, מהנדסים, אנליסטים<br>
+    - מנהלים, יזמים, עורכי דין<br>
+    - מגיל 22 עד 50 פלוס<br><br>
+    ומה שמשותף לכולנו: שמענו על הכלי הזה, סקרני, רוצים להבין.<br><br>
+    הסיפור הערב: <span class="highlight">לא משנה מה אתה עושה - מהנדס, סטודנט, מנהל או יזם - הערב תצא עם ידע מעשי שיכפיל לך את הפרודקטיביות.</span>"
+  </div>
+
+  <div class="time-badge">21:05</div>
+  <h3>אג'נדה</h3>
+  <div class="say">
+    "מה מחכה לנו:<br>
+    1. 10 דקות על אנתרופיק וקלוד - הרקע שצריך לדעת<br>
+    2. דמו קצר - רק להרגיש<br>
+    3. הבסיס - CLAUDE.md וטיפים שישנו לכם את הגישה<br>
+    4. דמו מרכזי חי - נבנה ביחד כלי אמיתי מאפס<br>
+    5. מה אפשר להגיע אליו - תוצאות שבניתי<br>
+    6. שאלות<br><br>
+    ⚠️ עדיין לא התקנתם? פתחו את המדריך שנשלח למייל - תנו לזה לרוץ ב-background."
+  </div>
+</div>
+
+<!-- חלק 2 -->
+<div class="section" id="part2">
+  <h2>חלק 2: מצגת - אנתרופיק + קלוד (21:08-21:18 | 10 דק')</h2>
+  <div class="stage">קובץ: presentation/claude-overview.html | 10 שקפים | שקף כל ~60-90 שניות</div>
+
+  <div class="say">
+    "7 דקות לפני שצוללים לטרמינל - בואו נבין מה זה בכלל קלוד ומי עומד מאחוריו."
+  </div>
+
+  <hr>
+  <div class="stage">שקף 1 - Anthropic: חברה מ-2021, Safety-first, Dario + Daniela Amodei</div>
+  <div class="stage">שקף 2 - שלושה מודלים: Opus / Sonnet / Haiku</div>
+  <div class="stage">שקף 3 - למה דווקא Claude: אמינות, עומק, עברית</div>
+  <div class="stage">שקף 4 - איך משתמשים: claude.ai vs API vs Claude Code</div>
+  <div class="stage">שקף 5 - Vibe Coding: המהפכה - לא לדעת לכתוב קוד</div>
+  <div class="stage">שקף 6 - מה זה Claude Code</div>
+  <div class="stage">שקף 7 - למי זה מתאים - לכולם</div>
+  <hr>
+
+  <div class="say">
+    "שימו לב - המצגת הזאת אומרת 'כולם'. זה לא שיווק.<br>
+    בחדר הזה יש מהנדסים שיכולים לבנות אוטומציה לעבודה שלהם.<br>
+    יש סטודנטים שיכולים לבנות כלי עזר לתזה שלהם.<br>
+    יש מנהלים שיכולים לבנות דשבורד למנהל שלהם.<br>
+    ועוד 10 דקות - תראו איך."
+  </div>
+  <div class="stage">שקף 8 - כמה זה עולה: $20/חודש Claude Pro</div>
+  <div class="stage">שקף 9 - "ועכשיו - לטרמינל"</div>
+</div>
+
+<!-- חלק 3 -->
+<div class="section" id="part3">
+  <h2>חלק 3: וואו ראשון - Downloads (21:18-21:27 | 9 דק')</h2>
+
+  <div class="time-badge">21:18</div>
+  <h3>איך פותחים טרמינל</h3>
+  <div class="stage">מה על המסך: שולחן העבודה</div>
+  <div class="say">
+    "לפני שאני מפעיל - 30 שניות.<br><br>
+    <strong>Mac - 3 דרכים:</strong><br>
+    - Spotlight: Cmd+Space → מקלידים 'Terminal' → Enter<br>
+    - Finder: Applications → Utilities → Terminal<br>
+    - Dock: אם Terminal כבר שם<br><br>
+    <strong>Windows:</strong><br>
+    - Win+S → מקלידים 'PowerShell' או 'cmd'"
+  </div>
+
+  <div class="time-badge">21:20</div>
+  <h3>הקדמה לדמו</h3>
+  <div class="stage">מה על המסך: תיקיית Downloads מבולגנת (~/Desktop/webinar-demo/Downloads/)</div>
+  <div class="say">
+    "עכשיו - בואו פשוט תראו מה קורה.<br>
+    הנה תיקיית ה-Downloads שלי. כמה מכם מכירים את המראה הזה?"
+  </div>
+
+  <div class="time-badge">21:20</div>
+  <h3>הדמו החי</h3>
+  <div class="stage">cd ~/Desktop/webinar-demo/Downloads && claude --dangerously-skip-permissions</div>
+  <div class="type-prompt">תסתכל על התיקייה הזאת, תבין מה יש פה, ותסדר את הכל לתיקיות לפי נושא. תעשה את זה בלי לשאול אותי שאלות.</div>
+
+  <div class="say">
+    "שימו לב - הוא לא כותב קוד אחרי קוד.<br>
+    הוא קורא את הקבצים, מבין את ההקשר, מחליט בעצמו.<br>
+    כמו עובד שאמרתם לו 'סדר לי את זה' - והוא עושה."
+  </div>
+
+  <div class="time-badge">21:24</div>
+  <h3>הנקודה</h3>
+  <div class="say">
+    "סדר תיקייה - לא ישנה לכם את החיים. אני יודע.<br>
+    אבל תחשבו: נתתי הוראה בשפה חופשית. הוא עבד על קבצים אמיתיים שלי. בלי שורת קוד.<br><br>
+    <span class="highlight">מה שמשנה - זה שאתם יכולים להחליף את 'קבצים בתיקייה' בכל דבר אחר.</span><br>
+    נתונים מ-Excel. מייל שצריך לשלוח ל-50 אנשים. ניתוח PDF.<br>
+    הכלי לא משתנה - רק מה שאתם שואלים אותו."
+  </div>
+</div>
+
+<!-- חלק 4 -->
+<div class="section" id="part4">
+  <h2>חלק 4: הבסיס + טיפים (21:26-21:41 | 12 דק')</h2>
+
+  <div class="time-badge">21:26</div>
+  <h3>CLAUDE.md - המפתח</h3>
+  <div class="stage">מה על המסך: קובץ CLAUDE.md של חמי (חלקי) + דוגמה נקייה</div>
+  <div class="say">
+    "הדבר הכי חשוב ב-Claude Code - קובץ שנקרא CLAUDE.md.<br>
+    תחשבו על זה כמו <span class="highlight">'מסמך הכשרה לעובד חדש'</span>.<br><br>
+    כשאתם פותחים פרויקט חדש - קיים קובץ CLAUDE.md בתיקייה.<br>
+    Claude קורא אותו <strong>בכל פעם</strong> שמפעילים אותו.<br><br>
+    [מראה את שלו]<br>
+    הנה שלי. כתוב פה שאני Head of Product Ops, שאני עובד עם Jira, שאני רוצה תשובות בעברית...<br><br>
+    לכולנו - הסטודנט, המהנדס, המנהל - ה-CLAUDE.md שלכם יכול להכיל:<br>
+    'אני סטודנט לתואר שני בהנדסת חשמל ב-BGU, עובד על תזה על X, מתכנת בפייתון'<br>
+    'אני מנהל מכירות, עובד ב-Salesforce, חשוב לי שהתוצרים בעברית'"
+  </div>
+
+  <div class="time-badge">21:31</div>
+  <h3>מודלים + skip-permissions</h3>
+  <div class="say">
+    "שתי נקודות מהירות:<br><br>
+    <strong>מודלים</strong> - Opus לדברים מורכבים, Sonnet לרוב, Haiku לדברים קטנים. לרוב - Sonnet מספיק.<br><br>
+    <strong>Skip permissions</strong> - עם <code>--dangerously-skip-permissions</code> הוא לא שואל 'האם לאשר?' על כל פעולה.<br>
+    לסביבת עבודה פרטית? בסדר גמור. לקוד production? תישארו עם האישורים."
+  </div>
+
+  <div class="time-badge">21:33</div>
+  <h3>alias קצר + auto-launch</h3>
+  <div class="type-prompt">echo 'alias cc="claude --dangerously-skip-permissions"' >> ~/.zshrc && source ~/.zshrc</div>
+  <div class="say">
+    "עכשיו במקום `claude --dangerously-skip-permissions` - פשוט `cc`.<br>
+    אני שמתי... 'סע חפשי'. כן, ברצינות. 😄<br><br>
+    ואם רוצים Claude Code לקפוץ בכל פתיחת טרמינל:"
+  </div>
+  <div class="type-prompt">echo 'claude' >> ~/.zshrc</div>
+  <div class="say">
+    "פותח טרמינל - Claude כבר שם, מחכה לי. אין הקלדה, אין זכירה."
+  </div>
+
+  <div class="time-badge">21:36</div>
+  <h3>סקילים - יכולות ארוזות</h3>
+  <div class="stage">מה על המסך: טרמינל</div>
+  <div class="say">
+    "עכשיו - אחד הדברים שהכי קשה להסביר עליו בלי להראות אותו.<br><br>
+    Claude Code לבד הוא כלי. אבל יש עליו <span class="highlight">שכבה שנייה - סקילים.</span><br>
+    סקיל זה קובץ הוראות שמישהו כבר כתב, שמלמד את Claude Code לעשות משהו ספציפי."
+  </div>
+  <div class="type-prompt">/image-generation צור לי תמונה של נמר מעופף מעל תל אביב</div>
+  <div class="say">
+    "זה סקיל. שורה אחת. תמונה.<br><br>
+    עוד דוגמאות אמיתיות שאני משתמש בהן:<br>
+    - /whatsapp - שלח הודעה לאיש קשר / לקבוצה<br>
+    - /gmail - נסח מייל ושלח מיד<br>
+    - /presentation-architect - בריף קצר - מצגת HTML מלאה<br>
+    - /registrant-analyzer - CSV של נרשמים - דף ניתוח<br><br>
+    [לקהל המפתחים] ואם אין סקיל שמתאים לכם - אפשר לכתוב אחד בעצמכם."
+  </div>
+
+  <div class="time-badge">21:41</div>
+  <h3>תוסף Claude ל-Chrome</h3>
+  <div class="say">
+    "ועכשיו - <span class="highlight">תוסף ה-Chrome</span>. זה מה שמוציא את Claude Code מהטרמינל ונותן לו עיניים.<br><br>
+    עם התוסף - Claude יכול <strong>לראות</strong> כל מה שיש בדפדפן שלכם. ממש לראות את הדף כמו שאתם רואים אותו.<br><br>
+    מה זה מאפשר:<br>
+    - 'היכנס ל-LinkedIn ושלח בקשת חברות לכל ה-Product Managers ב-Tel Aviv'<br>
+    - 'פתח Gmail, חפש מיילים מ-X, ותסכם לי'<br>
+    - 'מלא את הטופס הזה עם הנתונים מהקובץ שלי'<br><br>
+    ⚠️ טיפ: כשמשתמשים בתוסף - תת 'Allow All' בתחילת הסשן."
+  </div>
+</div>
+
+<!-- חלק 5 - דמו מרכזי -->
+<div class="section" id="part5">
+  <h2>חלק 5: דמו מרכזי חי (21:38-22:05 | 27 דק')</h2>
+
+  <div class="time-badge">21:38</div>
+  <h3>הסיפור</h3>
+  <div class="stage">מה על המסך: תיקיית webinar-demo עם הקבצים</div>
+  <div class="say">
+    "בואו נעצור שניה.<br><br>
+    מה שאני הולך לעשות עכשיו - כל אחד מכם יכול לעשות עם הנתונים שלו.<br>
+    יש לכם Excel עם נתוני מלאי? עם ציונים? עם עמלות? עם טיקטים? <span class="highlight">זה עובד.</span><br><br>
+    הנה מה שיש לי: קובץ CSV עם נתוני פרויקטים.<br>
+    זה יכול להיות פרויקט תזה, פרויקט עבודה, מעקב לקוחות - לא משנה.<br><br>
+    [מראה את הקובץ פתוח]<br>
+    נתונים גולמיים. שורות ועמודות. אין לזה ערך כרגע.<br>
+    <span class="highlight">בעוד 10 דקות - נהפוך את זה לכלי שמישהו ישלם עליו.</span>"
+  </div>
+
+  <div class="time-badge">21:41</div>
+  <h3>פותחים Claude Code</h3>
+  <div class="type-prompt">cd ~/Desktop/webinar-demo && claude --dangerously-skip-permissions</div>
+
+  <div class="time-badge">21:42</div>
+  <h3>פקודה #1 - בניית הדשבורד (3-5 דקות)</h3>
+  <div class="type-prompt">Read the jira_export_march2026.csv file.
+Understand the data structure and build an interactive HTML dashboard that includes:
+- Summary KPIs at the top (total projects, % on-track, overdue count)
+- Status breakdown donut chart
+- Projects table with color-coded status
+- Top 3 insights from the data
+- Clean, modern design, Hebrew RTL layout
+
+Save as dashboard.html and open in browser.</div>
+
+  <div class="say">
+    "שימו לב מה קורה:<br>
+    הוא קורא את הקובץ - מבין מה יש בו.<br>
+    עכשיו הוא בונה HTML, CSS, JavaScript - הכל ידנית.<br>
+    אני לא ראיתי שורה אחת מהקוד הזה. לא צריך.<br><br>
+    דרך אגב - מישהו כאן עובד עם Cursor?<br>
+    ה-workflow דומה - אבל Claude Code עובד על הקבצים שלכם ישירות."
+  </div>
+
+  <div class="say">
+    "הנה זה. מנתונים גולמיים - לדשבורד.<br>
+    כמה זמן עבר? 4 דקות? 5?<br><br>
+    <span class="highlight">ועכשיו - החלק הכי חשוב:</span>"
+  </div>
+
+  <div class="time-badge">21:47</div>
+  <h3>פקודה #2 - שיחה עם הנתונים</h3>
+  <div class="type-prompt">The dashboard looks good. Now add:
+1. A filter bar to filter by status and project owner
+2. Click on any project row to see full details
+3. An "Export to PDF" button</div>
+
+  <div class="say">
+    "שימו לב - זו שיחה רגילה.<br>
+    אני לא מסביר לו 'תוסיף event listener ב-JavaScript'.<br>
+    אני אומר לו מה אני רוצה, הוא יודע איך.<br><br>
+    <span class="highlight">זה ה-shift. לא ללמוד לכתוב קוד. ללמוד לתאר מה אתם רוצים בדיוק.</span>"
+  </div>
+
+  <div class="time-badge">21:52</div>
+  <h3>פקודה #3 - CLAUDE.md בפעולה</h3>
+  <div class="type-prompt">Now review what we built and write a CLAUDE.md file for this project.
+Include: what this project is, the data structure, my preferences for design and output.
+So next time I open this folder, you'll already know everything.</div>
+
+  <div class="say">
+    "ועכשיו ה-trick האהוב עליי:<br>
+    אני מבקש ממנו לכתוב את ה-CLAUDE.md עבור הפרויקט הזה.<br>
+    הוא כבר מכיר את הנתונים, את ההעדפות שלי, את המבנה.<br><br>
+    <span class="highlight">בפעם הבאה שאפתח את הטרמינל בתיקייה הזאת - הוא כבר יודע הכל.</span>"
+  </div>
+
+  <div class="time-badge">21:57</div>
+  <h3>דיון + שאלות חיות</h3>
+  <div class="say">
+    "בסדר - עצרנו.<br><br>
+    אני רוצה לשמוע מכם - מה ראיתם כאן שמדבר אליכם ישירות?<br>
+    מה ה-use case שמיד קפץ לכם לראש?"
+  </div>
+
+  <div class="backup">
+    <h4>🔴 Plan B - אם הדמו נכשל</h4>
+    "בואו אראה לכם את התוצאה מהתרגול שעשיתי היום" → פתח backup_dashboard.html
+  </div>
+</div>
+
+<!-- חלק 6 -->
+<div class="section" id="part6">
+  <h2>חלק 6: דמו מוגמר (22:05-22:15 | 10 דק')</h2>
+
+  <div class="stage">קובץ: דשבורד מוגמר / Upstream Health Check</div>
+  <div class="say">
+    "בסדר. ראיתם מה קורה בזמן אמת מאפס.<br>
+    עכשיו אני רוצה להראות לכם לאן זה יכול להגיע כשנותנים לזה יותר זמן.<br><br>
+    [מציג את הדשבורד המוגמר]<br><br>
+    זה משהו שבניתי עם Claude Code.<br>
+    זה לא מוצר SaaS. זה לא מה שמפתח שנה.<br>
+    <span class="highlight">זה מה שאדם אחד בנה תוך כמה שעות - ואני לא מפתח.</span>"
+  </div>
+
+  <div class="say">
+    "לסטודנטים: 'דמיינו את זה לפרויקט תזה שלכם - dashboard שתראו לסופרוויזר'<br>
+    למהנדסים: 'הנתונים מ-SCADA, Oracle, Excel - אותו תהליך'<br>
+    למנהלים: 'דוח להנהלה שנבנה ב-10 דקות כל שבוע'<br>
+    ליזמים: 'MVP ראשון שתוכלו להראות למשקיעים'"
+  </div>
+</div>
+
+<!-- חלק 7 -->
+<div class="section" id="part7">
+  <h2>חלק 7: סיכום + Q&A (22:15-22:30 | 15 דק')</h2>
+
+  <div class="time-badge">22:15</div>
+  <h3>מה לקחנו הערב</h3>
+  <div class="say">
+    "מה לקחתם הערב:<br>
+    1. <span class="highlight">CLAUDE.md</span> - ה-tool שהופך Claude לעוזר שמכיר אתכם<br>
+    2. <span class="highlight">שפה טבעית</span> - לא קוד. תיאור. זה מספיק.<br>
+    3. <span class="highlight">כל מה שנראה כ'מה זה קשור אלי'</span> - זה קשור אליכם בדיוק<br>
+    4. <span class="highlight">דמו שאפשר לשכפל</span> - תקחו קובץ, תנסו, תכשלו, תתקנו"
+  </div>
+
+  <div class="time-badge">22:20</div>
+  <h3>מה הלאה + קהילה</h3>
+  <div class="say">
+    "איך ממשיכים מכאן:<br><br>
+    <strong>עכשיו הלילה</strong> - תנסו את 'סדר לי את התיקייה'. פשוט ועוצמתי.<br>
+    <strong>השבוע</strong> - תיצרו CLAUDE.md ל-project אחד שאתם עובדים עליו.<br>
+    <strong>החודש</strong> - תנסו לשחזר את הדמו עם הנתונים שלכם.<br><br>
+    ואם תתקעו - יש קהילה.<br>
+    [מציג QR / לינק]<br>
+    קבוצת WhatsApp - Claude Code + הנמר. שואלים שם, עוזרים אחד לשני."
+  </div>
+
+  <div class="stage">לינק לקבוצה החדשה - לשתף עכשיו:</div>
+  <div class="link-box">https://chat.whatsapp.com/L1OXm4h9nyRJ0OMCx7oh8j</div>
+
+  <div class="time-badge">22:23</div>
+  <h3>שאלות ותשובות</h3>
+  <div class="say">"מי רוצה להתחיל עם שאלה?"</div>
+
+  <hr>
+  <h3>שאלות צפויות</h3>
+  <div class="say">
+    ❓ <strong>זה עובד עם Windows?</strong><br>
+    כן - המדריך שנשלח כולל הוראות ל-Windows ול-Mac<br><br>
+    ❓ <strong>כמה זה עולה?</strong><br>
+    $20/חודש Claude Pro. שבוע ראשון בחינם<br><br>
+    ❓ <strong>זה מאובטח? אני מעלה נתוני עבודה?</strong><br>
+    Claude Code רץ מקומית - הקבצים לא עולים לשרת. רק ה-prompt<br><br>
+    ❓ <strong>מה ההבדל מ-Cursor?</strong><br>
+    Cursor = IDE עם AI. Claude Code = agent מהטרמינל על כל קובץ, בכל מקום<br><br>
+    ❓ <strong>אפשר לחבר ל-Excel?</strong><br>
+    Claude יכול לקרוא CSV. עם סקיל ייעודי - גם ישירות ל-Google Sheets<br><br>
+    ❓ <strong>מה עם GPT-4?</strong><br>
+    כולם טובים. Claude מדויק יותר ל-agentic tasks, עברית מצוינת
+  </div>
+</div>
+
+<div class="font-controls">
+  <button onclick="document.body.style.fontSize=(parseInt(getComputedStyle(document.body).fontSize)+2)+'px'">+</button>
+  <button onclick="document.body.style.fontSize=(parseInt(getComputedStyle(document.body).fontSize)-2)+'px'">-</button>
+</div>
+
+</body>
+</html>
