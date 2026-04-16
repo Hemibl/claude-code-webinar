@@ -1,58 +1,876 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="rtl" class="light">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRW4GYVGD3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KRW4GYVGD3');
+</script>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CLAUDE.md - דוגמה למשתתפים</title>
 <style>
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1e1e2e; color: #cdd6f4; max-width: 860px; margin: 40px auto; padding: 0 30px; line-height: 1.7; direction: rtl; }
-  h1 { color: #cba6f7; border-bottom: 2px solid #45475a; padding-bottom: 10px; }
-  h2 { color: #89b4fa; margin-top: 30px; }
-  code { background: #313244; padding: 2px 7px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.9em; direction: ltr; display: inline-block; }
-  ul { padding-right: 20px; }
-  li { margin: 6px 0; }
-  .placeholder { color: #a6e3a1; font-style: italic; }
-  .badge { background: #f38ba8; color: #1e1e2e; border-radius: 4px; padding: 1px 8px; font-size: 0.8em; font-weight: bold; margin-right: 6px; }
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Heebo:wght@300;400;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #1e1e2e;
+    --surface: #181825;
+    --surface2: #313244;
+    --overlay: #45475a;
+    --text: #cdd6f4;
+    --subtext: #a6adc8;
+    --purple: #cba6f7;
+    --blue: #89b4fa;
+    --green: #a6e3a1;
+    --red: #f38ba8;
+    --yellow: #f9e2af;
+    --teal: #94e2d5;
+    --pink: #f5c2e7;
+  }
+
+  :root.light {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --surface2: #eef0f5;
+    --overlay: #d0d4e0;
+    --text: #1c1c2e;
+    --subtext: #5c5f7a;
+    --purple: #7c3aed;
+    --blue: #2563eb;
+    --green: #15803d;
+    --red: #dc2626;
+    --yellow: #92400e;
+    --teal: #0f766e;
+    --pink: #be185d;
+  }
+
+  :root.light .raw-view {
+    background: #f0f2f8;
+    color: #3a3d52;
+  }
+
+  :root.light .raw-view .md-comment { color: #9ea3b8; }
+
+  body {
+    font-family: 'Heebo', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ---- Header ---- */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--overlay);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-title .file-icon {
+    background: var(--purple);
+    color: var(--surface);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .header-title h1 {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .header-title .subtitle {
+    font-size: 0.8em;
+    color: var(--subtext);
+    font-family: 'Heebo', sans-serif;
+    font-weight: 300;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.88em;
+    font-family: 'Heebo', sans-serif;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary {
+    background: var(--purple);
+    color: var(--surface);
+  }
+
+  .btn-primary:hover { background: #d4b9ff; transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--overlay);
+  }
+
+  .btn-secondary:hover { background: var(--overlay); }
+
+  .btn.copied {
+    background: var(--green);
+    color: var(--surface);
+  }
+
+  /* ---- Layout ---- */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 30px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 30px;
+    align-items: start;
+  }
+
+  /* ---- Preview Panel ---- */
+  .preview-panel {
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--overlay);
+    overflow: hidden;
+  }
+
+  .panel-tabs {
+    display: flex;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--overlay);
+  }
+
+  .tab {
+    padding: 12px 20px;
+    font-size: 0.85em;
+    color: var(--subtext);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    font-family: 'Heebo', sans-serif;
+  }
+
+  .tab.active {
+    color: var(--purple);
+    border-bottom-color: var(--purple);
+    background: var(--surface);
+  }
+
+  .tab:hover:not(.active) { color: var(--text); }
+
+  .panel-content {
+    padding: 28px;
+  }
+
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ---- Rendered view ---- */
+  .rendered h2 {
+    color: var(--blue);
+    font-size: 1.05em;
+    margin: 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rendered h2:first-child { margin-top: 0; }
+
+  .rendered h2 .section-icon {
+    font-size: 1.1em;
+  }
+
+  .rendered p {
+    color: var(--subtext);
+    font-size: 0.92em;
+    line-height: 1.7;
+  }
+
+  .rendered ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .rendered ul li {
+    color: var(--subtext);
+    font-size: 0.9em;
+    padding: 3px 0 3px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.6;
+  }
+
+  .rendered ul li::before {
+    content: '•';
+    color: var(--purple);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .placeholder-text {
+    color: var(--green);
+    font-style: italic;
+    background: rgba(166, 227, 161, 0.1);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  /* ---- Raw view ---- */
+  .raw-view {
+    background: #11111b;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82em;
+    line-height: 1.8;
+    color: #bac2de;
+    white-space: pre-wrap;
+    word-break: break-word;
+    direction: ltr;
+    text-align: left;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .raw-view .md-h1 { color: var(--purple); }
+  .raw-view .md-h2 { color: var(--blue); }
+  .raw-view .md-li { color: var(--text); }
+  .raw-view .md-placeholder { color: var(--green); font-style: italic; }
+  .raw-view .md-comment { color: var(--overlay); }
+
+  /* ---- Sidebar ---- */
+  .sidebar {}
+
+  .explainer-card {
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--overlay);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .explainer-card h3 {
+    color: var(--yellow);
+    font-size: 0.95em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .section-item {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .section-item:hover {
+    border-color: var(--purple);
+    background: rgba(203, 166, 247, 0.08);
+  }
+
+  .section-item.active {
+    border-color: var(--purple);
+    background: rgba(203, 166, 247, 0.12);
+  }
+
+  .section-icon-sm { font-size: 1.1em; flex-shrink: 0; }
+
+  .section-item-text { flex: 1; }
+  .section-item-title {
+    font-size: 0.88em;
+    font-weight: 600;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .section-item-desc {
+    font-size: 0.78em;
+    color: var(--subtext);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* ---- Tooltip Explainer ---- */
+  .tooltip-box {
+    background: linear-gradient(135deg, rgba(203, 166, 247, 0.12), rgba(137, 180, 250, 0.08));
+    border: 1px solid rgba(203, 166, 247, 0.3);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 0.85em;
+    color: var(--text);
+    line-height: 1.6;
+    display: none;
+    margin-top: 16px;
+  }
+
+  .tooltip-box.visible { display: block; animation: fadeIn 0.25s ease; }
+  .tooltip-box strong { color: var(--purple); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Steps card ---- */
+  .steps-card {
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--overlay);
+    padding: 24px;
+  }
+
+  .steps-card h3 {
+    color: var(--green);
+    font-size: 0.95em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--surface2);
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 26px;
+    height: 26px;
+    background: var(--purple);
+    color: var(--surface);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78em;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content { flex: 1; }
+  .step-title {
+    font-size: 0.88em;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .step-desc {
+    font-size: 0.8em;
+    color: var(--subtext);
+    line-height: 1.5;
+  }
+
+  code.inline {
+    background: var(--surface2);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9em;
+    direction: ltr;
+    display: inline-block;
+  }
+
+  /* ---- Notification toast ---- */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--green);
+    color: var(--surface);
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 1000;
+    font-family: 'Heebo', sans-serif;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 900px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+    .header { padding: 14px 20px; }
+    .container { padding: 20px; }
+  }
+
+  /* ---- Cursor animation ---- */
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--purple);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+    margin-right: 2px;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--overlay); border-radius: 4px; }
 </style>
 </head>
 <body>
 
-<h1>CLAUDE.md <span class="badge">דוגמה</span></h1>
-<p style="color:#a6adc8; font-size:0.95em;">העתיקו את המבנה הזה והתאימו אותו לעצמכם</p>
+<header class="header">
+  <div class="header-title">
+    <div class="file-icon">M</div>
+    <div>
+      <h1>CLAUDE.md</h1>
+      <div class="subtitle">קובץ הקשר אישי לסוכן</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" onclick="toggleTheme()" id="theme-btn">🌙 מצב כהה</button>
+    <button class="btn btn-secondary" onclick="switchTab('raw')" id="raw-btn">👁 צפה ב-Raw</button>
+    <button class="btn btn-primary" onclick="copyTemplate()" id="copy-btn">📋 העתק תבנית</button>
+  </div>
+</header>
 
-<h2>About Me</h2>
-<p>קוראים לי <span class="placeholder">[השם שלך]</span>.<br>
-אני עובד/ת בתפקיד <span class="placeholder">[התפקיד שלך]</span>.</p>
+<div class="container">
 
-<h2>Background</h2>
-<ul>
-  <li>רקע ב-<span class="placeholder">[תחומים רלוונטיים]</span></li>
-  <li>אני לא מפתח/ת - אני משתמש/ת ב-AI כדי לבנות דברים</li>
-  <li>התאם הסברים טכניים לרמה שלי</li>
-</ul>
+  <!-- LEFT: Preview Panel -->
+  <div class="preview-panel">
+    <div class="panel-tabs">
+      <div class="tab active" onclick="switchTab('rendered')" id="tab-rendered">תצוגה מעוצבת</div>
+      <div class="tab" onclick="switchTab('raw')" id="tab-raw">Raw Markdown</div>
+    </div>
 
-<h2>Tools I Use Daily</h2>
-<ul>
-  <li>Jira, Confluence, Slack</li>
-  <li>Google Sheets, Notion</li>
-  <li>Claude Code</li>
-</ul>
+    <div class="panel-content">
 
-<h2>Language</h2>
-<ul>
-  <li>Respond in Hebrew (עברית) by default</li>
-</ul>
+      <!-- RENDERED VIEW -->
+      <div class="tab-pane active rendered" id="pane-rendered">
 
-<h2>Communication Style</h2>
-<ul>
-  <li>Keep responses concise and to the point</li>
-  <li>Use tables for structured data</li>
-</ul>
+        <h2><span class="section-icon">👤</span> About Me</h2>
+        <p>קוראים לי <span class="placeholder-text">[השם שלך]</span>.<br>
+        אני עובד/ת בתפקיד <span class="placeholder-text">[תפקיד]</span> בחברה בשם <span class="placeholder-text">[שם חברה]</span>.</p>
 
-<h2>Writing Rules</h2>
-<ul>
-  <li>ללא מקפים ארוכים</li>
-  <li>כותרות בעברית</li>
-</ul>
+        <h2><span class="section-icon">🎓</span> Background</h2>
+        <ul>
+          <li>רקע ב-<span class="placeholder-text">[תחומים שלך - ניהול פרויקטים, UX, תוכן, מכירות...]</span></li>
+          <li>אני לא מפתח/ת - אני משתמש/ת ב-AI כדי לבנות דברים</li>
+          <li>התאם הסברים טכניים לרמה שלי</li>
+        </ul>
+
+        <h2><span class="section-icon">🛠️</span> Tools I Use Daily</h2>
+        <ul>
+          <li>Jira, Confluence, Slack</li>
+          <li><span class="placeholder-text">[כלים נוספים שאתה משתמש בהם]</span></li>
+          <li>Claude Code</li>
+        </ul>
+
+        <h2><span class="section-icon">🌐</span> Language</h2>
+        <ul>
+          <li>Respond in Hebrew (עברית) by default</li>
+        </ul>
+
+        <h2><span class="section-icon">💬</span> Communication Style</h2>
+        <ul>
+          <li>Keep responses concise and to the point</li>
+          <li>Use tables for structured data</li>
+          <li><span class="placeholder-text">[הוסיפו העדפות שלכם]</span></li>
+        </ul>
+
+        <h2><span class="section-icon">✍️</span> Writing Rules</h2>
+        <ul>
+          <li>ללא מקפים ארוכים (—) - רק מקף רגיל (-)</li>
+          <li>כשיש תוכן RTL מורכב - צור קובץ HTML ופתח בדפדפן</li>
+          <li><span class="placeholder-text">[כללי כתיבה נוספים שחשובים לך]</span></li>
+        </ul>
+
+        <h2><span class="section-icon">🚀</span> Current Projects</h2>
+        <ul>
+          <li><span class="placeholder-text">[תאר פרויקט אחד שאתה עובד עליו עכשיו]</span></li>
+          <li><span class="placeholder-text">[הקשר שיעזור לסוכן להבין את הסביבה שלך]</span></li>
+        </ul>
+
+        <div style="margin-top: 28px; border: 1.5px dashed rgba(203,166,247,0.4); border-radius: 10px; padding: 18px 20px; background: rgba(203,166,247,0.05);">
+          <div style="color: var(--purple); font-size: 0.82em; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase;">+ הוסיפו חלקים משלכם</div>
+          <p style="color: var(--subtext); font-size: 0.88em; line-height: 1.7; margin: 0;">
+            אין מגבלה - כל מה שחשוב שהסוכן ידע: לקוחות קבועים, שמות צוות, מונחים פנימיים, URLs שחוזרים, תהליכי עבודה, כללי כתיבה ייחודיים לכם... ככל שתכתבו יותר - Claude יבין אתכם טוב יותר.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- RAW VIEW -->
+      <div class="tab-pane" id="pane-raw">
+        <div class="raw-view" id="raw-content">
+<span class="md-h1"># About Me</span>
+קוראים לי <span class="md-placeholder">[השם שלך]</span>.
+אני עובד/ת בתפקיד <span class="md-placeholder">[תפקיד]</span> בחברה <span class="md-placeholder">[שם חברה]</span>.
+
+<span class="md-h2">## Background</span>
+<span class="md-li">- רקע ב-<span class="md-placeholder">[תחומים רלוונטיים]</span></span>
+<span class="md-li">- אני לא מפתח/ת - אני משתמש/ת ב-AI כדי לבנות דברים</span>
+<span class="md-li">- התאם הסברים טכניים לרמה שלי</span>
+
+<span class="md-h2">## Tools I Use Daily</span>
+<span class="md-li">- Jira, Confluence, Slack</span>
+<span class="md-li">- <span class="md-placeholder">[כלים נוספים]</span></span>
+<span class="md-li">- Claude Code</span>
+
+<span class="md-h2">## Language</span>
+<span class="md-li">- Respond in Hebrew (עברית) by default</span>
+
+<span class="md-h2">## Communication Style</span>
+<span class="md-li">- Keep responses concise and to the point</span>
+<span class="md-li">- Use tables for structured data</span>
+<span class="md-li">- <span class="md-placeholder">[הוסיפו העדפות שלכם]</span></span>
+
+<span class="md-h2">## Writing Rules</span>
+<span class="md-li">- ללא מקפים ארוכים (—) - רק מקף רגיל (-)</span>
+<span class="md-li">- כשיש תוכן RTL מורכב - צור קובץ HTML ופתח בדפדפן</span>
+<span class="md-li">- <span class="md-placeholder">[כללי כתיבה נוספים]</span></span>
+
+<span class="md-h2">## Current Projects</span>
+<span class="md-li">- <span class="md-placeholder">[תאר פרויקט שאתה עובד עליו]</span></span>
+<span class="md-li">- <span class="md-placeholder">[הקשר שיעזור לסוכן]</span></span>
+
+<span class="md-h2">## <span class="md-placeholder">[כל חלק שתרצו להוסיף]</span></span>
+<span class="md-comment">## אין מגבלה - לקוחות, צוות, מונחים פנימיים,</span>
+<span class="md-comment">## URLs שחוזרים, תהליכי עבודה, כללים...</span>
+<span class="md-li">- <span class="md-placeholder">[כתבו כאן כל מה שחשוב שהסוכן ידע]</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <div class="sidebar">
+
+    <!-- Section explainer -->
+    <div class="explainer-card">
+      <h3>🧩 מה כוללים בכל חלק?</h3>
+      <p style="color: var(--subtext); font-size: 0.82em; margin-bottom: 14px;">לחצו על חלק כדי להבין מה לכתוב שם</p>
+
+      <div class="section-list">
+
+        <div class="section-item" onclick="toggleExplainer('about')">
+          <span class="section-icon-sm">👤</span>
+          <div class="section-item-text">
+            <div class="section-item-title">About Me</div>
+            <div class="section-item-desc">מי אתה ומה התפקיד שלך</div>
+          </div>
+        </div>
+        <div class="tooltip-box" id="ex-about">
+          <strong>למה זה חשוב?</strong><br>
+          Claude מתאים את ה-tone, את רמת הפירוט ואת הדוגמאות לפי מי אתה. "Head of Product" יקבל תשובות אחרות מ"Software Developer".
+        </div>
+
+        <div class="section-item" onclick="toggleExplainer('bg')">
+          <span class="section-icon-sm">🎓</span>
+          <div class="section-item-text">
+            <div class="section-item-title">Background</div>
+            <div class="section-item-desc">רקע, ניסיון, רמת טכנית</div>
+          </div>
+        </div>
+        <div class="tooltip-box" id="ex-bg">
+          <strong>מה לכתוב?</strong><br>
+          ציינו אם אתם לא מפתחים - זה קריטי. Claude יסביר דברים בשפה שלכם ולא בז'רגון טכני. גם ניסיון בתחומים כמו UX, תוכן, ניהול - כולם רלוונטיים.
+        </div>
+
+        <div class="section-item" onclick="toggleExplainer('tools')">
+          <span class="section-icon-sm">🛠️</span>
+          <div class="section-item-text">
+            <div class="section-item-title">Tools I Use Daily</div>
+            <div class="section-item-desc">הכלים שאתה עובד איתם</div>
+          </div>
+        </div>
+        <div class="tooltip-box" id="ex-tools">
+          <strong>דוגמה לשימוש:</strong><br>
+          אם כתבת Jira - כשתגיד "צור ticket", Claude יבין אוטומטית לאיזה מערכת אתה מתכוון. לא צריך להסביר כל פעם מחדש.
+        </div>
+
+        <div class="section-item" onclick="toggleExplainer('lang')">
+          <span class="section-icon-sm">🌐</span>
+          <div class="section-item-text">
+            <div class="section-item-title">Language</div>
+            <div class="section-item-desc">שפת ברירת מחדל לתשובות</div>
+          </div>
+        </div>
+        <div class="tooltip-box" id="ex-lang">
+          <strong>טיפ:</strong><br>
+          ברירת המחדל של Claude היא אנגלית. שורה אחת כאן - ותמיד תקבלו תשובות בעברית. אפשר גם לכתוב "Respond in the language of the user".
+        </div>
+
+        <div class="section-item" onclick="toggleExplainer('style')">
+          <span class="section-icon-sm">💬</span>
+          <div class="section-item-text">
+            <div class="section-item-title">Communication Style</div>
+            <div class="section-item-desc">איך אתה רוצה שידבר אליך</div>
+          </div>
+        </div>
+        <div class="tooltip-box" id="ex-style">
+          <strong>דוגמאות שעובדות:</strong><br>
+          "Keep responses concise" - תשובות קצרות<br>
+          "Use tables for structured data" - טבלאות במקום רשימות<br>
+          "Don't summarize at the end" - בלי סיכום מיותר<br>
+          "Ask before deleting files" - אל תמחק בלי לשאול
+        </div>
+
+        <div class="section-item" onclick="toggleExplainer('projects')">
+          <span class="section-icon-sm">🚀</span>
+          <div class="section-item-text">
+            <div class="section-item-title">Current Projects</div>
+            <div class="section-item-desc">הקשר על מה אתה עובד כרגע</div>
+          </div>
+        </div>
+        <div class="tooltip-box" id="ex-projects">
+          <strong>הכי כוחי!</strong><br>
+          זה ה"memory" שלך. תארו פרויקטים פעילים, לקוחות, שמות מערכות, מטרות. Claude זוכר את זה בכל שיחה - אל תצטרכו להסביר מחדש.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- How to use -->
+    <div class="steps-card">
+      <h3>⚡ איך מתחילים?</h3>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">צרו תיקיית פרויקט</div>
+          <div class="step-desc">כל פרויקט = תיקייה. Claude Code עובד בתוך תיקייה.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">צרו קובץ CLAUDE.md</div>
+          <div class="step-desc">בתוך התיקייה, העתיקו את התבנית הזו ומלאו אותה.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">פתחו Claude Code בתיקייה</div>
+          <div class="step-desc">הקלידו <code class="inline">claude</code> בטרמינל מתוך התיקייה.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Claude קורא אוטומטית</div>
+          <div class="step-desc">מרגע זה - כל ה-context שלכם זמין לסוכן ב-session.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- What is CLAUDE.md + Footer -->
+<div style="background: var(--surface); border-top: 1px solid var(--overlay); margin-top: 10px;">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 40px 30px;">
+
+    <!-- What is CLAUDE.md -->
+    <div style="background: linear-gradient(135deg, rgba(203,166,247,0.08), rgba(137,180,250,0.06)); border: 1px solid rgba(203,166,247,0.2); border-radius: 14px; padding: 32px; margin-bottom: 40px;">
+      <h2 style="color: var(--purple); font-size: 1.05em; margin-bottom: 18px; display: flex; align-items: center; gap: 8px;">
+        <span>📄</span> מה זה קובץ CLAUDE.md?
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+          <div style="width: 28px; height: 28px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78em; font-weight: bold; color: var(--surface); flex-shrink: 0; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">1</div>
+          <p style="color: var(--text); font-size: 0.95em; line-height: 1.7;">CLAUDE.md הוא קובץ טקסט שמניחים בתוך תיקיית הפרויקט - Claude Code קורא אותו אוטומטית בתחילת כל שיחה, ממש כמו דף הנחיות שנותנים לעובד חדש לפני שמתחיל לעבוד.</p>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+          <div style="width: 28px; height: 28px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78em; font-weight: bold; color: var(--surface); flex-shrink: 0; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">2</div>
+          <p style="color: var(--text); font-size: 0.95em; line-height: 1.7;">הקובץ פותר את אחת הבעיות הגדולות בעבודה עם AI - "הסוכן לא מכיר אותי": ברגע שכתבתם מי אתם, איזה כלים אתם משתמשים בהם ואיך אתם רוצים לעבוד, לא תצטרכו להסביר את זה שוב בכל שיחה חדשה.</p>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+          <div style="width: 28px; height: 28px; background: var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78em; font-weight: bold; color: var(--surface); flex-shrink: 0; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">3</div>
+          <p style="color: var(--text); font-size: 0.95em; line-height: 1.7;">ככל שהקובץ מפורט יותר - כך התוצאות טובות יותר: Claude מתאים את השפה, הרמה הטכנית והפורמט לפי מה שכתבתם, ומי שמשקיע 10 דקות בכתיבת CLAUDE.md חוסך שעות של הסברים חוזרים.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signature -->
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <div style="font-weight: 700; color: var(--text); font-size: 1em;">חמי בן-לביא</div>
+        <div style="color: var(--subtext); font-size: 0.83em; margin-top: 2px;">Head of Product Operations | AI Strategy Advisor</div>
+      </div>
+      <a href="https://www.linkedin.com/in/hemibenlavi/" target="_blank" rel="noopener noreferrer"
+         style="display: flex; align-items: center; gap: 8px; background: #0a66c2; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.88em; font-family: 'Heebo', sans-serif; transition: background 0.2s;"
+         onmouseover="this.style.background='#004182'" onmouseout="this.style.background='#0a66c2'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        LinkedIn
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">✅ התבנית הועתקה ללוח!</div>
+
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    const root = document.documentElement;
+    const btn = document.getElementById('theme-btn');
+    const isLight = root.classList.toggle('light');
+    btn.textContent = isLight ? '☀️ מצב בהיר' : '🌙 מצב כהה';
+  }
+
+  // Tab switching
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('pane-' + tab).classList.add('active');
+  }
+
+  // Section explainer toggle
+  function toggleExplainer(id) {
+    const box = document.getElementById('ex-' + id);
+    const item = box.previousElementSibling;
+    const isVisible = box.classList.contains('visible');
+
+    // Close all
+    document.querySelectorAll('.tooltip-box').forEach(b => b.classList.remove('visible'));
+    document.querySelectorAll('.section-item').forEach(i => i.classList.remove('active'));
+
+    if (!isVisible) {
+      box.classList.add('visible');
+      item.classList.add('active');
+    }
+  }
+
+  // Copy template
+  const templateText = `# About Me
+קוראים לי [השם שלך].
+אני עובד/ת בתפקיד [תפקיד] בחברה [שם חברה].
+
+## Background
+- רקע ב-[תחומים רלוונטיים - ניהול פרויקטים, UX, תוכן, מכירות...]
+- אני לא מפתח/ת - אני משתמש/ת ב-AI כדי לבנות דברים
+- התאם הסברים טכניים לרמה שלי
+
+## Tools I Use Daily
+- Jira, Confluence, Slack
+- [כלים נוספים שאתה משתמש בהם]
+- Claude Code
+
+## Language
+- Respond in Hebrew (עברית) by default
+
+## Communication Style
+- Keep responses concise and to the point
+- Use tables for structured data
+- [הוסיפו העדפות שלכם]
+
+## Writing Rules
+- ללא מקפים ארוכים (—) - רק מקף רגיל (-)
+- כשיש תוכן RTL מורכב - צור קובץ HTML ופתח בדפדפן
+- [כללי כתיבה נוספים שחשובים לך]
+
+## Current Projects
+- [תאר פרויקט אחד שאתה עובד עליו עכשיו]
+- [הקשר שיעזור לסוכן להבין את הסביבה שלך]
+
+## [כל חלק שתרצו להוסיף]
+- אין מגבלה - לקוחות קבועים, צוות, מונחים פנימיים, URLs שחוזרים, תהליכי עבודה...
+- [כתבו כאן כל מה שחשוב שהסוכן ידע עליכם]`;
+
+  function copyTemplate() {
+    navigator.clipboard.writeText(templateText).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✅ הועתק!';
+      btn.classList.add('copied');
+
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        btn.textContent = '📋 העתק תבנית';
+        btn.classList.remove('copied');
+        toast.classList.remove('show');
+      }, 2500);
+    });
+  }
+</script>
 
 </body>
 </html>
