@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px;
+    height: 630px;
+    background: #f5f5f7;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    direction: rtl;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .left-bar {
+    width: 8px;
+    background: linear-gradient(180deg, #7c3aed, #2563eb);
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    padding: 60px 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .file-badge {
+    background: #7c3aed;
+    color: white;
+    font-family: 'Courier New', monospace;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+  }
+
+  .tag {
+    background: #eef0f5;
+    color: #5c5f7a;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #d0d4e0;
+  }
+
+  .middle {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    padding: 30px 0;
+  }
+
+  h1 {
+    font-size: 52px;
+    font-weight: 800;
+    color: #1c1c2e;
+    line-height: 1.15;
+  }
+
+  h1 span { color: #7c3aed; }
+
+  p {
+    font-size: 22px;
+    color: #5c5f7a;
+    line-height: 1.5;
+    max-width: 700px;
+  }
+
+  .sections {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .section-chip {
+    background: white;
+    border: 1px solid #d0d4e0;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 15px;
+    color: #1c1c2e;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .author {
+    font-size: 17px;
+    color: #5c5f7a;
+  }
+
+  .author strong {
+    color: #1c1c2e;
+    font-weight: 700;
+  }
+
+  .domain {
+    font-size: 15px;
+    color: #9ea3b8;
+    font-family: 'Courier New', monospace;
+  }
+</style>
+</head>
+<body>
+  <div class="left-bar"></div>
+  <div class="content">
+
+    <div class="top">
+      <div class="file-badge">CLAUDE.md</div>
+      <div class="tag">תבנית חינמית למשתתפים</div>
+    </div>
+
+    <div class="middle">
+      <h1>תלמדו את <span>Claude Code</span><br>מי אתם</h1>
+      <p>קובץ הקשר אישי שהופך כל שיחה עם הסוכן לחכמה יותר - העתיקו, מלאו, התחילו.</p>
+      <div class="sections">
+        <div class="section-chip">👤 About Me</div>
+        <div class="section-chip">🛠️ Tools</div>
+        <div class="section-chip">💬 Style</div>
+        <div class="section-chip">🚀 Projects</div>
+        <div class="section-chip">✨ + כל מה שתרצו</div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="author"><strong>חמי בן-לביא</strong> · Claude Code for Product Ops</div>
+      <div class="domain">hemibl.github.io</div>
+    </div>
+
+  </div>
+</body>
+</html>
