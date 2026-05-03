@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRW4GYVGD3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KRW4GYVGD3');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חמי בן-לביא | סדנאות Claude Code לצוותי Product</title>
+    <meta name="description" content="סדנאות וייעוץ Claude Code לצוותי Product Ops ו-Product Management. להפוך את הצוות שלך לאוטונומי עם AI - בלי תלות בפיתוח.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="חמי בן-לביא | סדנאות Claude Code לצוותי Product">
+    <meta property="og:description" content="סדנאות וייעוץ Claude Code לצוותי Product. בלי קוד. בלי באז.">
+    <meta property="og:url" content="https://hemibl.github.io/claude-code-webinar/landing/">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --cream: #F0EEE6;
+            --cream-light: #F7F5EE;
+            --cream-card: #FAF8F2;
+            --ink: #181818;
+            --ink-soft: #2a2a2a;
+            --muted: #6B6B6B;
+            --muted-light: #9a9a9a;
+            --line: #E5E1D6;
+            --line-strong: #D4CFC0;
+            --accent: #CC785C;
+            --accent-dark: #B5634A;
+            --accent-soft: rgba(204, 120, 92, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Heebo', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        .container-narrow {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* Top nav */
+        .nav {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+
+        .nav-links a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 100px 0 80px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            margin-bottom: 28px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+            color: var(--ink);
+        }
+
+        .hero h1 .accent {
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--muted);
+            max-width: 680px;
+            margin-bottom: 44px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            letter-spacing: -0.005em;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--cream-light);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 1px solid var(--line-strong);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+            background: var(--cream-light);
+        }
+
+        /* Section base */
+        .section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .section-eyebrow {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.015em;
+            margin-bottom: 56px;
+            color: var(--ink);
+            max-width: 700px;
+        }
+
+        /* Offerings */
+        .offerings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 800px) {
+            .offerings-grid { grid-template-columns: 1fr; }
+        }
+
+        .offering {
+            background: var(--cream-card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 44px 36px;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .offering:hover {
+            border-color: var(--line-strong);
+            transform: translateY(-2px);
+        }
+
+        .offering-tag {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+            letter-spacing: 0.02em;
+            align-self: flex-start;
+        }
+
+        .offering h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .offering-desc {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 28px;
+            line-height: 1.65;
+        }
+
+        .offering-list {
+            list-style: none;
+            margin-bottom: 32px;
+            flex-grow: 1;
+        }
+
+        .offering-list li {
+            padding: 10px 0;
+            padding-right: 26px;
+            position: relative;
+            font-size: 0.96rem;
+            color: var(--ink-soft);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .offering-list li:last-child {
+            border-bottom: none;
+        }
+
+        .offering-list li::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 18px;
+            width: 14px;
+            height: 8px;
+            border-right: 2px solid var(--accent);
+            border-bottom: 2px solid var(--accent);
+            transform: rotate(45deg) translateX(-4px);
+        }
+
+        .offering-meta {
+            font-size: 0.88rem;
+            color: var(--muted-light);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .offering-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .offering .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Stats */
+        .stats {
+            background: var(--ink);
+            color: var(--cream-light);
+            padding: 80px 0;
+            margin: 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .stats-grid { grid-template-columns: 1fr; gap: 48px; }
+        }
+
+        .stat-num {
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: rgba(247, 245, 238, 0.7);
+            font-weight: 400;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 800px) {
+            .testimonials-grid { grid-template-columns: 1fr; }
+        }
+
+        .testimonial {
+            background: var(--cream-card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 32px 30px;
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink-soft);
+            margin-bottom: 22px;
+            font-weight: 400;
+        }
+
+        .testimonial-quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--accent);
+            line-height: 0;
+            position: relative;
+            top: 18px;
+            margin-left: 4px;
+            font-weight: 700;
+        }
+
+        .testimonial-author {
+            font-size: 0.9rem;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            padding-top: 16px;
+        }
+
+        .testimonial-author strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* About */
+        .about {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .about p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--ink-soft);
+            margin-bottom: 20px;
+        }
+
+        .about p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            color: var(--ink);
+        }
+
+        .contact p {
+            font-size: 1.15rem;
+            color: var(--muted);
+            margin-bottom: 48px;
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-methods {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-method {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--cream-card);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 18px 28px;
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.2s;
+            direction: ltr;
+        }
+
+        .contact-method:hover {
+            border-color: var(--accent);
+            background: var(--cream-light);
+            transform: translateY(-1px);
+        }
+
+        .contact-method-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 36px 0;
+            border-top: 1px solid var(--line);
+            font-size: 0.88rem;
+            color: var(--muted-light);
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: var(--ink);
+        }
+
+        @media (max-width: 600px) {
+            .hero { padding: 60px 0 50px; }
+            .section { padding: 70px 0; }
+            .offering { padding: 32px 24px; }
+            .nav-links { display: none; }
+            .contact { padding: 80px 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-name">חמי בן-לביא</div>
+                <div class="nav-links">
+                    <a href="#offerings">הצעות</a>
+                    <a href="#about">עליי</a>
+                    <a href="#contact">צור קשר</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <span class="hero-eyebrow">Claude Code · Product Teams</span>
+            <h1>AI לצוותי Product.<br>בלי קוד. <span class="accent">בלי באז.</span></h1>
+            <p class="hero-sub">
+                אני מלמד צוותי Product Ops ו-Product Management איך להשתמש ב-Claude Code כדי לאפיין, לנתח ולבנות פרוטוטייפים - בלי תלות בפיתוח, בלי רקע טכני.
+            </p>
+            <div class="hero-ctas">
+                <a href="#contact" class="btn btn-primary" onclick="gtag('event', 'cta_click', {location: 'hero', cta: 'contact'})">
+                    תיאום שיחה
+                </a>
+                <a href="#offerings" class="btn btn-secondary" onclick="gtag('event', 'cta_click', {location: 'hero', cta: 'offerings'})">
+                    מה אני מציע
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="offerings">
+        <div class="container">
+            <span class="section-eyebrow">הצעות</span>
+            <h2 class="section-title">שתי דרכים לעבוד יחד</h2>
+
+            <div class="offerings-grid">
+                <div class="offering">
+                    <span class="offering-tag">לצוותים</span>
+                    <h3>סדנת Claude Code לצוות</h3>
+                    <p class="offering-desc">
+                        סדנה מעשית של חצי יום לצוות Product שלך. מסיימים עם כלי עבודה, לא רק עם השראה.
+                    </p>
+                    <ul class="offering-list">
+                        <li>מבוא מותאם לרמת הצוות - מאפס</li>
+                        <li>3 דמואים חיים ממקרי שימוש אמיתיים של Product Ops</li>
+                        <li>תרגול מודרך - כל משתתף יוצא עם תוצר</li>
+                        <li>חוברת עבודה ו-cheat sheet בעברית</li>
+                        <li>שעת ליווי המשך לאחר הסדנה</li>
+                    </ul>
+                    <div class="offering-meta">
+                        <span>4 שעות</span>
+                        <span>·</span>
+                        <span>עד 15 משתתפים</span>
+                        <span>·</span>
+                        <span>אונליין או באתר</span>
+                    </div>
+                    <a href="#contact" class="btn btn-primary" onclick="gtag('event', 'cta_click', {location: 'offering', cta: 'workshop'})">
+                        בקשת הצעת מחיר
+                    </a>
+                </div>
+
+                <div class="offering">
+                    <span class="offering-tag">אישי</span>
+                    <h3>שיחת אסטרטגיה 1:1</h3>
+                    <p class="offering-desc">
+                        סשן ממוקד ל-Product Lead שרוצה להבין איך לשלב Claude Code בעבודה השוטפת. בלי תיאוריה - מתחילים מהמשימות שלך.
+                    </p>
+                    <ul class="offering-list">
+                        <li>מיפוי 3 משימות שבועיות שאפשר לאוטמט</li>
+                        <li>הקמת CLAUDE.md מותאם לתפקיד שלך</li>
+                        <li>הדגמה חיה על קבצים אמיתיים שלך</li>
+                        <li>תוכנית 30 יום ליישום עצמאי</li>
+                        <li>סיכום כתוב של הסשן</li>
+                    </ul>
+                    <div class="offering-meta">
+                        <span>90 דקות</span>
+                        <span>·</span>
+                        <span>זום</span>
+                        <span>·</span>
+                        <span>הקלטה</span>
+                    </div>
+                    <a href="#contact" class="btn btn-primary" onclick="gtag('event', 'cta_click', {location: 'offering', cta: 'session'})">
+                        בקשת הצעת מחיר
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-num">3</div>
+                    <div class="stat-label">וובינרים שהעברתי</div>
+                </div>
+                <div>
+                    <div class="stat-num">200+</div>
+                    <div class="stat-label">משתתפי Product Ops</div>
+                </div>
+                <div>
+                    <div class="stat-num">15+</div>
+                    <div class="stat-label">שנות ניסיון בפרודקט</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <span class="section-eyebrow">המלצות</span>
+            <h2 class="section-title">מה אומרים משתתפי הוובינרים</h2>
+
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p class="testimonial-quote">
+                        אתה לא מבין כמה תגובות קיבלתי בפרטי תוך כדי - על כמה אתה מעביר בצורה נעימה ואיזה סשן עם הרבה ערך. ראית איזה צמא יש לידע שלך.
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>סיון ל.</strong> · משתתפת בוובינר
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">
+                        בדיוק אני חושבת לעצמי שזה סוג האנשים שבא לי לעבוד איתם.
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>סיון ל.</strong> · משתתפת בוובינר
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">
+                        חמי היקר - היה פשוט מעולה! העברת מקסים, כמו מרצה מורה.
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>משתתפת בוובינר</strong> · ProdOps
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">
+                        תודה על ההדרכה, היה מצוין ופתח לי עולם.
+                    </p>
+                    <div class="testimonial-author">
+                        <strong>משתתפת בוובינר</strong> · ProdOps
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container-narrow">
+            <span class="section-eyebrow">עליי</span>
+            <h2 class="section-title">לא מפתח. בדיוק כמו רוב הצוות שלך.</h2>
+            <p>
+                אני חמי בן-לביא, איש Product עם מעל 15 שנות ניסיון. בשנה האחרונה התמכרתי ל-Claude Code - והבנתי שזה משנה את אופן העבודה של אנשי פרודקט שאינם מפתחים.
+            </p>
+            <p>
+                העברתי שלושה וובינרים חינמיים בקהילת Product Ops הישראלית למאות משתתפים. הסדנאות והשיחות שלי לא עוסקות ב"מה זה AI" - אלא בשאלה אחת מעשית: איך הצוות שלך יוצא ממחר עם פחות תלות בפיתוח ויותר אוטונומיה.
+            </p>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container-narrow">
+            <h2>בוא נדבר</h2>
+            <p>שלח מייל או הרם טלפון. עונה תוך 24 שעות.</p>
+            <div class="contact-methods">
+                <a href="mailto:hemibenlavi@gmail.com" class="contact-method" onclick="gtag('event', 'contact_click', {method: 'email'})">
+                    <span class="contact-method-icon">✉</span>
+                    hemibenlavi@gmail.com
+                </a>
+                <a href="tel:+972544608119" class="contact-method" onclick="gtag('event', 'contact_click', {method: 'phone'})">
+                    <span class="contact-method-icon">☎</span>
+                    054-460-8119
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 חמי בן-לביא · <a href="https://www.youtube.com/watch?v=2Lein1_Z5iQ" target="_blank">צפייה בוובינר</a></p>
+        </div>
+    </footer>
+</body>
+</html>
